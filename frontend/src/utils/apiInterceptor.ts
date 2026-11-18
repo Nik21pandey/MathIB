@@ -1,189 +1,70 @@
-﻿/**
- * API Interceptor with Automatic Token Refresh
- * Handles 401 errors and automatically refreshes access tokens
- */
+﻿// Global API URL & Trailing Slash Interceptor for Production
+const PROD_BACKEND = "https://mathib-backend.onrender.com";
 
-import { refreshToken } from './authApi';
+export function sanitizeApiUrl(rawUrl: string): string {
+  if (!rawUrl || typeof rawUrl !== "string") return rawUrl;
+  let url = rawUrl.trim();
 
-let isRefreshing = false;
-let failedQueue: Array<{
-  resolve: (value: string) => void;
-  reject: (error: any) => void;
-}> = [];
+  // 1. If env var was pasted as Markdown [url](url), extract the clean path after the last ')'
+  if (url.includes("](") || url.includes("[http")) {
+    const afterParen = url.split(")").pop() || "";
+    const cleanPath = afterParen.startsWith("/") ? afterParen : "/" + afterParen;
+    url = `${PROD_BACKEND}/api/v1${cleanPath}`;
+  }
 
-const processQueue = (error: any, token: string | null = null) => {
-  failedQueue.forEach(prom => {
-    if (error) {
-      prom.reject(error);
+  // 2. Strip any stray brackets, parens, or quotes
+  url = url.replace(/[\[\]\(\)"']/g, "").trim();
+
+  // 3. Route any relative /api/ or Vercel-hosted /api/ calls to Render
+  if (url.startsWith("/api/")) {
+    url = PROD_BACKEND + url;
+  } else if (url.includes("vercel.app")) {
+    const apiIdx = url.indexOf("/api/");
+    if (apiIdx !== -1) {
+      url = PROD_BACKEND + url.substring(apiIdx);
     } else {
-      prom.resolve(token!);
+      const v1Idx = url.indexOf("/v1/");
+      if (v1Idx !== -1) {
+        url = `${PROD_BACKEND}/api${url.substring(v1Idx)}`;
+      }
     }
-  });
-
-  failedQueue = [];
-};
-
-/**
- * Enhanced fetch wrapper with automatic token refresh
- * Intercepts 401 errors and refreshes the access token
- */
-export const fetchWithAuth = async (
-  url: string,
-  options: RequestInit = {}
-): Promise<Response> => {
-  const token = localStorage.getItem('access_token');
-
-  // Add authorization header if token exists
-  const headers = {
-    ...options.headers,
-    ...(token && { Authorization: `Bearer ${token}` }),
-  };
-
-  // Make the initial request
-  let response = await fetch(url, { ...options, headers });
-
-  // If not 401, return response as-is
-  if (response.status !== 401) {
-    return response;
-  }
-
-  // Handle 401 error - token might be expired
-  console.log('Token expired, attempting to refresh...');
-
-  // If already refreshing, queue this request
-  if (isRefreshing) {
-    return new Promise((resolve, reject) => {
-      failedQueue.push({ resolve, reject });
-    })
-      .then((newToken) => {
-        // Retry with new token
-        const newHeaders = {
-          ...options.headers,
-          Authorization: `Bearer ${newToken}`,
-        };
-        return fetch(url, { ...options, headers: newHeaders });
-      })
-      .catch((err) => {
-        return Promise.reject(err);
-      });
-  }
-
-  // Start token refresh process
-  isRefreshing = true;
-
-  try {
-    // Attempt to refresh the token
-    const newAccessToken = await refreshToken();
-    console.log('Token refreshed successfully');
-
-    // Process queued requests with new token
-    processQueue(null, newAccessToken);
-
-    // Retry the original request with new token
-    const newHeaders = {
-      ...options.headers,
-      Authorization: `Bearer ${newAccessToken}`,
-    };
-    response = await fetch(url, { ...options, headers: newHeaders });
-
-    return response;
-  } catch (error) {
-    console.error('Token refresh failed:', error);
-    
-    // Process queue with error
-    processQueue(error, null);
-
-    // Clear tokens and redirect to login
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('user');
-
-    // Redirect to login page
-    if (window.location.pathname !== '/login/') {
-      window.location.href = '/login/';
+  } else if (url.includes("localhost:") && window.location.hostname !== "localhost") {
+    const apiIdx = url.indexOf("/api/");
+    if (apiIdx !== -1) {
+      url = PROD_BACKEND + url.substring(apiIdx);
     }
-
-    throw error;
-  } finally {
-    isRefreshing = false;
-  }
-};
-
-/**
- * Helper function to make authenticated GET requests
- */
-export const fetchAuthGet = async (url: string): Promise<any> => {
-  const response = await fetchWithAuth(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(JSON.stringify(error));
   }
 
-  return response.json();
-};
+  // 4. Clean up any accidental double slashes in path (e.g. /api/v1//auth)
+  url = url.replace(/([^:]\/)\/+/g, "$1");
 
-/**
- * Helper function to make authenticated POST requests
- */
-export const fetchAuthPost = async (url: string, data: any): Promise<any> => {
-  const response = await fetchWithAuth(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(JSON.stringify(error));
+  // 5. Enforce trailing slash on all Render API calls before query string
+  if (url.startsWith(PROD_BACKEND)) {
+    const [pathPart, queryPart] = url.split("?");
+    const fixedPath = pathPart.endsWith("/") ? pathPart : pathPart + "/";
+    url = queryPart ? `${fixedPath}?${queryPart}` : fixedPath;
   }
 
-  return response.json();
-};
+  return url;
+}
 
-/**
- * Helper function to make authenticated PUT requests
- */
-export const fetchAuthPut = async (url: string, data: any): Promise<any> => {
-  const response = await fetchWithAuth(url, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(JSON.stringify(error));
+const originalFetch = window.fetch;
+window.fetch = function (input: RequestInfo | URL, init?: RequestInit) {
+  if (typeof input === "string") {
+    input = sanitizeApiUrl(input);
+  } else if (input instanceof URL) {
+    input = new URL(sanitizeApiUrl(input.toString()));
+  } else if (input instanceof Request) {
+    const fixedUrl = sanitizeApiUrl(input.url);
+    if (fixedUrl !== input.url) {
+      input = new Request(fixedUrl, input);
+    }
   }
-
-  return response.json();
+  return originalFetch.call(this, input, init);
 };
 
-/**
- * Helper function to make authenticated DELETE requests
- */
-export const fetchAuthDelete = async (url: string): Promise<any> => {
-  const response = await fetchWithAuth(url, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(JSON.stringify(error));
-  }
-
-  return response.json();
+const originalOpen = XMLHttpRequest.prototype.open;
+XMLHttpRequest.prototype.open = function (method: string, url: string | URL, ...rest: any[]) {
+  const fixedUrl = typeof url === "string" ? sanitizeApiUrl(url) : sanitizeApiUrl(url.toString());
+  return (originalOpen as any).call(this, method, fixedUrl, ...rest);
 };
-

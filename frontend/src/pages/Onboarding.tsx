@@ -67,7 +67,7 @@ const Onboarding: React.FC = () => {
     try {
       // Update user profile via API
       const token = localStorage.getItem('access_token');
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+      const API_BASE = ((import.meta.env.VITE_API_URL || 'https://mathib-backend.onrender.com/api/v1').includes('[') ? 'https://mathib-backend.onrender.com/api/v1' : (import.meta.env.VITE_API_URL || 'https://mathib-backend.onrender.com/api/v1')) || 'http://localhost:8000/api/v1';
       const response = await fetch(`${API_BASE}/users/profile/`, {
         method: 'PUT',
         headers: {
@@ -338,4 +338,5 @@ const Onboarding: React.FC = () => {
 };
 
 export default Onboarding;
+
 
