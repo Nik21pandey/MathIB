@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Star, QuoteUp } from 'iconsax-react';
 import IllustrationPlaceholder from './IllustrationPlaceholder';
 
@@ -8,7 +8,7 @@ const TestimonialsSection: React.FC = () => {
       name: "Sarah Chen",
       role: "IB Diploma Graduate",
       grade: "45 Points",
-      text: "GenIB helped me achieve a perfect score! The past papers and detailed explanations made all the difference.",
+      text: "MathIB helped me achieve a perfect score! The past papers and detailed explanations made all the difference.",
       rating: 5
     },
     {
@@ -36,7 +36,7 @@ const TestimonialsSection: React.FC = () => {
             Trusted by Students Worldwide
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            See how GenIB has helped thousands of students achieve their academic goals
+            See how MathIB has helped thousands of students achieve their academic goals
           </p>
         </div>
 

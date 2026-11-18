@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowRight, Calculator, Info, Printer } from 'lucide-react';
 import { WithCatalog, type CatalogIndex } from '../../learn/catalog';
@@ -73,7 +73,7 @@ const VersionToggle: React.FC<{ syllabus: Syllabus; version: string }> = ({ syll
           <p className="text-sm text-blue-100 mt-0.5">Download printer-ready combined PDFs with full step-by-step examiner mark schemes.</p>
         </div>
         <Link to="/bundles" className="px-4 py-2.5 rounded-lg bg-white text-blue-800 font-semibold text-sm hover:bg-blue-50 flex-shrink-0">
-          View {syllabus.short} PDF Bundles →
+          View {syllabus.short} PDF Bundles â†’
         </Link>
       </div>
     </div>
@@ -102,7 +102,7 @@ const Overview: React.FC<{ index: CatalogIndex; syllabus: Syllabus }> = ({ index
       '@type': 'Course',
       name: syllabus.name,
       description: syllabus.blurb,
-      provider: { '@type': 'Organization', name: 'GenIB' },
+      provider: { '@type': 'Organization', name: 'MathIB' },
     },
   });
 
@@ -124,7 +124,7 @@ const Overview: React.FC<{ index: CatalogIndex; syllabus: Syllabus }> = ({ index
               {syllabus.papers.map((p) => (
                 <li key={p.name} className="flex flex-wrap items-center gap-2">
                   <span className="font-medium">{p.name}</span>
-                  <span className="text-gray-500">{p.duration} · {p.marks} marks</span>
+                  <span className="text-gray-500">{p.duration} Â· {p.marks} marks</span>
                   <Tag tone={p.calc ? 'gray' : 'orange'}>
                     <Calculator className="h-3 w-3 mr-1" aria-hidden="true" />{p.calc ? 'Calculator' : 'Non-calculator'}
                   </Tag>
@@ -204,7 +204,7 @@ const SectionView: React.FC<{ index: CatalogIndex; syllabus: Syllabus; section: 
               {t.tag && <Tag tone="blue">{t.tag}</Tag>}
             </span>
             <span className="block text-sm text-gray-600 mt-1">{t.summary}</span>
-            <span className="block text-xs text-gray-500 mt-2">Notes · drills · {index.questionsOf(t.id).length} exam questions</span>
+            <span className="block text-xs text-gray-500 mt-2">Notes Â· drills Â· {index.questionsOf(t.id).length} exam questions</span>
           </Link>
         ))}
       </div>
@@ -263,3 +263,4 @@ const SyllabusPage: React.FC = () => {
 };
 
 export default SyllabusPage;
+

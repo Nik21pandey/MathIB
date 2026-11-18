@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { TickCircle } from 'iconsax-react';
 import IllustrationPlaceholder from './IllustrationPlaceholder';
 
@@ -20,7 +20,7 @@ const BenefitsSection: React.FC = () => {
           <div className="space-y-8">
             <div className="space-y-4">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900">
-                Why Choose GenIB for Your
+                Why Choose MathIB for Your
                 <span className="text-blue-600"> IB Success?</span>
               </h2>
               <p className="text-lg text-gray-600">

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { 
   SearchNormal, 
   DocumentText, 
@@ -111,7 +111,7 @@ const StudyProcessSection: React.FC = () => {
               Ready to Start Your Success Journey?
             </h3>
             <p className="text-blue-100 mb-6 max-w-md mx-auto">
-              Join thousands of students who are already improving their grades with GenIB
+              Join thousands of students who are already improving their grades with MathIB
             </p>
             <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
               Get Started for Free

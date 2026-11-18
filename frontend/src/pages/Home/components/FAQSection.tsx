@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Add, Minus } from 'iconsax-react';
 import IllustrationPlaceholder from './IllustrationPlaceholder';
 
@@ -15,8 +15,8 @@ const FAQSection: React.FC = () => {
 
   const faqs = [
     {
-      question: "What exam boards does GenIB support?",
-      answer: "GenIB supports all major international exam boards including Cambridge IGCSE, Cambridge A-Level, Edexcel IGCSE, Edexcel A-Level, and IB Diploma Programme. We regularly update our content to include the latest syllabus changes."
+      question: "What exam boards does MathIB support?",
+      answer: "MathIB supports all major international exam boards including Cambridge IGCSE, Cambridge A-Level, Edexcel IGCSE, Edexcel A-Level, and IB Diploma Programme. We regularly update our content to include the latest syllabus changes."
     },
     {
       question: "Are the past papers official and up-to-date?",
@@ -49,7 +49,7 @@ const FAQSection: React.FC = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Got questions? We've got answers. Here are the most common questions about GenIB.
+            Got questions? We've got answers. Here are the most common questions about MathIB.
           </p>
         </div>
 
@@ -109,15 +109,15 @@ const FAQSection: React.FC = () => {
               </p>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center space-x-2">
-                  <span className="text-blue-600">📧</span>
-                  <span className="text-gray-600">support@genib.com</span>
+                  <span className="text-blue-600">ðŸ“§</span>
+                  <span className="text-gray-600">support@MathIB.com</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-green-600">💬</span>
+                  <span className="text-green-600">ðŸ’¬</span>
                   <span className="text-gray-600">Live chat available 24/7</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-purple-600">📱</span>
+                  <span className="text-purple-600">ðŸ“±</span>
                   <span className="text-gray-600">Response within 2 hours</span>
                 </div>
               </div>

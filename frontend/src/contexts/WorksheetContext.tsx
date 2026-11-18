@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+﻿import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 // The worksheet "basket": question ids picked anywhere on the site, kept in this browser.
 
@@ -14,7 +14,7 @@ interface WorksheetState {
   setTitle: (title: string) => void;
 }
 
-const KEY = 'genib.worksheet.v1';
+const KEY = 'MathIB.worksheet.v1';
 const DEFAULT_TITLE = 'Practice worksheet';
 
 const WorksheetContext = createContext<WorksheetState | null>(null);
@@ -75,3 +75,4 @@ export function useWorksheet(): WorksheetState {
   if (!ctx) throw new Error('useWorksheet must be used inside WorksheetProvider');
   return ctx;
 }
+

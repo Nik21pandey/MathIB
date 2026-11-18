@@ -1,4 +1,4 @@
-/**
+﻿/**
  * API functions for Paper Categories
  */
 import { BASE_URL_GLOBAL} from './api.ts';
@@ -175,7 +175,7 @@ export const deleteCategory = async (categoryId: number): Promise<void> => {
 export const mapCategoryForSidebar = (category: Category) => ({
   id: category.id,
   name: category.name,
-  href: category.name === 'GenIB Question Bank' ? '/questions' : 
+  href: category.name === 'MathIB Question Bank' ? '/questions' : 
         category.name === 'Build Exam or Worksheet' ? '/exam-builder' : 
         '/papers',
   icon: category.icon,
@@ -183,3 +183,4 @@ export const mapCategoryForSidebar = (category: Category) => ({
   count: category.paper_count,
   isMain: category.is_main,
 });
+

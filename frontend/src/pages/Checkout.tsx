@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -240,7 +240,7 @@ const Checkout = () => {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: Math.round(totalAmountInr * 100), // Convert INR to paise
         currency: 'INR', // Always INR for Razorpay to enable UPI/Wallets
-        name: 'GenIB',
+        name: 'MathIB',
         description: `Order #${orderData.order_number}`,
         order_id: orderData.razorpay_order_id,
         handler: async function (response: any) {
@@ -656,7 +656,7 @@ const Checkout = () => {
                   <>
                     <div className="flex justify-between text-sm text-gray-500 pb-2 border-b border-gray-100">
                       <span>Payment Amount (INR)</span>
-                      <span className="font-medium">₹{(total * 83).toFixed(2)}</span>
+                      <span className="font-medium">â‚¹{(total * 83).toFixed(2)}</span>
                     </div>
                     <p className="text-xs text-gray-400 text-center">1 USD = 83 INR (approx.)</p>
                   </>
@@ -685,7 +685,7 @@ const Checkout = () => {
                   <>
                     <DynamicIcon name="Lock" className="h-5 w-5" />
                     {paymentGateway === 'razorpay' 
-                      ? `Pay ₹${(total * 83).toFixed(2)}` 
+                      ? `Pay â‚¹${(total * 83).toFixed(2)}` 
                       : `Pay $${total.toFixed(2)}`
                     }
                   </>
@@ -700,19 +700,19 @@ const Checkout = () => {
                 {paymentGateway === 'razorpay' ? (
                   <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
                     <span>UPI</span>
-                    <span>•</span>
+                    <span>â€¢</span>
                     <span>Cards</span>
-                    <span>•</span>
+                    <span>â€¢</span>
                     <span>Wallets</span>
-                    <span>•</span>
+                    <span>â€¢</span>
                     <span>NetBanking</span>
                   </div>
                 ) : (
                   <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
                     <span>Cards</span>
-                    <span>•</span>
+                    <span>â€¢</span>
                     <span>Apple Pay</span>
-                    <span>•</span>
+                    <span>â€¢</span>
                     <span>Google Pay</span>
                   </div>
                 )}
@@ -763,3 +763,4 @@ const Checkout = () => {
 };
 
 export default Checkout;
+

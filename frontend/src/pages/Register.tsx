@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../utils/authApi';
 import { useAuth } from '../contexts/AuthContext';
@@ -91,7 +91,7 @@ const Register: React.FC = () => {
         {/* Logo and Header */}
         <div className="text-center">
           <h2 className="text-4xl font-bold text-gray-900 mb-2">Create Account</h2>
-          <p className="text-gray-600">Join GenIB to access IB past papers and resources</p>
+          <p className="text-gray-600">Join MathIB to access IB past papers and resources</p>
         </div>
 
         {/* General Error Message */}
@@ -235,3 +235,4 @@ const Register: React.FC = () => {
 };
 
 export default Register;
+

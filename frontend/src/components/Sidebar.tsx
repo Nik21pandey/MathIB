@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Calculator, CalendarCheck, FileText, GraduationCap, ListChecks, Search, Shapes } from 'lucide-react';
@@ -34,7 +34,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
         const mappedCategories: SidebarCategory[] = categories.map((cat: Category) => ({
           id: cat.id,
           name: cat.name,
-          href: cat.name === 'GenIB Question Bank' ? '/questions' : 
+          href: cat.name === 'MathIB Question Bank' ? '/questions' : 
                 cat.name === 'Build Exam or Worksheet' ? '/exam-builder' : 
                 `/papers?category=${cat.slug}`,
           iconName: cat.icon, // Store icon name from backend
@@ -77,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   // Check if a category is currently selected
   const isCategoryActive = (category: SidebarCategory) => {
     // Check special routes first
-    if (location.pathname === '/questions' && category.name === 'GenIB Question Bank') {
+    if (location.pathname === '/questions' && category.name === 'MathIB Question Bank') {
       return true;
     }
     if (location.pathname === '/exam-builder' && category.name === 'Build Exam or Worksheet') {

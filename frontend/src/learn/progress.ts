@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from 'react';
+﻿import { useSyncExternalStore } from 'react';
 import type { CatalogIndex } from './catalog';
 import { todayKey } from './quiz';
 
@@ -20,7 +20,7 @@ interface ProgressData {
   versions: Record<string, string>;
 }
 
-const KEY = 'genib.progress.v1';
+const KEY = 'MathIB.progress.v1';
 const empty = (): ProgressData => ({ marks: {}, quiz: {}, daily: {}, checks: {}, versions: {} });
 
 let state: ProgressData = empty();
@@ -135,3 +135,4 @@ export function dailyStreak(progress: ProgressData): number {
   }
   return streak;
 }
+

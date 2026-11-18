@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import { AcademicCapIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Book, MessageQuestion } from 'iconsax-react';
@@ -27,7 +27,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ stats }) => {
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   IB Journey
                 </span>{' '}
-                with GenIB
+                with MathIB
               </h1>
               
               <p className="text-lg text-gray-600">
