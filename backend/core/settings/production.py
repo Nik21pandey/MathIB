@@ -9,7 +9,6 @@ ALLOWED_HOSTS = [
     if h.strip()
 ]
 
-# Database: PostgreSQL via DATABASE_URL in production, fallback to SQLite for build/collectstatic steps
 DATABASE_URL = config('DATABASE_URL', default='')
 if DATABASE_URL:
     DATABASES = {
@@ -27,7 +26,6 @@ else:
         }
     }
 
-# Security Settings
 SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
@@ -36,7 +34,6 @@ SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
-# CORS & CSRF Settings
 CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bool)
 CORS_ALLOWED_ORIGINS = [
     o.strip() for o in config('CORS_ALLOWED_ORIGINS', default='http://localhost:5173').split(',')
@@ -47,7 +44,6 @@ CSRF_TRUSTED_ORIGINS = [
     if o.strip()
 ]
 
-# Django 5+/6+ STORAGES configuration with WhiteNoise
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -57,7 +53,6 @@ STORAGES = {
     },
 }
 
-# Cache: Use Redis if REDIS_URL is provided, else zero-cost LocMemCache
 REDIS_URL = config('REDIS_URL', default='')
 if REDIS_URL:
     CACHES = {
@@ -76,7 +71,6 @@ else:
         }
     }
 
-# Cloud-safe Console Logging (prevents /var/log permission crashes on Render/Railway)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
