@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   MagnifyingGlassIcon,
@@ -63,14 +63,14 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
 
             <Link to="/" className="flex items-center gap-2.5 group">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-extrabold text-lg shadow-sm">
-                ∑
+                âˆ‘
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-extrabold tracking-tight text-gray-900 leading-none">
                   Math<span className="text-blue-600">IB</span>
                 </span>
                 <span className="text-[10px] font-semibold tracking-wider text-gray-500 uppercase mt-0.5">
-                  IGCSE • MYP • IBDP • A-Level
+                  IGCSE â€¢ MYP â€¢ IBDP â€¢ A-Level
                 </span>
               </div>
             </Link>
@@ -123,10 +123,10 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
 
             {!isLoggedIn ? (
               <div className="flex items-center space-x-2">
-                <Link to="/login" className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-lg text-sm font-medium">
+                <Link to="/login/" className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-lg text-sm font-medium">
                   Sign In
                 </Link>
-                <Link to="/register" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">
+                <Link to="/register/" className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700">
                   Free Account
                 </Link>
               </div>
@@ -179,3 +179,4 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
 };
 
 export default Navbar;
+

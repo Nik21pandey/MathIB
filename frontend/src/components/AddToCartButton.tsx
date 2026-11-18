@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
@@ -27,7 +27,7 @@ const AddToCartButton = ({ bundleId, paperId, isPaid, price, className = '' }: A
 
   const handleAddToCart = async () => {
     if (!isLoggedIn) {
-      navigate('/login');
+      navigate('/login/');
       return;
     }
 
@@ -109,3 +109,4 @@ const AddToCartButton = ({ bundleId, paperId, isPaid, price, className = '' }: A
 };
 
 export default AddToCartButton;
+

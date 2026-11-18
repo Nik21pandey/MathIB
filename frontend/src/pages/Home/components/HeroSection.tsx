@@ -63,7 +63,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ stats }) => {
               ) : (
                 <>
                   <Link
-                    to="/register"
+                    to="/register/"
                     className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-300 flex items-center justify-center space-x-2"
                   >
                     <Book variant="Bold" size={20} />
@@ -72,7 +72,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ stats }) => {
                   </Link>
                   
                   <Link
-                    to="/login"
+                    to="/login/"
                     className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 flex items-center justify-center space-x-2"
                   >
                     <span>Sign In</span>
@@ -99,3 +99,4 @@ const HeroSection: React.FC<HeroSectionProps> = ({ stats }) => {
 };
 
 export default HeroSection;
+

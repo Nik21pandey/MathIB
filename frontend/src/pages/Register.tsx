@@ -70,7 +70,7 @@ const Register: React.FC = () => {
       } else {
         console.error('Unexpected response format:', response);
         setDebugMessage('Error: Unexpected response format');
-        setTimeout(() => navigate('/login'), 2000);
+        setTimeout(() => navigate('/login/'), 2000);
       }
     } catch (err: any) {
       console.error('Registration error:', err);
@@ -223,7 +223,7 @@ const Register: React.FC = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
+              <Link to="/login/" className="font-medium text-blue-600 hover:text-blue-500">
                 Sign in
               </Link>
             </p>
@@ -235,4 +235,5 @@ const Register: React.FC = () => {
 };
 
 export default Register;
+
 

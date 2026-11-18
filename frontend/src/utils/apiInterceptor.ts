@@ -1,4 +1,4 @@
-/**
+﻿/**
  * API Interceptor with Automatic Token Refresh
  * Handles 401 errors and automatically refreshes access tokens
  */
@@ -99,8 +99,8 @@ export const fetchWithAuth = async (
     localStorage.removeItem('user');
 
     // Redirect to login page
-    if (window.location.pathname !== '/login') {
-      window.location.href = '/login';
+    if (window.location.pathname !== '/login/') {
+      window.location.href = '/login/';
     }
 
     throw error;
@@ -186,3 +186,4 @@ export const fetchAuthDelete = async (url: string): Promise<any> => {
 
   return response.json();
 };
+

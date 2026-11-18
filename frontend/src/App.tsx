@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar.tsx';
 import Sidebar from './components/Sidebar.tsx';
@@ -42,8 +42,8 @@ function AppContent() {
   };
 
   // Hide navbar and sidebar on auth pages and onboarding
-  const isAuthPage = location.pathname === '/login' || 
-                     location.pathname === '/register' || 
+  const isAuthPage = location.pathname === '/login/' || 
+                     location.pathname === '/register/' || 
                      location.pathname === '/onboarding';
   
   // The printable worksheet is a bare page: no navbar, no sidebar.
@@ -71,7 +71,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route 
-              path="/login" 
+              path="/login/" 
               element={
                 <PublicOnlyRoute>
                   <Login />
@@ -79,7 +79,7 @@ function AppContent() {
               } 
             />
             <Route 
-              path="/register" 
+              path="/register/" 
               element={
                 <PublicOnlyRoute>
                   <Register />

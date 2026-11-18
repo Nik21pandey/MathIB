@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../utils/authApi';
 import { useAuth } from '../contexts/AuthContext';
@@ -136,7 +136,7 @@ const Login: React.FC = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Don't have an account?{' '}
-              <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
+              <Link to="/register/" className="font-medium text-blue-600 hover:text-blue-500">
                 Sign up now
               </Link>
             </p>
@@ -148,3 +148,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
