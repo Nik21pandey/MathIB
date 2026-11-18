@@ -12,14 +12,14 @@ password = "MathIB@2026!"
 try:
     if not User.objects.filter(email=email).exists():
         try:
-            # If your custom user model requires a username
+            # Standard custom user models
             User.objects.create_superuser(username="admin", email=email, password=password)
         except Exception:
-            # If your custom user model only uses email
+            # Custom user models without a username field
             User.objects.create_superuser(email=email, password=password)
         print("Superuser injected into database!")
     else:
-        # If the user exists but the password got scrambled, force reset it
+        # Force reset password if user already exists
         u = User.objects.get(email=email)
         u.set_password(password)
         u.save()
