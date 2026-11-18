@@ -93,3 +93,13 @@ LOGGING = {
 }
 
 REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = ('rest_framework.renderers.JSONRenderer',)
+
+# --- PERMANENT PRODUCTION AUTH & CORS FIXES ---
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'https://*.vercel.app', 'https://math-ib.vercel.app']
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+if 'core.slash_middleware.SlashlessMiddleware' not in MIDDLEWARE:
+    MIDDLEWARE.insert(0, 'core.slash_middleware.SlashlessMiddleware')
