@@ -1,0 +1,3632 @@
+{
+ "version": 1,
+ "boards": [
+  {
+   "id": "cambridge",
+   "name": "Cambridge International"
+  },
+  {
+   "id": "ib",
+   "name": "International Baccalaureate"
+  }
+ ],
+ "sessions": [
+  {
+   "id": "may-2027",
+   "name": "May/June 2027 session",
+   "starts": "2027-04-26",
+   "approximate": true
+  },
+  {
+   "id": "nov-2027",
+   "name": "October/November 2027 session",
+   "starts": "2027-10-04",
+   "approximate": true
+  }
+ ],
+ "syllabuses": [
+  {
+   "slug": "igcse-0580",
+   "board": "cambridge",
+   "code": "0580",
+   "name": "Cambridge IGCSE Mathematics",
+   "short": "IGCSE 0580",
+   "level": "igcse-ext",
+   "status": "live",
+   "blurb": "Extended tier, 2025-2027 syllabus. Paper 2 is now a non-calculator paper worth half the grade.",
+   "papers": [
+    {
+     "name": "Paper 2 (Extended)",
+     "calc": false,
+     "duration": "2 hours",
+     "marks": 100
+    },
+    {
+     "name": "Paper 4 (Extended)",
+     "calc": true,
+     "duration": "2 hours",
+     "marks": 100
+    }
+   ],
+   "sections": [
+    {
+     "slug": "non-calculator-paper-2",
+     "name": "Non-Calculator Paper 2 Sprint Hub",
+     "hub": true,
+     "blurb": "Paper 2 is 2 hours, 100 marks, no calculator. These are the skills older calculator-era papers never tested: surds, exact trig values and index work by hand."
+    },
+    {
+     "slug": "algebra-and-functions",
+     "name": "Algebra and Functions",
+     "blurb": "Quadratics, sequences, and domain and range."
+    },
+    {
+     "slug": "calculus",
+     "name": "Calculus",
+     "blurb": "Differentiation and turning points."
+    }
+   ]
+  },
+  {
+   "slug": "ibdp-math-aa-hl",
+   "board": "ib",
+   "code": "AA HL",
+   "name": "IB DP Mathematics: Analysis and Approaches HL",
+   "short": "IBDP AA HL",
+   "level": "ib-aa-hl",
+   "status": "live",
+   "blurb": "Switch between the current guide (exams to November 2028) and the new course (first teaching August 2027, first exams May 2029).",
+   "papers": [
+    {
+     "name": "Paper 1",
+     "calc": false,
+     "duration": "2 hours",
+     "marks": 110
+    },
+    {
+     "name": "Paper 2",
+     "calc": true,
+     "duration": "2 hours",
+     "marks": 110
+    },
+    {
+     "name": "Paper 3",
+     "calc": true,
+     "duration": "1 hour",
+     "marks": 55
+    }
+   ],
+   "versions": [
+    {
+     "id": "current",
+     "label": "Current syllabus",
+     "detail": "First exams 2021, last exams November 2028"
+    },
+    {
+     "id": "new",
+     "label": "New syllabus",
+     "detail": "First teaching August 2027, first exams May 2029"
+    }
+   ],
+   "versionNote": "The new course removes content rather than adding it. Topics marked \"Leaves in 2029\" are examined up to November 2028 only. The internal assessment moves to four criteria: problem specification, abstraction, computation and interpretation.",
+   "sections": [
+    {
+     "slug": "number-and-algebra",
+     "name": "Number and Algebra",
+     "blurb": "Binomial theorem, complex numbers and financial applications."
+    },
+    {
+     "slug": "calculus",
+     "name": "Calculus",
+     "blurb": "Maclaurin series and numerical methods."
+    },
+    {
+     "slug": "statistics-and-probability",
+     "name": "Statistics and Probability",
+     "blurb": "Correlation and regression."
+    }
+   ]
+  },
+  {
+   "slug": "ibdp-math-ai-sl",
+   "board": "ib",
+   "code": "AI SL",
+   "name": "IB DP Mathematics: Applications and Interpretation SL",
+   "short": "IBDP AI SL",
+   "level": "ib-ai-sl",
+   "status": "live",
+   "blurb": "Technology is allowed on every paper, so GDC fluency matters as much as the maths.",
+   "papers": [
+    {
+     "name": "Paper 1",
+     "calc": true,
+     "duration": "1 hour 30 minutes",
+     "marks": 80
+    },
+    {
+     "name": "Paper 2",
+     "calc": true,
+     "duration": "1 hour 30 minutes",
+     "marks": 80
+    }
+   ],
+   "sections": [
+    {
+     "slug": "geometry-and-trigonometry",
+     "name": "Geometry and Trigonometry",
+     "blurb": "Voronoi diagrams."
+    },
+    {
+     "slug": "statistics-and-probability",
+     "name": "Statistics and Probability",
+     "blurb": "The normal distribution."
+    }
+   ]
+  },
+  {
+   "slug": "ibdp-math-aa-sl",
+   "board": "ib",
+   "code": "AA SL",
+   "name": "IB DP Mathematics: Analysis and Approaches SL",
+   "short": "IBDP AA SL",
+   "level": "ib-aa-sl",
+   "status": "soon",
+   "blurb": "Coming next.",
+   "papers": [],
+   "sections": []
+  },
+  {
+   "slug": "ibdp-math-ai-hl",
+   "board": "ib",
+   "code": "AI HL",
+   "name": "IB DP Mathematics: Applications and Interpretation HL",
+   "short": "IBDP AI HL",
+   "level": "ib-ai-hl",
+   "status": "soon",
+   "blurb": "Coming next.",
+   "papers": [],
+   "sections": []
+  },
+  {
+   "slug": "ib-myp-math",
+   "board": "ib",
+   "code": "MYP 4-5",
+   "name": "IB MYP Mathematics",
+   "short": "IB MYP",
+   "level": "myp-ext",
+   "status": "live",
+   "blurb": "Practice built around the four assessment criteria. Criterion B investigations and Criterion D real-life tasks are interactive.",
+   "papers": [],
+   "sections": [
+    {
+     "slug": "criterion-a",
+     "name": "Criterion A: Knowing and Understanding",
+     "blurb": "Topic tests written with MYP command terms: state, describe, explain, justify."
+    },
+    {
+     "slug": "criterion-b",
+     "name": "Criterion B: Investigating Patterns",
+     "hub": true,
+     "blurb": "Fill in the pattern table, predict, find the general rule, then verify and justify it. Criterion C (communicating) is assessed through the way you set this out."
+    },
+    {
+     "slug": "criterion-d",
+     "name": "Criterion D: Applying Mathematics in Real-Life Contexts",
+     "hub": true,
+     "blurb": "Model a real situation, solve it, and comment on accuracy and whether the answer makes sense."
+    }
+   ]
+  },
+  {
+   "slug": "a-level-9709",
+   "board": "cambridge",
+   "code": "9709",
+   "name": "Cambridge International AS & A Level Mathematics",
+   "short": "A Level 9709",
+   "level": "a-level",
+   "status": "live",
+   "blurb": "Pure Mathematics 1 to begin with.",
+   "papers": [
+    {
+     "name": "Paper 1: Pure Mathematics 1",
+     "calc": true,
+     "duration": "1 hour 50 minutes",
+     "marks": 75
+    }
+   ],
+   "sections": [
+    {
+     "slug": "pure-mathematics-1",
+     "name": "Pure Mathematics 1",
+     "blurb": "Series and differentiation."
+    }
+   ]
+  },
+  {
+   "slug": "igcse-0607",
+   "board": "cambridge",
+   "code": "0607",
+   "name": "Cambridge IGCSE International Mathematics",
+   "short": "IGCSE 0607",
+   "level": "igcse-ext",
+   "status": "soon",
+   "blurb": "Coming next.",
+   "papers": [],
+   "sections": []
+  },
+  {
+   "slug": "igcse-0606",
+   "board": "cambridge",
+   "code": "0606",
+   "name": "Cambridge IGCSE Additional Mathematics",
+   "short": "IGCSE 0606",
+   "level": "igcse-ext",
+   "status": "soon",
+   "blurb": "Coming next.",
+   "papers": [],
+   "sections": []
+  }
+ ],
+ "topics": [
+  {
+   "syllabus": "igcse-0580",
+   "id": "surds",
+   "section": "non-calculator-paper-2",
+   "slug": "surds-and-rationalising",
+   "name": "Surds and Rationalising",
+   "tag": "New for 2025",
+   "summary": "Simplify surds, calculate with them exactly and rationalise denominators - all without a calculator.",
+   "generators": [
+    "surd-simplify",
+    "surd-rationalise"
+   ],
+   "notes": {
+    "points": [
+     "A **surd** is a root that cannot be written as a fraction, such as $\\sqrt{2}$ or $\\sqrt{7}$. Leaving an answer as a surd keeps it exact.",
+     "Multiply and divide freely: $\\sqrt{a}\\times\\sqrt{b}=\\sqrt{ab}$ and $\\dfrac{\\sqrt{a}}{\\sqrt{b}}=\\sqrt{\\dfrac{a}{b}}$.",
+     "To simplify, pull out the **largest square factor**: $\\sqrt{72}=\\sqrt{36\\times 2}=6\\sqrt{2}$.",
+     "Only like surds add: $5\\sqrt{3}-3\\sqrt{3}=2\\sqrt{3}$, but $\\sqrt{2}+\\sqrt{3}$ stays as it is.",
+     "To rationalise $\\dfrac{a}{\\sqrt{b}}$ multiply top and bottom by $\\sqrt{b}$. For $\\dfrac{1}{a+\\sqrt{b}}$ multiply top and bottom by the conjugate $a-\\sqrt{b}$."
+    ],
+    "formulas": [
+     {
+      "label": "Product rule",
+      "tex": "\\sqrt{ab}=\\sqrt{a}\\,\\sqrt{b}"
+     },
+     {
+      "label": "Square of a surd",
+      "tex": "(\\sqrt{a})^2=a"
+     },
+     {
+      "label": "Conjugate product",
+      "tex": "(a+\\sqrt{b})(a-\\sqrt{b})=a^2-b"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "$\\sqrt{a+b}$ is **not** $\\sqrt{a}+\\sqrt{b}$. Check with $\\sqrt{9+16}=5$, not $7$.",
+     "Stopping early: $\\sqrt{72}=2\\sqrt{18}$ is true but not fully simplified. Keep going to $6\\sqrt{2}$.",
+     "When rationalising, multiply the numerator as well as the denominator."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "exact-trig",
+   "section": "non-calculator-paper-2",
+   "slug": "exact-trigonometric-values",
+   "name": "Exact Trigonometric Values",
+   "tag": "New for 2025",
+   "summary": "Know sine, cosine and tangent of 0, 30, 45, 60 and 90 degrees exactly, and use them in triangles.",
+   "generators": [
+    "exact-trig"
+   ],
+   "notes": {
+    "points": [
+     "You must **recall** the exact values for $0^\\circ, 30^\\circ, 45^\\circ, 60^\\circ$ and $90^\\circ$.",
+     "For $30^\\circ$ and $60^\\circ$: cut an equilateral triangle of side 2 in half. The sides are $1$, $\\sqrt{3}$ and $2$.",
+     "For $45^\\circ$: use a right-angled isosceles triangle with sides $1$, $1$ and $\\sqrt{2}$.",
+     "Sine climbs $0,\\ \\tfrac12,\\ \\tfrac{\\sqrt2}{2},\\ \\tfrac{\\sqrt3}{2},\\ 1$ as the angle goes $0^\\circ\\to 90^\\circ$; cosine is the same list backwards.",
+     "$\\tan 90^\\circ$ is undefined."
+    ],
+    "formulas": [
+     {
+      "label": "30 degrees",
+      "tex": "\\sin 30^\\circ=\\tfrac12,\\quad \\cos 30^\\circ=\\tfrac{\\sqrt3}{2},\\quad \\tan 30^\\circ=\\tfrac{1}{\\sqrt3}=\\tfrac{\\sqrt3}{3}"
+     },
+     {
+      "label": "45 degrees",
+      "tex": "\\sin 45^\\circ=\\cos 45^\\circ=\\tfrac{\\sqrt2}{2},\\quad \\tan 45^\\circ=1"
+     },
+     {
+      "label": "60 degrees",
+      "tex": "\\sin 60^\\circ=\\tfrac{\\sqrt3}{2},\\quad \\cos 60^\\circ=\\tfrac12,\\quad \\tan 60^\\circ=\\sqrt3"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Swapping $\\sin 30^\\circ$ and $\\sin 60^\\circ$. Remember: small angle, small sine.",
+     "Giving a decimal such as $0.866$ when the question says **exact**.",
+     "Leaving $\\tfrac{1}{\\sqrt3}$ when a rationalised denominator is asked for."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "indices",
+   "section": "non-calculator-paper-2",
+   "slug": "indices-and-standard-form-by-hand",
+   "name": "Indices and Standard Form by Hand",
+   "summary": "Negative and fractional indices, index laws and standard-form arithmetic with no calculator.",
+   "generators": [
+    "indices-evaluate"
+   ],
+   "notes": {
+    "points": [
+     "Index laws: $a^m\\times a^n=a^{m+n}$, $a^m\\div a^n=a^{m-n}$, $(a^m)^n=a^{mn}$.",
+     "A negative index means reciprocal: $a^{-n}=\\dfrac{1}{a^n}$.",
+     "A fractional index means a root: $a^{\\frac{m}{n}}=\\left(\\sqrt[n]{a}\\right)^m$. Take the **root first** to keep the numbers small.",
+     "In standard form $A\\times10^n$, $1\\le A<10$. Multiply the numbers and add the powers, then re-adjust $A$."
+    ],
+    "formulas": [
+     {
+      "label": "Zero index",
+      "tex": "a^0=1"
+     },
+     {
+      "label": "Fractional index",
+      "tex": "a^{\\frac{m}{n}}=\\left(\\sqrt[n]{a}\\right)^m"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "$5^{-2}$ is $\\tfrac{1}{25}$, not $-25$ and not $-10$.",
+     "$(2x^3)^4=16x^{12}$: the power applies to the 2 as well.",
+     "$0.6\\times10^8$ is not standard form. Rewrite it as $6\\times10^7$."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "domain-range",
+   "section": "algebra-and-functions",
+   "slug": "functions-domain-and-range",
+   "name": "Functions: Domain and Range",
+   "tag": "New for 2025",
+   "summary": "Identify the inputs a function accepts and the outputs it can produce.",
+   "generators": [
+    "linear-eq"
+   ],
+   "notes": {
+    "points": [
+     "The **domain** is the set of allowed inputs $x$. The **range** is the set of outputs $f(x)$ those inputs produce.",
+     "A linear function on $a\\le x\\le b$: evaluate at both ends to get the range.",
+     "A quadratic: find the turning point first. It may give the smallest or largest output.",
+     "Exclude any input that would mean dividing by zero.",
+     "For an inverse function, the domain and range swap over."
+    ],
+    "formulas": [
+     {
+      "label": "Composite",
+      "tex": "fg(x)=f\\big(g(x)\\big)"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "For a quadratic on a restricted domain, the end points are not always the extremes. Check the vertex.",
+     "Writing the range in terms of $x$. The range is about $f(x)$, e.g. $f(x)\\ge 1$.",
+     "$fg(x)$ means do $g$ **first**, then $f$."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "quadratics",
+   "section": "algebra-and-functions",
+   "slug": "quadratic-equations",
+   "name": "Quadratic Equations",
+   "summary": "Factorise, complete the square and use the formula, giving exact answers where required.",
+   "generators": [
+    "expand-double",
+    "factorise-quadratic"
+   ],
+   "notes": {
+    "points": [
+     "To factorise $x^2+bx+c$ find two numbers that multiply to $c$ and add to $b$.",
+     "Always rearrange to $\\ldots=0$ before solving.",
+     "Completing the square: $x^2+bx+c=\\left(x+\\tfrac{b}{2}\\right)^2-\\left(\\tfrac{b}{2}\\right)^2+c$. The turning point is then visible.",
+     "On the non-calculator paper leave formula answers as simplified surds."
+    ],
+    "formulas": [
+     {
+      "label": "Quadratic formula",
+      "tex": "x=\\dfrac{-b\\pm\\sqrt{b^2-4ac}}{2a}"
+     },
+     {
+      "label": "Difference of two squares",
+      "tex": "a^2-b^2=(a-b)(a+b)"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Sign slips: $(x-7)(x+2)=0$ gives $x=7$ and $x=-2$.",
+     "In the formula, the whole numerator is divided by $2a$, not just the square root.",
+     "Rejecting a negative solution only when the context (a length, a count) demands it - and saying so."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "sequences",
+   "section": "algebra-and-functions",
+   "slug": "sequences-and-nth-term",
+   "name": "Sequences and the nth Term",
+   "summary": "Find and use nth-term rules for linear, quadratic and exponential sequences.",
+   "generators": [
+    "nth-term-linear",
+    "nth-term-quadratic"
+   ],
+   "notes": {
+    "points": [
+     "Linear: a constant first difference $d$ gives $dn+c$.",
+     "Quadratic: a constant **second** difference $s$ gives $\\tfrac{s}{2}n^2$ plus a linear part. Subtract $\\tfrac{s}{2}n^2$ from each term to find it.",
+     "Exponential (geometric): each term is multiplied by a constant ratio $r$, giving $ar^{\\,n-1}$.",
+     "To test whether a number is in a sequence, set the nth term equal to it and check that $n$ is a positive whole number."
+    ],
+    "formulas": [
+     {
+      "label": "Linear",
+      "tex": "u_n=dn+(a-d)"
+     },
+     {
+      "label": "Geometric",
+      "tex": "u_n=ar^{\\,n-1}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Using the first term as the constant: for $7, 11, 15,\\ldots$ the rule is $4n+3$, not $4n+7$.",
+     "Halving forgotten: a second difference of 4 means $2n^2$, not $4n^2$."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "differentiation",
+   "section": "calculus",
+   "slug": "differentiation-and-turning-points",
+   "name": "Differentiation and Turning Points",
+   "summary": "Differentiate powers of x, find gradients and locate and classify turning points.",
+   "generators": [
+    "differentiate-poly"
+   ],
+   "notes": {
+    "points": [
+     "Multiply by the power, then reduce the power by one.",
+     "The derivative gives the gradient of the curve at any point.",
+     "At a turning point the gradient is zero: solve $\\dfrac{dy}{dx}=0$.",
+     "Classify with the second derivative: positive means minimum, negative means maximum."
+    ],
+    "formulas": [
+     {
+      "label": "Power rule",
+      "tex": "y=ax^n\\ \\Rightarrow\\ \\dfrac{dy}{dx}=anx^{n-1}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "A constant differentiates to $0$, not to itself.",
+     "Finding the $x$-values and forgetting the $y$-coordinates when the question asks for **points**."
+    ]
+   }
+  },
+  {
+   "id": "binomial",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "number-and-algebra",
+   "slug": "binomial-theorem",
+   "name": "Binomial Theorem",
+   "summary": "Expand powers of a binomial, pick out single terms and extend to rational powers.",
+   "generators": [
+    "binomial-coefficient",
+    "arithmetic-series"
+   ],
+   "notes": {
+    "points": [
+     "The general term of $(a+b)^n$ is $\\dbinom{n}{r}a^{\\,n-r}b^{\\,r}$, with $r$ starting at $0$.",
+     "To find a particular power of $x$, write the general term, collect the powers of $x$ and solve for $r$.",
+     "HL extension: for any rational $n$, $(1+x)^n=1+nx+\\dfrac{n(n-1)}{2!}x^2+\\ldots$, valid for $|x|<1$.",
+     "For $(a+bx)^n$ with rational $n$, factor out $a^n$ first so the bracket starts with 1."
+    ],
+    "formulas": [
+     {
+      "label": "Binomial theorem",
+      "tex": "(a+b)^n=\\sum_{r=0}^{n}\\binom{n}{r}a^{\\,n-r}b^{\\,r}"
+     },
+     {
+      "label": "Binomial coefficient",
+      "tex": "\\binom{n}{r}=\\dfrac{n!}{r!\\,(n-r)!}"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: menu, Probability, Combinations gives nCr(n, r).",
+     "Casio fx-CG50: OPTN, PROB, nCr."
+    ],
+    "traps": [
+     "Forgetting to raise the coefficient: the $x^2$ term of $(1+2x)^6$ contains $(2x)^2=4x^2$.",
+     "Quoting the series for rational $n$ without stating where it is valid."
+    ]
+   }
+  },
+  {
+   "id": "complex",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "number-and-algebra",
+   "slug": "complex-numbers-polar-form",
+   "name": "Complex Numbers: Polar and Euler Form",
+   "summary": "Convert between forms, use De Moivre and find roots of complex numbers.",
+   "generators": [
+    "complex-modulus",
+    "log-evaluate"
+   ],
+   "notes": {
+    "points": [
+     "$z=a+bi$ has modulus $|z|=\\sqrt{a^2+b^2}$ and argument $\\theta$ with $\\tan\\theta=\\dfrac{b}{a}$. Sketch it to pick the right quadrant.",
+     "Polar form: $z=r(\\cos\\theta+i\\sin\\theta)=r\\,\\mathrm{cis}\\,\\theta=re^{i\\theta}$.",
+     "Multiplying: multiply the moduli and add the arguments. Dividing: divide and subtract.",
+     "For $z^n=w$ there are $n$ roots, equally spaced by $\\dfrac{2\\pi}{n}$ around a circle."
+    ],
+    "formulas": [
+     {
+      "label": "De Moivre",
+      "tex": "\\big[r(\\cos\\theta+i\\sin\\theta)\\big]^n=r^n(\\cos n\\theta+i\\sin n\\theta)"
+     },
+     {
+      "label": "Roots",
+      "tex": "z_k=r^{1/n}\\,e^{\\,i\\left(\\frac{\\theta+2k\\pi}{n}\\right)},\\quad k=0,1,\\ldots,n-1"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: set Real or Complex to Polar in Document Settings to convert automatically."
+    ],
+    "traps": [
+     "Using $\\arctan\\dfrac{b}{a}$ blindly. For $-1+i$ the argument is $\\dfrac{3\\pi}{4}$, not $-\\dfrac{\\pi}{4}$.",
+     "Giving only one root when the question asks to solve $z^3=w$."
+    ]
+   }
+  },
+  {
+   "id": "finance",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "number-and-algebra",
+   "slug": "financial-applications-compound-interest",
+   "name": "Financial Applications: Compound Interest",
+   "removedIn": "new",
+   "summary": "Compound interest and depreciation as geometric sequences.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Compound growth is a geometric sequence: each period multiplies by the same factor.",
+     "$k$ is the number of compounding periods per year: monthly means $k=12$.",
+     "Depreciation uses the same formula with a negative rate.",
+     "To find the time, use logarithms or the GDC finance solver, then round **up** to a whole period if the question asks when a target is first exceeded."
+    ],
+    "formulas": [
+     {
+      "label": "Compound interest",
+      "tex": "FV=PV\\left(1+\\dfrac{r}{100k}\\right)^{kn}"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: menu, Finance, Finance Solver. Enter PV as negative for money you pay in.",
+     "Casio fx-CG50: Financial app, Compound Interest."
+    ],
+    "traps": [
+     "Using $r$ as a decimal in a formula that already divides by 100.",
+     "Rounding the multiplier early. Keep full accuracy until the final answer."
+    ]
+   }
+  },
+  {
+   "id": "maclaurin",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "calculus",
+   "slug": "maclaurin-series",
+   "name": "Maclaurin Series",
+   "tag": "Paper 3 favourite",
+   "summary": "Build series from derivatives, combine standard series and use them to evaluate limits.",
+   "generators": [
+    "differentiate-poly",
+    "integrate-poly"
+   ],
+   "notes": {
+    "points": [
+     "A Maclaurin series rebuilds a function from its derivatives at $x=0$.",
+     "Know the standard series for $e^x$, $\\sin x$, $\\cos x$ and $\\ln(1+x)$ from the formula booklet.",
+     "New series from old: substitute (e.g. $x\\to 2x$), multiply two series, differentiate or integrate term by term.",
+     "For limits of the form $\\dfrac00$, replace each function by its series and cancel the lowest power."
+    ],
+    "formulas": [
+     {
+      "label": "Maclaurin series",
+      "tex": "f(x)=f(0)+xf'(0)+\\dfrac{x^2}{2!}f''(0)+\\dfrac{x^3}{3!}f'''(0)+\\ldots"
+     },
+     {
+      "label": "Exponential",
+      "tex": "e^x=1+x+\\dfrac{x^2}{2!}+\\dfrac{x^3}{3!}+\\ldots"
+     },
+     {
+      "label": "Sine",
+      "tex": "\\sin x=x-\\dfrac{x^3}{3!}+\\dfrac{x^5}{5!}-\\ldots"
+     },
+     {
+      "label": "Logarithm",
+      "tex": "\\ln(1+x)=x-\\dfrac{x^2}{2}+\\dfrac{x^3}{3}-\\ldots"
+     }
+    ],
+    "gdc": [
+     "Check a series by graphing the function and your polynomial together near $x=0$. They should overlap."
+    ],
+    "traps": [
+     "Substituting $2x$ but forgetting to cube the 2: $(2x)^3=8x^3$.",
+     "When multiplying series, missing a cross term that contributes to the power you need."
+    ]
+   }
+  },
+  {
+   "id": "euler",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "calculus",
+   "slug": "eulers-method",
+   "name": "Euler's Method",
+   "removedIn": "new",
+   "summary": "Step-by-step numerical solutions of first-order differential equations.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Euler's method follows the tangent for a short step $h$, then recalculates the gradient.",
+     "Set out a table with columns $n$, $x_n$, $y_n$ and $f(x_n,y_n)$.",
+     "A smaller step size gives a better approximation but needs more steps."
+    ],
+    "formulas": [
+     {
+      "label": "Iteration",
+      "tex": "y_{n+1}=y_n+h\\,f(x_n,y_n),\\qquad x_{n+1}=x_n+h"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: use a Lists and Spreadsheet page with a recursive formula, or the sequence plot.",
+     "Casio fx-CG50: Recursion app with $a_{n+1}$ and $b_{n+1}$ for $x$ and $y$."
+    ],
+    "traps": [
+     "Updating $x$ before using it in the gradient for the same step.",
+     "Rounding $y_n$ at each step. Carry full calculator accuracy."
+    ]
+   }
+  },
+  {
+   "id": "bivariate",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "statistics-and-probability",
+   "slug": "bivariate-data-correlation-and-regression",
+   "name": "Bivariate Data: Correlation and Regression",
+   "removedIn": "new",
+   "summary": "Interpret correlation and use the regression line of y on x to predict.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Pearson's $r$ measures the strength of a **linear** relationship, from $-1$ to $1$.",
+     "The regression line of $y$ on $x$ predicts $y$ from $x$, and always passes through $(\\bar{x},\\bar{y})$.",
+     "Interpolation (inside the data range) is reliable when $|r|$ is close to 1. Extrapolation is not.",
+     "The gradient is the change in $y$ for each one-unit increase in $x$. Say it in context."
+    ],
+    "formulas": [
+     {
+      "label": "Regression line",
+      "tex": "y=ax+b\\ \\text{ through }\\ (\\bar{x},\\,\\bar{y})"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: enter lists, then menu, Statistics, Stat Calculations, Linear Regression (mx+b).",
+     "Casio fx-CG50: Statistics app, CALC, REG, X, ax+b."
+    ],
+    "traps": [
+     "Using the $y$ on $x$ line to predict $x$ from $y$.",
+     "Saying correlation proves that one variable causes the other."
+    ]
+   }
+  },
+  {
+   "id": "voronoi",
+   "syllabus": "ibdp-math-ai-sl",
+   "section": "geometry-and-trigonometry",
+   "slug": "voronoi-diagrams",
+   "name": "Voronoi Diagrams",
+   "summary": "Cells, edges and vertices, nearest-neighbour interpolation and the largest empty circle.",
+   "generators": [
+    "linear-eq"
+   ],
+   "notes": {
+    "points": [
+     "Each **cell** contains all the points closer to its site than to any other site.",
+     "Each **edge** lies on the perpendicular bisector of two sites.",
+     "A **vertex** where three edges meet is the same distance from three sites.",
+     "The point furthest from every site (the \"toxic waste\" problem) is at a vertex of the diagram."
+    ],
+    "formulas": [
+     {
+      "label": "Perpendicular gradients",
+      "tex": "m_1\\times m_2=-1"
+     },
+     {
+      "label": "Midpoint",
+      "tex": "\\left(\\dfrac{x_1+x_2}{2},\\ \\dfrac{y_1+y_2}{2}\\right)"
+     }
+    ],
+    "gdc": [
+     "Store the two bisector equations and use the intersection tool to find a vertex."
+    ],
+    "traps": [
+     "Using the gradient of the line joining the sites instead of the perpendicular gradient.",
+     "Forgetting that the bisector passes through the midpoint, not through a site."
+    ]
+   }
+  },
+  {
+   "id": "normal",
+   "syllabus": "ibdp-math-ai-sl",
+   "section": "statistics-and-probability",
+   "slug": "normal-distribution",
+   "name": "Normal Distribution",
+   "summary": "Probabilities, expected numbers and inverse normal calculations on the GDC.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "$X\\sim N(\\mu,\\sigma^2)$ is symmetric about the mean $\\mu$.",
+     "About 68% of values lie within one standard deviation of the mean, 95% within two and 99.7% within three.",
+     "Use normal cdf for a probability and inverse normal when the probability is given and a value is wanted.",
+     "Expected number = probability $\\times$ number of trials."
+    ],
+    "formulas": [
+     {
+      "label": "Standardising",
+      "tex": "z=\\dfrac{x-\\mu}{\\sigma}"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: menu, Probability, Distributions, Normal Cdf (lower, upper, mean, sd).",
+     "TI-Nspire inverse: Inverse Normal (area to the left, mean, sd).",
+     "Casio fx-CG50: Statistics, DIST, NORM, Ncd or InvN."
+    ],
+    "traps": [
+     "Entering the variance where the calculator wants the standard deviation.",
+     "For $P(X>k)$ with inverse normal, convert to the area on the left first."
+    ]
+   }
+  },
+  {
+   "id": "myp-algebra",
+   "syllabus": "ib-myp-math",
+   "section": "criterion-a",
+   "slug": "algebra-expressions-and-equations",
+   "name": "Algebra: Expressions and Equations",
+   "summary": "Solve, expand and form equations, answering in the style the command term asks for.",
+   "generators": [
+    "linear-eq",
+    "expand-double",
+    "percent-change"
+   ],
+   "notes": {
+    "points": [
+     "**State** or **write down**: give the answer only. No working is needed.",
+     "**Describe**: say what happens, in order, using mathematical words.",
+     "**Explain**: give the reason, linking a cause to its effect.",
+     "**Justify**: give evidence or a proof that supports your answer.",
+     "To solve a linear equation, undo the operations in reverse order, doing the same to both sides."
+    ],
+    "formulas": [
+     {
+      "label": "Expanding",
+      "tex": "(x+a)(x+b)=x^2+(a+b)x+ab"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Answering \"justify\" with only a number. Show the evidence.",
+     "Subtracting a bracket: $-x(x-2)=-x^2+2x$. Both signs change."
+    ]
+   }
+  },
+  {
+   "id": "myp-staircase",
+   "syllabus": "ib-myp-math",
+   "section": "criterion-b",
+   "slug": "quadratic-sequences-investigation",
+   "name": "Quadratic Sequences Investigation",
+   "tag": "Interactive",
+   "summary": "Investigate a staircase pattern, find a quadratic general rule and prove it.",
+   "generators": [
+    "nth-term-quadratic"
+   ],
+   "notes": {
+    "points": [
+     "Work systematically: record results in a table before looking for a rule.",
+     "Constant first differences mean a linear rule. Constant **second** differences mean a quadratic rule.",
+     "If the second difference is $s$, the rule starts with $\\tfrac{s}{2}n^2$.",
+     "Verify with a stage you did **not** use to build the rule, then justify why the rule must hold for every stage."
+    ],
+    "formulas": [
+     {
+      "label": "Quadratic rule",
+      "tex": "T_n=an^2+bn+c,\\quad a=\\dfrac{\\text{second difference}}{2}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Verifying with a stage that was used to find the rule. That proves nothing new.",
+     "Describing the pattern only in words and never writing the rule in algebra."
+    ]
+   },
+   "investigation": {
+    "title": "The staircase",
+    "intro": "A staircase is built from square blocks. Stage 1 uses 1 block. Each new stage adds a row that is one block longer than the row before, so stage 2 has rows of 1 and 2 blocks, stage 3 has rows of 1, 2 and 3 blocks, and so on.",
+    "inputLabel": "Stage, n",
+    "outputLabel": "Blocks, T",
+    "given": [
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      6
+     ]
+    ],
+    "blanks": [
+     [
+      4,
+      10
+     ],
+     [
+      5,
+      15
+     ],
+     [
+      6,
+      21
+     ]
+    ],
+    "predict": {
+     "n": 20,
+     "answer": 210
+    },
+    "steps": [
+     {
+      "prompt": "Describe in words how the pattern grows.",
+      "reveal": "Each stage adds one more row, and that row is one block longer than the last: $+2,\\ +3,\\ +4,\\ \\ldots$"
+     },
+     {
+      "prompt": "Find the first and second differences. What type of rule do they suggest?",
+      "reveal": "First differences: $2, 3, 4, 5, 6$. Second differences: $1, 1, 1, 1$. A constant second difference of 1 means a quadratic rule starting with $\\tfrac12n^2$."
+     },
+     {
+      "prompt": "Find a general rule for T in terms of n.",
+      "reveal": "$T_n=\\tfrac12n^2+\\tfrac12n=\\dfrac{n(n+1)}{2}$"
+     },
+     {
+      "prompt": "Verify your rule using a stage you have not used yet.",
+      "reveal": "Stage 7 by building: $21+7=28$. Rule: $\\dfrac{7\\times8}{2}=28$. They agree."
+     },
+     {
+      "prompt": "Justify why the rule works for every stage.",
+      "reveal": "Two copies of the stage-$n$ staircase fit together into a rectangle $n$ blocks by $(n+1)$ blocks. That rectangle has $n(n+1)$ blocks, so one staircase has $\\dfrac{n(n+1)}{2}$."
+     }
+    ],
+    "bands": [
+     {
+      "band": "1-2",
+      "text": "You apply a strategy you were given and state a pattern that matches some of the results."
+     },
+     {
+      "band": "3-4",
+      "text": "You choose a strategy, find a pattern and suggest a rule that matches your results."
+     },
+     {
+      "band": "5-6",
+      "text": "You describe the pattern as a general rule and verify it with a case you had not already used."
+     },
+     {
+      "band": "7-8",
+      "text": "You state a correct general rule, verify it, and justify or prove why it must always work."
+     }
+    ]
+   }
+  },
+  {
+   "id": "myp-matchsticks",
+   "syllabus": "ib-myp-math",
+   "section": "criterion-b",
+   "slug": "matchstick-patterns-investigation",
+   "name": "Matchstick Patterns Investigation",
+   "tag": "Interactive",
+   "summary": "Investigate a row of matchstick squares and justify a linear general rule.",
+   "generators": [
+    "nth-term-linear"
+   ],
+   "notes": {
+    "points": [
+     "Build the first few stages and count carefully before predicting.",
+     "A constant first difference $d$ gives a rule of the form $dn+c$.",
+     "Link the rule back to the picture: what does the $d$ represent? What does the $c$ represent?"
+    ],
+    "formulas": [
+     {
+      "label": "Linear rule",
+      "tex": "M_n=dn+c"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Counting shared matchsticks twice.",
+     "Giving a rule such as \"add 3 each time\" without connecting it to $n$."
+    ]
+   },
+   "investigation": {
+    "title": "Squares in a row",
+    "intro": "Matchsticks are arranged to make a row of squares that share sides. One square needs 4 matchsticks, two squares need 7 and three squares need 10.",
+    "inputLabel": "Squares, n",
+    "outputLabel": "Matchsticks, M",
+    "given": [
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      7
+     ],
+     [
+      3,
+      10
+     ]
+    ],
+    "blanks": [
+     [
+      4,
+      13
+     ],
+     [
+      5,
+      16
+     ],
+     [
+      6,
+      19
+     ]
+    ],
+    "predict": {
+     "n": 50,
+     "answer": 151
+    },
+    "steps": [
+     {
+      "prompt": "Describe in words how the pattern grows.",
+      "reveal": "Each new square shares one side with the row, so it needs only 3 more matchsticks."
+     },
+     {
+      "prompt": "Find a general rule for M in terms of n.",
+      "reveal": "$M_n=3n+1$"
+     },
+     {
+      "prompt": "Verify your rule using a stage you have not used yet.",
+      "reveal": "Seven squares by building: $19+3=22$. Rule: $3(7)+1=22$. They agree."
+     },
+     {
+      "prompt": "Justify why the rule works for every stage.",
+      "reveal": "The first square uses 4 matchsticks and each of the other $(n-1)$ squares uses 3, giving $4+3(n-1)=3n+1$. Equivalently: one starting matchstick, then 3 for every square."
+     }
+    ],
+    "bands": [
+     {
+      "band": "1-2",
+      "text": "You apply a strategy you were given and state a pattern that matches some of the results."
+     },
+     {
+      "band": "3-4",
+      "text": "You choose a strategy, find a pattern and suggest a rule that matches your results."
+     },
+     {
+      "band": "5-6",
+      "text": "You describe the pattern as a general rule and verify it with a case you had not already used."
+     },
+     {
+      "band": "7-8",
+      "text": "You state a correct general rule, verify it, and justify or prove why it must always work."
+     }
+    ]
+   }
+  },
+  {
+   "id": "myp-plans",
+   "syllabus": "ib-myp-math",
+   "section": "criterion-d",
+   "slug": "linear-models-in-real-life",
+   "name": "Linear Models in Real Life",
+   "summary": "Build and compare models for real situations, then judge accuracy and whether the answer makes sense.",
+   "generators": [
+    "percent-change",
+    "linear-eq"
+   ],
+   "notes": {
+    "points": [
+     "**Identify** the relevant information and define your variables with units.",
+     "**Select** a strategy: an equation, a graph or a table of values.",
+     "**Apply** it and reach a solution.",
+     "**Accuracy**: say how exact your answer is and what rounding is sensible for the context.",
+     "**Does it make sense?** Check the answer against the real situation and name a limitation of your model."
+    ],
+    "formulas": [
+     {
+      "label": "Linear model",
+      "tex": "\\text{cost}=\\text{fixed charge}+\\text{rate}\\times\\text{amount}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Stopping at the number. Criterion D rewards the comment on accuracy and sense.",
+     "Rounding in the wrong direction: you cannot fill 6.28 days of water, only 6 whole days."
+    ]
+   },
+   "bands": [
+    {
+     "band": "1-2",
+     "text": "You pick out some relevant information and apply a strategy with limited success."
+    },
+    {
+     "band": "3-4",
+     "text": "You select a workable strategy, reach a solution and say whether it makes sense."
+    },
+    {
+     "band": "5-6",
+     "text": "You reach a valid solution, describe its degree of accuracy and whether it makes sense in the situation."
+    },
+    {
+     "band": "7-8",
+     "text": "You reach a correct solution and justify both its degree of accuracy and why it makes sense in the real situation."
+    }
+   ]
+  },
+  {
+   "id": "al-series",
+   "syllabus": "a-level-9709",
+   "section": "pure-mathematics-1",
+   "slug": "arithmetic-and-geometric-progressions",
+   "name": "Arithmetic and Geometric Progressions",
+   "summary": "nth terms, sums, and sum to infinity.",
+   "generators": [
+    "arithmetic-series",
+    "binomial-coefficient"
+   ],
+   "notes": {
+    "points": [
+     "Arithmetic: add a common difference $d$. Geometric: multiply by a common ratio $r$.",
+     "A geometric progression has a sum to infinity only when $|r|<1$.",
+     "Two unknowns need two equations. Divide geometric equations to eliminate $a$."
+    ],
+    "formulas": [
+     {
+      "label": "AP nth term and sum",
+      "tex": "u_n=a+(n-1)d,\\qquad S_n=\\tfrac{n}{2}\\big(2a+(n-1)d\\big)"
+     },
+     {
+      "label": "GP nth term and sum",
+      "tex": "u_n=ar^{\\,n-1},\\qquad S_n=\\dfrac{a(1-r^n)}{1-r}"
+     },
+     {
+      "label": "Sum to infinity",
+      "tex": "S_\\infty=\\dfrac{a}{1-r},\\quad |r|<1"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Using $n$ instead of $n-1$ in the nth-term formulas.",
+     "Quoting a sum to infinity without checking $|r|<1$."
+    ]
+   }
+  },
+  {
+   "id": "al-chain",
+   "syllabus": "a-level-9709",
+   "section": "pure-mathematics-1",
+   "slug": "differentiation-chain-rule",
+   "name": "Differentiation: the Chain Rule",
+   "summary": "Differentiate composite functions and apply to gradients and stationary points.",
+   "generators": [
+    "differentiate-poly",
+    "integrate-poly"
+   ],
+   "notes": {
+    "points": [
+     "Differentiate the outside, keep the inside, then multiply by the derivative of the inside.",
+     "Rewrite roots and reciprocals as powers before differentiating.",
+     "At a stationary point $\\dfrac{dy}{dx}=0$. Use the second derivative to decide its nature."
+    ],
+    "formulas": [
+     {
+      "label": "Chain rule",
+      "tex": "\\dfrac{dy}{dx}=\\dfrac{dy}{du}\\times\\dfrac{du}{dx}"
+     },
+     {
+      "label": "Power of a linear function",
+      "tex": "\\dfrac{d}{dx}(ax+b)^n=an(ax+b)^{n-1}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Forgetting the factor from the inside: $\\dfrac{d}{dx}(3x-2)^5$ is $15(3x-2)^4$, not $5(3x-2)^4$."
+    ]
+   }
+  }
+ ],
+ "questions": [
+  {
+   "id": "su1",
+   "topic": "surds",
+   "slug": "surds-and-rationalising-easy-su1",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": false,
+   "stem": "Simplify $\\sqrt{48}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\sqrt{16\\times 3}$ or $\\sqrt{16}\\times\\sqrt{3}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$4\\sqrt{3}$"
+    }
+   ],
+   "answer": "$4\\sqrt{3}$",
+   "video": null
+  },
+  {
+   "id": "su2",
+   "topic": "surds",
+   "slug": "surds-and-rationalising-easy-su2",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": false,
+   "stem": "Simplify $\\sqrt{75}-\\sqrt{27}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$5\\sqrt{3}$ or $3\\sqrt{3}$ seen"
+    },
+    {
+     "mark": "A1",
+     "text": "$2\\sqrt{3}$"
+    }
+   ],
+   "answer": "$2\\sqrt{3}$",
+   "video": null
+  },
+  {
+   "id": "su3",
+   "topic": "surds",
+   "slug": "surds-and-rationalising-medium-su3",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Rationalise the denominator of $\\dfrac{12}{\\sqrt{6}}$. Give your answer in its simplest form.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Multiplies by $\\dfrac{\\sqrt{6}}{\\sqrt{6}}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\dfrac{12\\sqrt{6}}{6}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$2\\sqrt{6}$"
+    }
+   ],
+   "answer": "$2\\sqrt{6}$",
+   "video": null
+  },
+  {
+   "id": "su4",
+   "topic": "surds",
+   "slug": "surds-and-rationalising-medium-su4",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Expand and simplify $(3+\\sqrt{5})(2-\\sqrt{5})$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$6-3\\sqrt{5}+2\\sqrt{5}-(\\sqrt{5})^2$, at least three terms correct"
+    },
+    {
+     "mark": "M1",
+     "text": "Uses $(\\sqrt{5})^2=5$"
+    },
+    {
+     "mark": "A1",
+     "text": "$1-\\sqrt{5}$"
+    }
+   ],
+   "answer": "$1-\\sqrt{5}$",
+   "video": null
+  },
+  {
+   "id": "su5",
+   "topic": "surds",
+   "slug": "surds-and-rationalising-hard-su5",
+   "difficulty": "hard",
+   "marks": 4,
+   "calc": false,
+   "stem": "Rationalise the denominator of $\\dfrac{6}{3-\\sqrt{3}}$. Give your answer in the form $a+b\\sqrt{3}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Multiplies numerator and denominator by $3+\\sqrt{3}$"
+    },
+    {
+     "mark": "M1",
+     "text": "Denominator $9-3=6$"
+    },
+    {
+     "mark": "M1",
+     "text": "Numerator $18+6\\sqrt{3}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$3+\\sqrt{3}$"
+    }
+   ],
+   "answer": "$3+\\sqrt{3}$",
+   "video": null
+  },
+  {
+   "id": "su6",
+   "topic": "surds",
+   "slug": "surds-and-rationalising-exam-su6",
+   "difficulty": "exam",
+   "marks": 5,
+   "calc": false,
+   "stem": "A rectangle has area $(17+8\\sqrt{2})\\ \\text{cm}^2$ and length $(5+\\sqrt{2})\\ \\text{cm}$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the width of the rectangle in the form $a+b\\sqrt{2}$.",
+     "marks": 4
+    },
+    {
+     "label": "b",
+     "text": "Find the perimeter of the rectangle.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $\\dfrac{17+8\\sqrt{2}}{5+\\sqrt{2}}\\times\\dfrac{5-\\sqrt{2}}{5-\\sqrt{2}}$"
+    },
+    {
+     "mark": "M1",
+     "text": "Numerator $85-17\\sqrt{2}+40\\sqrt{2}-16=69+23\\sqrt{2}$"
+    },
+    {
+     "mark": "M1",
+     "text": "Denominator $25-2=23$"
+    },
+    {
+     "mark": "A1",
+     "text": "$3+\\sqrt{2}$"
+    },
+    {
+     "mark": "B1",
+     "text": "(b) $2(5+\\sqrt{2}+3+\\sqrt{2})=16+4\\sqrt{2}$ cm"
+    }
+   ],
+   "answer": "(a) $3+\\sqrt{2}$ cm  (b) $16+4\\sqrt{2}$ cm",
+   "video": null
+  },
+  {
+   "id": "et1",
+   "topic": "exact-trig",
+   "slug": "exact-trigonometric-values-easy-et1",
+   "difficulty": "easy",
+   "marks": 1,
+   "calc": false,
+   "stem": "Write down the exact value of $\\cos 60^\\circ$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "B1",
+     "text": "$\\dfrac12$"
+    }
+   ],
+   "answer": "$\\dfrac12$",
+   "video": null
+  },
+  {
+   "id": "et2",
+   "topic": "exact-trig",
+   "slug": "exact-trigonometric-values-easy-et2",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": false,
+   "stem": "Work out the exact value of $2\\sin 30^\\circ+\\tan 45^\\circ$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\sin 30^\\circ=\\tfrac12$ or $\\tan 45^\\circ=1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$2$"
+    }
+   ],
+   "answer": "$2$",
+   "video": null
+  },
+  {
+   "id": "et3",
+   "topic": "exact-trig",
+   "slug": "exact-trigonometric-values-medium-et3",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Find the exact value of $\\sin 60^\\circ\\times\\tan 30^\\circ$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\sin 60^\\circ=\\dfrac{\\sqrt3}{2}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\tan 30^\\circ=\\dfrac{1}{\\sqrt3}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\dfrac12$"
+    }
+   ],
+   "answer": "$\\dfrac12$",
+   "video": null
+  },
+  {
+   "id": "et4",
+   "topic": "exact-trig",
+   "slug": "exact-trigonometric-values-medium-et4",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Triangle $ABC$ has a right angle at $B$. Angle $BAC=30^\\circ$ and $AC=12$ cm. Find the exact lengths of $BC$ and $AB$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$BC=12\\sin 30^\\circ$ or $AB=12\\cos 30^\\circ$"
+    },
+    {
+     "mark": "A1",
+     "text": "$BC=6$ cm"
+    },
+    {
+     "mark": "A1",
+     "text": "$AB=6\\sqrt{3}$ cm"
+    }
+   ],
+   "answer": "$BC=6$ cm, $AB=6\\sqrt{3}$ cm",
+   "video": null
+  },
+  {
+   "id": "et5",
+   "topic": "exact-trig",
+   "slug": "exact-trigonometric-values-medium-et5",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "In triangle $PQR$, $PQ=8$ cm, $QR=3\\sqrt{3}$ cm and angle $PQR=60^\\circ$. Show that the area of the triangle is $18\\ \\text{cm}^2$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\tfrac12\\times 8\\times 3\\sqrt{3}\\times\\sin 60^\\circ$"
+    },
+    {
+     "mark": "M1",
+     "text": "Uses $\\sin 60^\\circ=\\dfrac{\\sqrt3}{2}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$12\\sqrt{3}\\times\\dfrac{\\sqrt3}{2}=\\dfrac{36}{2}=18$, fully shown"
+    }
+   ],
+   "answer": "Shown: $18\\ \\text{cm}^2$",
+   "video": null
+  },
+  {
+   "id": "et6",
+   "topic": "exact-trig",
+   "slug": "exact-trigonometric-values-hard-et6",
+   "difficulty": "hard",
+   "marks": 4,
+   "calc": false,
+   "stem": "Without using a calculator, show that $$\\frac{\\tan 60^\\circ-\\tan 30^\\circ}{1+\\tan 60^\\circ\\tan 30^\\circ}=\\frac{\\sqrt3}{3}.$$",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\tan 60^\\circ=\\sqrt3$ and $\\tan 30^\\circ=\\dfrac{1}{\\sqrt3}$"
+    },
+    {
+     "mark": "M1",
+     "text": "Numerator $\\sqrt3-\\dfrac{1}{\\sqrt3}=\\dfrac{2}{\\sqrt3}$"
+    },
+    {
+     "mark": "M1",
+     "text": "Denominator $1+1=2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\dfrac{1}{\\sqrt3}=\\dfrac{\\sqrt3}{3}$"
+    }
+   ],
+   "answer": "Shown",
+   "video": null
+  },
+  {
+   "id": "in1",
+   "topic": "indices",
+   "slug": "indices-and-standard-form-by-hand-easy-in1",
+   "difficulty": "easy",
+   "marks": 1,
+   "calc": false,
+   "stem": "Write down the value of $5^{-2}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "B1",
+     "text": "$\\dfrac{1}{25}$"
+    }
+   ],
+   "answer": "$\\dfrac{1}{25}$",
+   "video": null
+  },
+  {
+   "id": "in2",
+   "topic": "indices",
+   "slug": "indices-and-standard-form-by-hand-easy-in2",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": false,
+   "stem": "Work out $27^{\\frac23}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\sqrt[3]{27}=3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$9$"
+    }
+   ],
+   "answer": "$9$",
+   "video": null
+  },
+  {
+   "id": "in3",
+   "topic": "indices",
+   "slug": "indices-and-standard-form-by-hand-medium-in3",
+   "difficulty": "medium",
+   "marks": 2,
+   "calc": false,
+   "stem": "Simplify $(2x^3)^4$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "B1",
+     "text": "$16$"
+    },
+    {
+     "mark": "B1",
+     "text": "$x^{12}$"
+    }
+   ],
+   "answer": "$16x^{12}$",
+   "video": null
+  },
+  {
+   "id": "in4",
+   "topic": "indices",
+   "slug": "indices-and-standard-form-by-hand-medium-in4",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Work out $\\left(\\dfrac{16}{81}\\right)^{-\\frac34}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Reciprocal: $\\left(\\dfrac{81}{16}\\right)^{\\frac34}$"
+    },
+    {
+     "mark": "M1",
+     "text": "Fourth root: $\\dfrac32$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\dfrac{27}{8}$"
+    }
+   ],
+   "answer": "$\\dfrac{27}{8}$",
+   "video": null
+  },
+  {
+   "id": "in5",
+   "topic": "indices",
+   "slug": "indices-and-standard-form-by-hand-hard-in5",
+   "difficulty": "hard",
+   "marks": 3,
+   "calc": false,
+   "stem": "Solve $9^{x}=27^{x-1}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Writes both sides as powers of 3: $3^{2x}=3^{3(x-1)}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$2x=3x-3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=3$"
+    }
+   ],
+   "answer": "$x=3$",
+   "video": null
+  },
+  {
+   "id": "in6",
+   "topic": "indices",
+   "slug": "indices-and-standard-form-by-hand-exam-in6",
+   "difficulty": "exam",
+   "marks": 4,
+   "calc": false,
+   "stem": "Give each answer in standard form.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Work out $(4.2\\times10^{5})\\div(7\\times10^{-3})$.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "Work out $(3\\times10^{4})^2+5\\times10^{8}$.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $0.6\\times10^{8}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$6\\times10^{7}$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $9\\times10^{8}+5\\times10^{8}=14\\times10^{8}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$1.4\\times10^{9}$"
+    }
+   ],
+   "answer": "(a) $6\\times10^{7}$  (b) $1.4\\times10^{9}$",
+   "video": null
+  },
+  {
+   "id": "dr1",
+   "topic": "domain-range",
+   "slug": "functions-domain-and-range-easy-dr1",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": true,
+   "stem": "$f(x)=3x-2$ has domain $\\{-1,\\,0,\\,2\\}$. Find the range of $f$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Substitutes at least two of the values"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\{-5,\\,-2,\\,4\\}$"
+    }
+   ],
+   "answer": "$\\{-5,\\,-2,\\,4\\}$",
+   "video": null
+  },
+  {
+   "id": "dr2",
+   "topic": "domain-range",
+   "slug": "functions-domain-and-range-medium-dr2",
+   "difficulty": "medium",
+   "marks": 2,
+   "calc": true,
+   "stem": "$f(x)=x^2+1$ for all real values of $x$. Write down the range of $f$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "B2",
+     "text": "$f(x)\\ge 1$ (B1 for identifying 1 as the least value)"
+    }
+   ],
+   "answer": "$f(x)\\ge 1$",
+   "video": null
+  },
+  {
+   "id": "dr3",
+   "topic": "domain-range",
+   "slug": "functions-domain-and-range-medium-dr3",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": true,
+   "stem": "$f(x)=2x+5$ for $-1\\le x\\le 4$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the range of $f$.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "Write down the domain of $f^{-1}$.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $f(-1)=3$ and $f(4)=13$"
+    },
+    {
+     "mark": "A1",
+     "text": "$3\\le f(x)\\le 13$"
+    },
+    {
+     "mark": "B1",
+     "text": "(b) $3\\le x\\le 13$"
+    }
+   ],
+   "answer": "(a) $3\\le f(x)\\le 13$  (b) $3\\le x\\le 13$",
+   "video": null
+  },
+  {
+   "id": "dr4",
+   "topic": "domain-range",
+   "slug": "functions-domain-and-range-hard-dr4",
+   "difficulty": "hard",
+   "marks": 4,
+   "calc": true,
+   "stem": "$g(x)=(x-3)^2-4$ for $0\\le x\\le 5$. Find the range of $g$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Least value $-4$ at $x=3$"
+    },
+    {
+     "mark": "M1",
+     "text": "$g(0)=5$ and $g(5)=0$"
+    },
+    {
+     "mark": "A1",
+     "text": "Greatest value $5$"
+    },
+    {
+     "mark": "A1",
+     "text": "$-4\\le g(x)\\le 5$"
+    }
+   ],
+   "answer": "$-4\\le g(x)\\le 5$",
+   "video": null
+  },
+  {
+   "id": "dr5",
+   "topic": "domain-range",
+   "slug": "functions-domain-and-range-exam-dr5",
+   "difficulty": "exam",
+   "marks": 6,
+   "calc": true,
+   "stem": "$f(x)=\\dfrac{1}{x-2},\\ x\\ne 2$ and $g(x)=x^2+1$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Explain why $x=2$ is excluded from the domain of $f$.",
+     "marks": 1
+    },
+    {
+     "label": "b",
+     "text": "Find $gf(3)$.",
+     "marks": 2
+    },
+    {
+     "label": "c",
+     "text": "Solve $fg(x)=\\dfrac13$.",
+     "marks": 3
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "B1",
+     "text": "(a) It would mean dividing by zero"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $f(3)=1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$g(1)=2$"
+    },
+    {
+     "mark": "M1",
+     "text": "(c) $fg(x)=\\dfrac{1}{x^2-1}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$x^2-1=3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=\\pm 2$"
+    }
+   ],
+   "answer": "(b) $2$  (c) $x=\\pm2$",
+   "video": null
+  },
+  {
+   "id": "qd1",
+   "topic": "quadratics",
+   "slug": "quadratic-equations-easy-qd1",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": false,
+   "stem": "Factorise $x^2+7x+12$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "B2",
+     "text": "$(x+3)(x+4)$ (B1 for brackets that give two correct terms)"
+    }
+   ],
+   "answer": "$(x+3)(x+4)$",
+   "video": null
+  },
+  {
+   "id": "qd2",
+   "topic": "quadratics",
+   "slug": "quadratic-equations-easy-qd2",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "Solve $x^2-5x-14=0$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M2",
+     "text": "$(x-7)(x+2)$ (M1 for brackets giving two correct terms)"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=7$ or $x=-2$"
+    }
+   ],
+   "answer": "$x=7$ or $x=-2$",
+   "video": null
+  },
+  {
+   "id": "qd3",
+   "topic": "quadratics",
+   "slug": "quadratic-equations-medium-qd3",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Solve $2x^2+x-6=0$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M2",
+     "text": "$(2x-3)(x+2)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=\\dfrac32$ or $x=-2$"
+    }
+   ],
+   "answer": "$x=\\dfrac32$ or $x=-2$",
+   "video": null
+  },
+  {
+   "id": "qd4",
+   "topic": "quadratics",
+   "slug": "quadratic-equations-medium-qd4",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Write $x^2-6x+11$ in the form $(x-a)^2+b$ and hence write down the coordinates of the minimum point of $y=x^2-6x+11$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$(x-3)^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$(x-3)^2+2$"
+    },
+    {
+     "mark": "B1",
+     "text": "$(3,\\,2)$"
+    }
+   ],
+   "answer": "$(x-3)^2+2$; minimum at $(3,\\,2)$",
+   "video": null
+  },
+  {
+   "id": "qd5",
+   "topic": "quadratics",
+   "slug": "quadratic-equations-hard-qd5",
+   "difficulty": "hard",
+   "marks": 4,
+   "calc": false,
+   "stem": "Solve $3x^2-8x+2=0$. Give your answers in the form $\\dfrac{p\\pm\\sqrt{q}}{r}$ in their simplest form.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$x=\\dfrac{8\\pm\\sqrt{(-8)^2-4(3)(2)}}{2(3)}$"
+    },
+    {
+     "mark": "A1",
+     "text": "Discriminant $40$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\sqrt{40}=2\\sqrt{10}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=\\dfrac{4\\pm\\sqrt{10}}{3}$"
+    }
+   ],
+   "answer": "$x=\\dfrac{4\\pm\\sqrt{10}}{3}$",
+   "video": null
+  },
+  {
+   "id": "qd6",
+   "topic": "quadratics",
+   "slug": "quadratic-equations-exam-qd6",
+   "difficulty": "exam",
+   "marks": 6,
+   "calc": false,
+   "stem": "A rectangular garden has length $(x+5)$ m and width $(x-2)$ m. Its area is $44\\ \\text{m}^2$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Show that $x^2+3x-54=0$.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "Solve $x^2+3x-54=0$.",
+     "marks": 3
+    },
+    {
+     "label": "c",
+     "text": "Find the perimeter of the garden.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $(x+5)(x-2)=44$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x^2+3x-10=44$ leading to the given equation"
+    },
+    {
+     "mark": "M2",
+     "text": "(b) $(x+9)(x-6)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=6$ or $x=-9$"
+    },
+    {
+     "mark": "B1",
+     "text": "(c) $x=6$, sides 11 m and 4 m, perimeter $30$ m"
+    }
+   ],
+   "answer": "(b) $x=6$ or $x=-9$  (c) $30$ m",
+   "video": null
+  },
+  {
+   "id": "sq1",
+   "topic": "sequences",
+   "slug": "sequences-and-nth-term-easy-sq1",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": false,
+   "stem": "Find the nth term of the sequence $7,\\ 11,\\ 15,\\ 19,\\ \\ldots$",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$4n$"
+    },
+    {
+     "mark": "A1",
+     "text": "$4n+3$"
+    }
+   ],
+   "answer": "$4n+3$",
+   "video": null
+  },
+  {
+   "id": "sq2",
+   "topic": "sequences",
+   "slug": "sequences-and-nth-term-medium-sq2",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Find the nth term of the sequence $3,\\ 9,\\ 19,\\ 33,\\ 51,\\ \\ldots$",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Second difference $4$"
+    },
+    {
+     "mark": "M1",
+     "text": "$2n^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$2n^2+1$"
+    }
+   ],
+   "answer": "$2n^2+1$",
+   "video": null
+  },
+  {
+   "id": "sq3",
+   "topic": "sequences",
+   "slug": "sequences-and-nth-term-medium-sq3",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "The nth term of a sequence is $2\\times3^{\\,n-1}$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the 5th term.",
+     "marks": 1
+    },
+    {
+     "label": "b",
+     "text": "Which term of the sequence is $1458$?",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "B1",
+     "text": "(a) $162$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $3^{\\,n-1}=729=3^6$"
+    },
+    {
+     "mark": "A1",
+     "text": "$n=7$"
+    }
+   ],
+   "answer": "(a) $162$  (b) the 7th term",
+   "video": null
+  },
+  {
+   "id": "sq4",
+   "topic": "sequences",
+   "slug": "sequences-and-nth-term-hard-sq4",
+   "difficulty": "hard",
+   "marks": 4,
+   "calc": false,
+   "stem": "The nth term of a sequence is $n^2+3n$. Show that $108$ is a term of this sequence and state which term it is.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$n^2+3n-108=0$"
+    },
+    {
+     "mark": "M1",
+     "text": "$(n+12)(n-9)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$n=9$"
+    },
+    {
+     "mark": "A1",
+     "text": "Rejects $n=-12$; $108$ is the 9th term"
+    }
+   ],
+   "answer": "The 9th term",
+   "video": null
+  },
+  {
+   "id": "df1",
+   "topic": "differentiation",
+   "slug": "differentiation-and-turning-points-easy-df1",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": true,
+   "stem": "$y=x^3-4x^2+7$. Find $\\dfrac{dy}{dx}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "B2",
+     "text": "$3x^2-8x$ (B1 for one correct term)"
+    }
+   ],
+   "answer": "$3x^2-8x$",
+   "video": null
+  },
+  {
+   "id": "df2",
+   "topic": "differentiation",
+   "slug": "differentiation-and-turning-points-medium-df2",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": true,
+   "stem": "Find the gradient of the curve $y=2x^3-5x$ at the point where $x=2$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\dfrac{dy}{dx}=6x^2-5$"
+    },
+    {
+     "mark": "M1",
+     "text": "Substitutes $x=2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$19$"
+    }
+   ],
+   "answer": "$19$",
+   "video": null
+  },
+  {
+   "id": "df3",
+   "topic": "differentiation",
+   "slug": "differentiation-and-turning-points-hard-df3",
+   "difficulty": "hard",
+   "marks": 6,
+   "calc": true,
+   "stem": "A curve has equation $y=x^3-3x^2-9x+2$. Find the coordinates of the two turning points and determine whether each is a maximum or a minimum.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\dfrac{dy}{dx}=3x^2-6x-9$"
+    },
+    {
+     "mark": "M1",
+     "text": "Sets equal to $0$: $3(x-3)(x+1)=0$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=3$ and $x=-1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$(-1,\\,7)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$(3,\\,-25)$"
+    },
+    {
+     "mark": "B1",
+     "text": "$\\dfrac{d^2y}{dx^2}=6x-6$: negative at $x=-1$ so maximum, positive at $x=3$ so minimum"
+    }
+   ],
+   "answer": "Maximum at $(-1,\\,7)$, minimum at $(3,\\,-25)$",
+   "video": null
+  },
+  {
+   "id": "bi1",
+   "topic": "binomial",
+   "slug": "binomial-theorem-easy-bi1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "Find the coefficient of $x^3$ in the expansion of $(2+x)^5$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\dbinom{5}{3}(2)^2x^3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$10\\times 4$"
+    },
+    {
+     "mark": "A1",
+     "text": "$40$"
+    }
+   ],
+   "answer": "$40$",
+   "video": null
+  },
+  {
+   "id": "bi2",
+   "topic": "binomial",
+   "slug": "binomial-theorem-medium-bi2",
+   "difficulty": "medium",
+   "marks": 5,
+   "calc": false,
+   "stem": "Find the term independent of $x$ in the expansion of $\\left(x^2+\\dfrac{2}{x}\\right)^6$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "General term $\\dbinom{6}{r}(x^2)^{6-r}\\left(\\dfrac{2}{x}\\right)^r$"
+    },
+    {
+     "mark": "M1",
+     "text": "Power of $x$ is $12-3r$"
+    },
+    {
+     "mark": "A1",
+     "text": "$r=4$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\dbinom{6}{4}\\times 2^4$"
+    },
+    {
+     "mark": "A1",
+     "text": "$240$"
+    }
+   ],
+   "answer": "$240$",
+   "video": null
+  },
+  {
+   "id": "bi3",
+   "topic": "binomial",
+   "slug": "binomial-theorem-hard-bi3",
+   "difficulty": "hard",
+   "marks": 5,
+   "calc": false,
+   "stem": "In the expansion of $(1+kx)^6$, where $k>0$, the coefficient of $x^2$ is $60$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the value of $k$.",
+     "marks": 3
+    },
+    {
+     "label": "b",
+     "text": "Find the coefficient of $x^3$.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $\\dbinom{6}{2}k^2=60$"
+    },
+    {
+     "mark": "A1",
+     "text": "$15k^2=60$"
+    },
+    {
+     "mark": "A1",
+     "text": "$k=2$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $\\dbinom{6}{3}(2)^3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$160$"
+    }
+   ],
+   "answer": "(a) $k=2$  (b) $160$",
+   "video": null
+  },
+  {
+   "id": "bi4",
+   "topic": "binomial",
+   "slug": "binomial-theorem-exam-bi4",
+   "difficulty": "exam",
+   "marks": 7,
+   "calc": false,
+   "stem": "Consider $f(x)=\\dfrac{1}{\\sqrt{1-2x}}$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Expand $f(x)$ in ascending powers of $x$, up to and including the term in $x^2$.",
+     "marks": 4
+    },
+    {
+     "label": "b",
+     "text": "State the values of $x$ for which the expansion is valid.",
+     "marks": 1
+    },
+    {
+     "label": "c",
+     "text": "Use your expansion with $x=0.01$ to estimate $\\dfrac{1}{\\sqrt{0.98}}$.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) Writes $(1-2x)^{-\\frac12}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$1+\\left(-\\tfrac12\\right)(-2x)+\\dfrac{\\left(-\\frac12\\right)\\left(-\\frac32\\right)}{2!}(-2x)^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$1+x$"
+    },
+    {
+     "mark": "A1",
+     "text": "$+\\tfrac32x^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "(b) $|x|<\\tfrac12$"
+    },
+    {
+     "mark": "M1",
+     "text": "(c) $1+0.01+\\tfrac32(0.01)^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$1.01015$"
+    }
+   ],
+   "answer": "(a) $1+x+\\tfrac32x^2$  (b) $|x|<\\tfrac12$  (c) $1.01015$",
+   "video": null
+  },
+  {
+   "id": "cx1",
+   "topic": "complex",
+   "slug": "complex-numbers-polar-form-easy-cx1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "Let $z=1+i\\sqrt{3}$. Find the modulus and argument of $z$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$|z|=\\sqrt{1+3}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$|z|=2$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\tan\\theta=\\sqrt3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\arg z=\\dfrac{\\pi}{3}$"
+    }
+   ],
+   "answer": "$|z|=2,\\ \\arg z=\\dfrac{\\pi}{3}$",
+   "video": null
+  },
+  {
+   "id": "cx2",
+   "topic": "complex",
+   "slug": "complex-numbers-polar-form-medium-cx2",
+   "difficulty": "medium",
+   "marks": 5,
+   "calc": false,
+   "stem": "Use De Moivre's theorem to find $(1+i)^8$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$|1+i|=\\sqrt2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\arg(1+i)=\\dfrac{\\pi}{4}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$(\\sqrt2)^8\\,\\mathrm{cis}\\left(8\\times\\dfrac{\\pi}{4}\\right)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$16\\,\\mathrm{cis}\\,2\\pi$"
+    },
+    {
+     "mark": "A1",
+     "text": "$16$"
+    }
+   ],
+   "answer": "$16$",
+   "video": null
+  },
+  {
+   "id": "cx3",
+   "topic": "complex",
+   "slug": "complex-numbers-polar-form-hard-cx3",
+   "difficulty": "hard",
+   "marks": 6,
+   "calc": false,
+   "stem": "Solve $z^3=8i$, giving your answers in the form $re^{i\\theta}$ where $r>0$ and $0\\le\\theta<2\\pi$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$8i=8e^{i\\frac{\\pi}{2}}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$r=\\sqrt[3]{8}=2$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\theta=\\dfrac{\\frac{\\pi}{2}+2k\\pi}{3}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$2e^{i\\frac{\\pi}{6}}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$2e^{i\\frac{5\\pi}{6}}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$2e^{i\\frac{3\\pi}{2}}$"
+    }
+   ],
+   "answer": "$2e^{i\\frac{\\pi}{6}},\\ 2e^{i\\frac{5\\pi}{6}},\\ 2e^{i\\frac{3\\pi}{2}}$",
+   "video": null
+  },
+  {
+   "id": "fa1",
+   "topic": "finance",
+   "slug": "financial-applications-compound-interest-easy-fa1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": true,
+   "stem": "\\$5000 is invested at 4% per year, compounded annually. Find the value of the investment after 6 years, to the nearest cent.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$5000\\times1.04^6$"
+    },
+    {
+     "mark": "A1",
+     "text": "$6326.595\\ldots$"
+    },
+    {
+     "mark": "A1",
+     "text": "\\$6326.60"
+    }
+   ],
+   "answer": "\\$6326.60",
+   "video": null
+  },
+  {
+   "id": "fa2",
+   "topic": "finance",
+   "slug": "financial-applications-compound-interest-medium-fa2",
+   "difficulty": "medium",
+   "marks": 5,
+   "calc": true,
+   "stem": "\\$2000 is invested at a nominal annual rate of 6%.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "The interest is compounded monthly. Find the value after 3 years.",
+     "marks": 3
+    },
+    {
+     "label": "b",
+     "text": "If instead the interest is compounded annually, find the least number of complete years for the investment to double.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $2000\\left(1+\\dfrac{6}{1200}\\right)^{36}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$2000\\times1.005^{36}$"
+    },
+    {
+     "mark": "A1",
+     "text": "\\$2393.36"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $1.06^n=2$, so $n=\\dfrac{\\ln 2}{\\ln 1.06}=11.9$"
+    },
+    {
+     "mark": "A1",
+     "text": "$12$ years"
+    }
+   ],
+   "answer": "(a) \\$2393.36  (b) 12 years",
+   "video": null
+  },
+  {
+   "id": "mc1",
+   "topic": "maclaurin",
+   "slug": "maclaurin-series-easy-mc1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "Find the Maclaurin series for $e^{2x}$ up to and including the term in $x^3$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Substitutes $2x$ into the series for $e^x$"
+    },
+    {
+     "mark": "A1",
+     "text": "$1+2x$"
+    },
+    {
+     "mark": "A1",
+     "text": "$+2x^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$+\\tfrac43x^3$"
+    }
+   ],
+   "answer": "$1+2x+2x^2+\\tfrac43x^3$",
+   "video": null
+  },
+  {
+   "id": "mc2",
+   "topic": "maclaurin",
+   "slug": "maclaurin-series-medium-mc2",
+   "difficulty": "medium",
+   "marks": 5,
+   "calc": false,
+   "stem": "Use the Maclaurin series for $\\ln(1+x)$ to find the series for $\\ln(1+2x)$ up to and including the term in $x^3$, and state the values of $x$ for which it is valid.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Replaces $x$ by $2x$"
+    },
+    {
+     "mark": "A1",
+     "text": "$2x$"
+    },
+    {
+     "mark": "A1",
+     "text": "$-2x^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$+\\tfrac83x^3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$-\\tfrac12<x\\le\\tfrac12$"
+    }
+   ],
+   "answer": "$2x-2x^2+\\tfrac83x^3$, valid for $-\\tfrac12<x\\le\\tfrac12$",
+   "video": null
+  },
+  {
+   "id": "mc3",
+   "topic": "maclaurin",
+   "slug": "maclaurin-series-hard-mc3",
+   "difficulty": "hard",
+   "marks": 4,
+   "calc": false,
+   "stem": "Use Maclaurin series to find $\\displaystyle\\lim_{x\\to0}\\frac{\\sin x-x}{x^3}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\sin x=x-\\dfrac{x^3}{6}+\\dfrac{x^5}{120}-\\ldots$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\dfrac{-\\frac{x^3}{6}+\\frac{x^5}{120}-\\ldots}{x^3}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$-\\dfrac16+\\dfrac{x^2}{120}-\\ldots$"
+    },
+    {
+     "mark": "A1",
+     "text": "$-\\dfrac16$"
+    }
+   ],
+   "answer": "$-\\dfrac16$",
+   "video": null
+  },
+  {
+   "id": "mc4",
+   "topic": "maclaurin",
+   "slug": "maclaurin-series-exam-mc4",
+   "difficulty": "exam",
+   "marks": 6,
+   "calc": false,
+   "stem": "Let $f(x)=e^x\\sin x$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "By multiplying two series, find the Maclaurin series for $f(x)$ up to and including the term in $x^3$.",
+     "marks": 4
+    },
+    {
+     "label": "b",
+     "text": "Hence find $\\displaystyle\\lim_{x\\to0}\\frac{e^x\\sin x-x}{x^2}$.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $\\left(1+x+\\dfrac{x^2}{2}+\\ldots\\right)\\left(x-\\dfrac{x^3}{6}+\\ldots\\right)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x+x^2$"
+    },
+    {
+     "mark": "M1",
+     "text": "$x^3$ terms: $\\dfrac12-\\dfrac16$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x+x^2+\\dfrac{x^3}{3}$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $\\dfrac{x^2+\\frac{x^3}{3}+\\ldots}{x^2}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$1$"
+    }
+   ],
+   "answer": "(a) $x+x^2+\\dfrac{x^3}{3}$  (b) $1$",
+   "video": null
+  },
+  {
+   "id": "eu1",
+   "topic": "euler",
+   "slug": "eulers-method-medium-eu1",
+   "difficulty": "medium",
+   "marks": 5,
+   "calc": true,
+   "stem": "Consider $\\dfrac{dy}{dx}=x+y$ with $y=1$ when $x=0$. Use Euler's method with step size $0.1$ to approximate $y$ when $x=0.3$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$y_{n+1}=y_n+0.1(x_n+y_n)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y_1=1.1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y_2=1.22$"
+    },
+    {
+     "mark": "M1",
+     "text": "$y_3=1.22+0.1(0.2+1.22)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y(0.3)\\approx1.362$"
+    }
+   ],
+   "answer": "$1.362$",
+   "video": null
+  },
+  {
+   "id": "eu2",
+   "topic": "euler",
+   "slug": "eulers-method-hard-eu2",
+   "difficulty": "hard",
+   "marks": 5,
+   "calc": true,
+   "stem": "Consider $\\dfrac{dy}{dx}=2x-y$ with $y=2$ when $x=1$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Use Euler's method with step size $0.25$ to approximate $y$ when $x=1.5$.",
+     "marks": 4
+    },
+    {
+     "label": "b",
+     "text": "State one way to improve the accuracy of the approximation.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $y_{n+1}=y_n+0.25(2x_n-y_n)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y_1=2+0.25(2-2)=2$"
+    },
+    {
+     "mark": "M1",
+     "text": "$y_2=2+0.25(2.5-2)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y(1.5)\\approx2.125$"
+    },
+    {
+     "mark": "R1",
+     "text": "(b) Use a smaller step size"
+    }
+   ],
+   "answer": "(a) $2.125$  (b) smaller step size",
+   "video": null
+  },
+  {
+   "id": "bv1",
+   "topic": "bivariate",
+   "slug": "bivariate-data-correlation-and-regression-easy-bv1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": true,
+   "stem": "For a group of students, $x$ is the number of hours spent revising and $y$ is the test score. The data has $1\\le x\\le10$ and the regression line of $y$ on $x$ is $y=2.4x+11$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Interpret the gradient of the line in context.",
+     "marks": 1
+    },
+    {
+     "label": "b",
+     "text": "Estimate the score of a student who revises for 5 hours.",
+     "marks": 2
+    },
+    {
+     "label": "c",
+     "text": "Explain why the line should not be used to estimate the score of a student who revises for 30 hours.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "R1",
+     "text": "(a) Each extra hour of revision is associated with an increase of 2.4 marks"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $2.4(5)+11$"
+    },
+    {
+     "mark": "A1",
+     "text": "$23$"
+    },
+    {
+     "mark": "R1",
+     "text": "(c) 30 is outside the range of the data (extrapolation)"
+    }
+   ],
+   "answer": "(b) $23$",
+   "video": null
+  },
+  {
+   "id": "bv2",
+   "topic": "bivariate",
+   "slug": "bivariate-data-correlation-and-regression-medium-bv2",
+   "difficulty": "medium",
+   "marks": 4,
+   "calc": true,
+   "stem": "A set of bivariate data has mean point $(6,\\,20)$. The regression line of $y$ on $x$ is $y=1.5x+c$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the value of $c$.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "Estimate the value of $y$ when $x=8$.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) Substitutes $(6,\\,20)$: $20=1.5(6)+c$"
+    },
+    {
+     "mark": "A1",
+     "text": "$c=11$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $1.5(8)+11$"
+    },
+    {
+     "mark": "A1",
+     "text": "$23$"
+    }
+   ],
+   "answer": "(a) $c=11$  (b) $23$",
+   "video": null
+  },
+  {
+   "id": "vo1",
+   "topic": "voronoi",
+   "slug": "voronoi-diagrams-easy-vo1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": true,
+   "stem": "Two sites are $A(2,\\,1)$ and $B(6,\\,5)$. Find the equation of the edge of the Voronoi diagram between the cells of $A$ and $B$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "A1",
+     "text": "Midpoint $(4,\\,3)$"
+    },
+    {
+     "mark": "M1",
+     "text": "Gradient of $AB$ is $1$, so perpendicular gradient is $-1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y=-x+7$"
+    }
+   ],
+   "answer": "$y=-x+7$",
+   "video": null
+  },
+  {
+   "id": "vo2",
+   "topic": "voronoi",
+   "slug": "voronoi-diagrams-medium-vo2",
+   "difficulty": "medium",
+   "marks": 4,
+   "calc": true,
+   "stem": "Three wells are at $A(0,\\,0)$, $B(4,\\,0)$ and $C(0,\\,6)$, with distances in km.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the coordinates of the vertex of the Voronoi diagram for these three sites.",
+     "marks": 3
+    },
+    {
+     "label": "b",
+     "text": "Find the distance from this vertex to each well.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) Perpendicular bisector of $AB$: $x=2$"
+    },
+    {
+     "mark": "M1",
+     "text": "Perpendicular bisector of $AC$: $y=3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$(2,\\,3)$"
+    },
+    {
+     "mark": "A1",
+     "text": "(b) $\\sqrt{2^2+3^2}=\\sqrt{13}\\approx3.61$ km"
+    }
+   ],
+   "answer": "(a) $(2,\\,3)$  (b) $3.61$ km",
+   "video": null
+  },
+  {
+   "id": "nd1",
+   "topic": "normal",
+   "slug": "normal-distribution-easy-nd1",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": true,
+   "stem": "$X\\sim N(50,\\,8^2)$. Find $P(42<X<58)$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Recognises one standard deviation either side of the mean, or uses normal cdf"
+    },
+    {
+     "mark": "A1",
+     "text": "$0.683$"
+    }
+   ],
+   "answer": "$0.683$",
+   "video": null
+  },
+  {
+   "id": "nd2",
+   "topic": "normal",
+   "slug": "normal-distribution-medium-nd2",
+   "difficulty": "medium",
+   "marks": 4,
+   "calc": true,
+   "stem": "The heights of a group of students are normally distributed with mean 170 cm and standard deviation 6 cm.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the probability that a student chosen at random is taller than 180 cm.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "There are 500 students. Find the expected number who are taller than 180 cm.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) Normal cdf with lower bound 180, mean 170, sd 6"
+    },
+    {
+     "mark": "A1",
+     "text": "$0.0478$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $500\\times0.0478$"
+    },
+    {
+     "mark": "A1",
+     "text": "$23.9$, about 24 students"
+    }
+   ],
+   "answer": "(a) $0.0478$  (b) about 24",
+   "video": null
+  },
+  {
+   "id": "nd3",
+   "topic": "normal",
+   "slug": "normal-distribution-hard-nd3",
+   "difficulty": "hard",
+   "marks": 3,
+   "calc": true,
+   "stem": "$X\\sim N(170,\\,6^2)$. Find the value of $k$ such that $P(X<k)=0.9$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Inverse normal with area $0.9$"
+    },
+    {
+     "mark": "A1",
+     "text": "$z=1.2816$"
+    },
+    {
+     "mark": "A1",
+     "text": "$k=177.7$"
+    }
+   ],
+   "answer": "$k\\approx177.7$",
+   "video": null
+  },
+  {
+   "id": "ma1",
+   "topic": "myp-algebra",
+   "slug": "algebra-expressions-and-equations-easy-ma1",
+   "difficulty": "easy",
+   "marks": 2,
+   "calc": false,
+   "stem": "Solve $3x-7=11$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$3x=18$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=6$"
+    }
+   ],
+   "answer": "$x=6$",
+   "video": null,
+   "criterion": "A"
+  },
+  {
+   "id": "ma2",
+   "topic": "myp-algebra",
+   "slug": "algebra-expressions-and-equations-medium-ma2",
+   "difficulty": "medium",
+   "marks": 3,
+   "calc": false,
+   "stem": "Expand and simplify $(x+4)(x-3)-x(x-2)$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$x^2+x-12$"
+    },
+    {
+     "mark": "M1",
+     "text": "$-x^2+2x$"
+    },
+    {
+     "mark": "A1",
+     "text": "$3x-12$"
+    }
+   ],
+   "answer": "$3x-12$",
+   "video": null,
+   "criterion": "A"
+  },
+  {
+   "id": "ma3",
+   "topic": "myp-algebra",
+   "slug": "algebra-expressions-and-equations-hard-ma3",
+   "difficulty": "hard",
+   "marks": 4,
+   "calc": false,
+   "stem": "The sum of three consecutive even numbers is $150$. Write down an equation and use it to find the three numbers. Justify that your answer is correct.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$n+(n+2)+(n+4)=150$"
+    },
+    {
+     "mark": "M1",
+     "text": "$3n+6=150$"
+    },
+    {
+     "mark": "A1",
+     "text": "$48,\\ 50,\\ 52$"
+    },
+    {
+     "mark": "R1",
+     "text": "Justification: all three are even, consecutive, and $48+50+52=150$"
+    }
+   ],
+   "answer": "$48,\\ 50,\\ 52$",
+   "video": null,
+   "criterion": "A"
+  },
+  {
+   "id": "mb1",
+   "topic": "myp-staircase",
+   "slug": "quadratic-sequences-investigation-medium-mb1",
+   "difficulty": "medium",
+   "marks": 6,
+   "calc": false,
+   "stem": "A sequence begins $2,\\ 6,\\ 12,\\ 20,\\ 30,\\ \\ldots$",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Describe the pattern in the differences.",
+     "marks": 1
+    },
+    {
+     "label": "b",
+     "text": "Find a general rule for the nth term.",
+     "marks": 2
+    },
+    {
+     "label": "c",
+     "text": "Verify your rule for $n=6$.",
+     "marks": 1
+    },
+    {
+     "label": "d",
+     "text": "Justify your rule by linking it to rectangles of dots.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "A1",
+     "text": "(a) First differences $4, 6, 8, 10$; second difference is constant at $2$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $n^2$ plus a linear part"
+    },
+    {
+     "mark": "A1",
+     "text": "$n^2+n$ or $n(n+1)$"
+    },
+    {
+     "mark": "A1",
+     "text": "(c) Next term by differences $30+12=42$; rule gives $6\\times7=42$"
+    },
+    {
+     "mark": "R2",
+     "text": "(d) Term $n$ can be drawn as a rectangle $n$ dots by $(n+1)$ dots, which contains $n(n+1)$ dots"
+    }
+   ],
+   "answer": "$n(n+1)$",
+   "video": null,
+   "criterion": "B"
+  },
+  {
+   "id": "mb2",
+   "topic": "myp-staircase",
+   "slug": "quadratic-sequences-investigation-hard-mb2",
+   "difficulty": "hard",
+   "marks": 6,
+   "calc": false,
+   "stem": "A sequence begins $4,\\ 9,\\ 16,\\ 25,\\ \\ldots$ Find a general rule, verify it, and predict the 30th term.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Recognises square numbers, shifted by one"
+    },
+    {
+     "mark": "A2",
+     "text": "$(n+1)^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "Verify: $n=5$ gives $36$, and by differences $25+11=36$"
+    },
+    {
+     "mark": "M1",
+     "text": "$31^2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$961$"
+    }
+   ],
+   "answer": "$(n+1)^2$; the 30th term is $961$",
+   "video": null,
+   "criterion": "B"
+  },
+  {
+   "id": "mb3",
+   "topic": "myp-matchsticks",
+   "slug": "matchstick-patterns-investigation-medium-mb3",
+   "difficulty": "medium",
+   "marks": 6,
+   "calc": false,
+   "stem": "Matchsticks are arranged to make a row of hexagons that share sides. One hexagon needs 6 matchsticks and two hexagons need 11.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find a general rule for the number of matchsticks in a row of $n$ hexagons.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "Find the number of matchsticks needed for 12 hexagons.",
+     "marks": 1
+    },
+    {
+     "label": "c",
+     "text": "A row uses 151 matchsticks. Find the number of hexagons.",
+     "marks": 2
+    },
+    {
+     "label": "d",
+     "text": "Justify your rule.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) Each new hexagon adds 5"
+    },
+    {
+     "mark": "A1",
+     "text": "$5n+1$"
+    },
+    {
+     "mark": "A1",
+     "text": "(b) $61$"
+    },
+    {
+     "mark": "M1",
+     "text": "(c) $5n+1=151$"
+    },
+    {
+     "mark": "A1",
+     "text": "$n=30$"
+    },
+    {
+     "mark": "R1",
+     "text": "(d) One starting matchstick, then 5 more for every hexagon"
+    }
+   ],
+   "answer": "(a) $5n+1$  (b) $61$  (c) $30$",
+   "video": null,
+   "criterion": "B"
+  },
+  {
+   "id": "md1",
+   "topic": "myp-plans",
+   "slug": "linear-models-in-real-life-medium-md1",
+   "difficulty": "medium",
+   "marks": 8,
+   "calc": true,
+   "stem": "Two mobile data plans are available. Plan A costs \\$10 per month plus \\$2 for each GB used. Plan B costs \\$25 per month plus \\$0.50 for each GB used.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Write a model for the monthly cost of each plan when $g$ GB are used.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "Find the usage for which both plans cost the same, and that cost.",
+     "marks": 3
+    },
+    {
+     "label": "c",
+     "text": "Mia uses about 14 GB each month. Recommend a plan and justify your choice.",
+     "marks": 2
+    },
+    {
+     "label": "d",
+     "text": "Describe one reason why your recommendation might not hold in practice.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "A1",
+     "text": "(a) $A=10+2g$"
+    },
+    {
+     "mark": "A1",
+     "text": "$B=25+0.5g$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $10+2g=25+0.5g$"
+    },
+    {
+     "mark": "A1",
+     "text": "$g=10$ GB"
+    },
+    {
+     "mark": "A1",
+     "text": "Both cost \\$30"
+    },
+    {
+     "mark": "M1",
+     "text": "(c) $A=10+2(14)=38$ and $B=25+0.5(14)=32$"
+    },
+    {
+     "mark": "R1",
+     "text": "Plan B, because it is \\$6 cheaper at 14 GB, and cheaper for any usage above 10 GB"
+    },
+    {
+     "mark": "R1",
+     "text": "(d) For example: usage changes from month to month, or data may be charged in whole GB"
+    }
+   ],
+   "answer": "Equal at 10 GB (\\$30). Plan B for 14 GB.",
+   "video": null,
+   "criterion": "D"
+  },
+  {
+   "id": "md2",
+   "topic": "myp-plans",
+   "slug": "linear-models-in-real-life-hard-md2",
+   "difficulty": "hard",
+   "marks": 6,
+   "calc": true,
+   "stem": "A cylindrical water tank has radius 0.5 m and height 1.2 m. A family uses 150 litres of water per day. ($1\\ \\text{m}^3=1000$ litres.)",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the volume of the tank in litres.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "Find the number of whole days a full tank will last.",
+     "marks": 2
+    },
+    {
+     "label": "c",
+     "text": "Justify the degree of accuracy of your answer to part (b).",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $\\pi\\times0.5^2\\times1.2=0.9425\\ \\text{m}^3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$942$ litres (3 s.f.)"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $942\\div150=6.28$"
+    },
+    {
+     "mark": "A1",
+     "text": "$6$ days"
+    },
+    {
+     "mark": "R2",
+     "text": "(c) Rounded down because the water runs out during the 7th day. Daily use of 150 litres is itself an estimate, so more decimal places would not be meaningful"
+    }
+   ],
+   "answer": "(a) $942$ litres  (b) $6$ days",
+   "video": null,
+   "criterion": "D"
+  },
+  {
+   "id": "ap1",
+   "topic": "al-series",
+   "slug": "arithmetic-and-geometric-progressions-easy-ap1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": true,
+   "stem": "An arithmetic progression has first term $5$ and common difference $3$. Find the 20th term and the sum of the first 20 terms.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$5+19\\times3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$62$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\tfrac{20}{2}(5+62)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$670$"
+    }
+   ],
+   "answer": "$u_{20}=62,\\ S_{20}=670$",
+   "video": null
+  },
+  {
+   "id": "ap2",
+   "topic": "al-series",
+   "slug": "arithmetic-and-geometric-progressions-medium-ap2",
+   "difficulty": "medium",
+   "marks": 4,
+   "calc": true,
+   "stem": "A geometric progression has first term $12$ and common ratio $\\tfrac12$. Find the 6th term and the sum to infinity.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$12\\times\\left(\\tfrac12\\right)^5$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\tfrac38$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\dfrac{12}{1-\\frac12}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$24$"
+    }
+   ],
+   "answer": "$u_6=\\tfrac38,\\ S_\\infty=24$",
+   "video": null
+  },
+  {
+   "id": "ap3",
+   "topic": "al-series",
+   "slug": "arithmetic-and-geometric-progressions-hard-ap3",
+   "difficulty": "hard",
+   "marks": 6,
+   "calc": true,
+   "stem": "A geometric progression has second term $6$ and sum to infinity $25$. Find the two possible values of the common ratio and the corresponding first terms.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "B1",
+     "text": "$ar=6$ and $\\dfrac{a}{1-r}=25$"
+    },
+    {
+     "mark": "M1",
+     "text": "Eliminates $a$: $\\dfrac{6}{r(1-r)}=25$"
+    },
+    {
+     "mark": "A1",
+     "text": "$25r^2-25r+6=0$"
+    },
+    {
+     "mark": "M1",
+     "text": "$(5r-2)(5r-3)=0$"
+    },
+    {
+     "mark": "A1",
+     "text": "$r=\\tfrac25$ or $r=\\tfrac35$"
+    },
+    {
+     "mark": "A1",
+     "text": "$a=15$ or $a=10$"
+    }
+   ],
+   "answer": "$r=\\tfrac25,\\ a=15$ or $r=\\tfrac35,\\ a=10$",
+   "video": null
+  },
+  {
+   "id": "al1",
+   "topic": "al-chain",
+   "slug": "differentiation-chain-rule-easy-al1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": true,
+   "stem": "Differentiate $y=(3x-2)^5$ with respect to $x$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$5(3x-2)^4$"
+    },
+    {
+     "mark": "M1",
+     "text": "Multiplies by $3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$15(3x-2)^4$"
+    }
+   ],
+   "answer": "$15(3x-2)^4$",
+   "video": null
+  },
+  {
+   "id": "al2",
+   "topic": "al-chain",
+   "slug": "differentiation-chain-rule-medium-al2",
+   "difficulty": "medium",
+   "marks": 4,
+   "calc": true,
+   "stem": "Find the gradient of the curve $y=\\sqrt{4x+1}$ at the point where $x=2$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$y=(4x+1)^{\\frac12}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\dfrac{dy}{dx}=\\tfrac12(4x+1)^{-\\frac12}\\times4$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\dfrac{2}{\\sqrt{4x+1}}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\dfrac23$"
+    }
+   ],
+   "answer": "$\\dfrac23$",
+   "video": null
+  },
+  {
+   "id": "al3",
+   "topic": "al-chain",
+   "slug": "differentiation-chain-rule-hard-al3",
+   "difficulty": "hard",
+   "marks": 6,
+   "calc": true,
+   "stem": "A curve has equation $y=(2x-3)^3-6x$. Find the coordinates of the stationary points and determine the nature of each.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\dfrac{dy}{dx}=6(2x-3)^2-6$"
+    },
+    {
+     "mark": "M1",
+     "text": "$(2x-3)^2=1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x=2$ or $x=1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$(2,\\,-11)$ and $(1,\\,-7)$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\dfrac{d^2y}{dx^2}=24(2x-3)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$(2,\\,-11)$ minimum, $(1,\\,-7)$ maximum"
+    }
+   ],
+   "answer": "Minimum at $(2,\\,-11)$, maximum at $(1,\\,-7)$",
+   "video": null
+  }
+ ],
+ "checklists": [
+  {
+   "slug": "igcse-0580-paper-2",
+   "syllabus": "igcse-0580",
+   "paper": "Paper 2 (non-calculator)",
+   "title": "60-minute night-before checklist: IGCSE 0580 Paper 2",
+   "items": [
+    {
+     "text": "Recite the exact values of sin, cos and tan for $0^\\circ, 30^\\circ, 45^\\circ, 60^\\circ, 90^\\circ$ from memory.",
+     "topic": "exact-trig",
+     "minutes": 5
+    },
+    {
+     "text": "Simplify three surds and rationalise one denominator with a conjugate.",
+     "topic": "surds",
+     "minutes": 8
+    },
+    {
+     "text": "Evaluate one negative and one fractional index by hand: root first, then power.",
+     "topic": "indices",
+     "minutes": 5
+    },
+    {
+     "text": "Do one standard-form division and re-adjust the answer to $1\\le A<10$.",
+     "topic": "indices",
+     "minutes": 4
+    },
+    {
+     "text": "Factorise one quadratic and solve one with the formula, leaving a simplified surd.",
+     "topic": "quadratics",
+     "minutes": 8
+    },
+    {
+     "text": "Find one linear and one quadratic nth term.",
+     "topic": "sequences",
+     "minutes": 6
+    },
+    {
+     "text": "State the range of a quadratic on a restricted domain. Check the vertex.",
+     "topic": "domain-range",
+     "minutes": 5
+    },
+    {
+     "text": "Differentiate a cubic and find its turning points.",
+     "topic": "differentiation",
+     "minutes": 7
+    },
+    {
+     "text": "Practise one long multiplication and one fraction division on paper. No calculator means arithmetic slips cost marks.",
+     "minutes": 6
+    },
+    {
+     "text": "Read the formula sheet once so you know what is given and what is not (exact trig values are not).",
+     "minutes": 3
+    },
+    {
+     "text": "Pack: pens, pencil, ruler, protractor, compasses. Leave the calculator out of this paper.",
+     "minutes": 3
+    }
+   ]
+  },
+  {
+   "slug": "ibdp-math-aa-hl-paper-1",
+   "syllabus": "ibdp-math-aa-hl",
+   "paper": "Paper 1 (no calculator)",
+   "title": "60-minute night-before checklist: IB Math AA HL Paper 1",
+   "items": [
+    {
+     "text": "Write the general term of $(a+b)^n$ and find one term independent of $x$.",
+     "topic": "binomial",
+     "minutes": 8
+    },
+    {
+     "text": "Convert one complex number to polar form. Sketch it first to get the quadrant right.",
+     "topic": "complex",
+     "minutes": 6
+    },
+    {
+     "text": "Solve one equation of the form $z^3=w$ and list all three roots.",
+     "topic": "complex",
+     "minutes": 8
+    },
+    {
+     "text": "Write out the Maclaurin series for $e^x$, $\\sin x$, $\\cos x$ and $\\ln(1+x)$ and find where they are in the booklet.",
+     "topic": "maclaurin",
+     "minutes": 6
+    },
+    {
+     "text": "Evaluate one limit using series.",
+     "topic": "maclaurin",
+     "minutes": 6
+    },
+    {
+     "text": "Differentiate one product, one quotient and one composite function.",
+     "minutes": 8
+    },
+    {
+     "text": "Do one integration by substitution and one by parts.",
+     "minutes": 8
+    },
+    {
+     "text": "Skim the formula booklet section headings so you can find things quickly.",
+     "minutes": 5
+    },
+    {
+     "text": "Plan your timing: about one minute per mark, and move on if a part is stuck.",
+     "minutes": 5
+    }
+   ]
+  }
+ ]
+}

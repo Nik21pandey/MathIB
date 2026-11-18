@@ -1,0 +1,20 @@
+[project]
+name = "mathib-backend"
+version = "1.0.0"
+description = "MathIB Backend API (IGCSE, MYP, IBDP, A-Level Mathematics)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "Django>=5.0",
+    "djangorestframework>=3.14",
+    "django-cors-headers>=4.3",
+    "djangorestframework-simplejwt>=5.3",
+    "python-decouple>=3.8",
+    "dj-database-url>=2.1",
+    "pillow>=10.0",
+    "razorpay>=1.4",
+    "stripe>=8.0",
+    "gunicorn>=21.2",
+    "whitenoise>=6.6",
+    "pymupdf>=1.24",
+]
