@@ -1,6 +1,6 @@
-import { fetchWithAuth } from './apiInterceptor';
+﻿import { fetchWithAuth } from './apiInterceptor';
 
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+const API_BASE_URL = 'https://mathib-backend.onrender.com/api/v1';
 
 export interface BundleListItem {
   id: number;
@@ -211,3 +211,4 @@ export const downloadBundleFile = async (bundleId: number): Promise<void> => {
 export const getBundleFileUrl = (bundleId: number): string => {
   return `${API_BASE_URL}/papers/bundles/${bundleId}/file/`;
 };
+

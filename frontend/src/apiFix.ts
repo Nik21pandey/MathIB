@@ -1,5 +1,4 @@
-﻿// Global API URL & Trailing Slash Interceptor for Production
-const PROD_BACKEND = "https://mathib-backend.onrender.com";
+﻿const PROD_BACKEND = "https://mathib-backend.onrender.com";
 
 export function sanitizeApiUrl(rawUrl: string): string {
   if (!rawUrl || typeof rawUrl !== "string") return rawUrl;
@@ -15,8 +14,10 @@ export function sanitizeApiUrl(rawUrl: string): string {
   // 2. Strip any stray brackets, parens, or quotes
   url = url.replace(/[\[\]\(\)"']/g, "").trim();
 
-  // 3. Route any relative /api/ or Vercel-hosted /api/ calls to Render
-  if (url.startsWith("/api/")) {
+  // 3. Route any localhost, relative /api/, or Vercel-hosted /api/ calls to Render
+  if (url.startsWith("http://localhost:8000")) {
+    url = url.replace("http://localhost:8000", PROD_BACKEND);
+  } else if (url.startsWith("/api/")) {
     url = PROD_BACKEND + url;
   } else if (url.includes("vercel.app")) {
     const apiIdx = url.indexOf("/api/");
@@ -27,11 +28,6 @@ export function sanitizeApiUrl(rawUrl: string): string {
       if (v1Idx !== -1) {
         url = `${PROD_BACKEND}/api${url.substring(v1Idx)}`;
       }
-    }
-  } else if (url.includes("localhost:") && window.location.hostname !== "localhost") {
-    const apiIdx = url.indexOf("/api/");
-    if (apiIdx !== -1) {
-      url = PROD_BACKEND + url.substring(apiIdx);
     }
   }
 

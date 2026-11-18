@@ -1,6 +1,6 @@
-import { fetchWithAuth } from './apiInterceptor';
+﻿import { fetchWithAuth } from './apiInterceptor';
 
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+const API_BASE_URL = 'https://mathib-backend.onrender.com/api/v1';
 
 // Types
 export interface CartItem {
@@ -371,3 +371,4 @@ export const checkPurchase = async (bundleId?: number, paperId?: number): Promis
     return false;
   }
 };
+
