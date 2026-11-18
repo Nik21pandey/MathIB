@@ -2,39 +2,24 @@
 
 export function sanitizeApiUrl(rawUrl: string): string {
   if (!rawUrl || typeof rawUrl !== "string") return rawUrl;
-  let url = rawUrl.trim();
 
-  // 1. If env var was pasted as Markdown [url](url), extract the clean path after the last ')'
-  if (url.includes("](") || url.includes("[http")) {
-    const afterParen = url.split(")").pop() || "";
-    const cleanPath = afterParen.startsWith("/") ? afterParen : "/" + afterParen;
-    url = `${PROD_BACKEND}/api/v1${cleanPath}`;
-  }
+  // 1. Strip any stray markdown brackets, parentheses, or quotes
+  let url = rawUrl.replace(/[\[\]\(\)"']/g, "").trim();
 
-  // 2. Strip any stray brackets, parens, or quotes
-  url = url.replace(/[\[\]\(\)"']/g, "").trim();
-
-  // 3. Route any localhost, relative /api/, or Vercel-hosted /api/ calls to Render
-  if (url.startsWith("http://localhost:8000")) {
+  // 2. Always slice from the LAST occurrence of /api/v1 (or /api/) to prevent doubled base URLs
+  const lastV1 = url.lastIndexOf("/api/v1");
+  if (lastV1 !== -1) {
+    url = PROD_BACKEND + url.substring(lastV1);
+  } else if (url.includes("/api/")) {
+    url = PROD_BACKEND + url.substring(url.lastIndexOf("/api/"));
+  } else if (url.startsWith("http://localhost:8000")) {
     url = url.replace("http://localhost:8000", PROD_BACKEND);
-  } else if (url.startsWith("/api/")) {
-    url = PROD_BACKEND + url;
-  } else if (url.includes("vercel.app")) {
-    const apiIdx = url.indexOf("/api/");
-    if (apiIdx !== -1) {
-      url = PROD_BACKEND + url.substring(apiIdx);
-    } else {
-      const v1Idx = url.indexOf("/v1/");
-      if (v1Idx !== -1) {
-        url = `${PROD_BACKEND}/api${url.substring(v1Idx)}`;
-      }
-    }
   }
 
-  // 4. Clean up any accidental double slashes in path (e.g. /api/v1//auth)
+  // 3. Clean up any accidental double slashes in the path
   url = url.replace(/([^:]\/)\/+/g, "$1");
 
-  // 5. Enforce trailing slash on all Render API calls before query string
+  // 4. Enforce trailing slash on all Render API calls before query parameters
   if (url.startsWith(PROD_BACKEND)) {
     const [pathPart, queryPart] = url.split("?");
     const fixedPath = pathPart.endsWith("/") ? pathPart : pathPart + "/";
