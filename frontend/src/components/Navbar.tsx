@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   MagnifyingGlassIcon,
@@ -63,14 +63,14 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
 
             <Link to="/" className="flex items-center gap-2.5 group">
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-extrabold text-lg shadow-sm">
-                âˆ‘
+                ∑
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-extrabold tracking-tight text-gray-900 leading-none">
                   Math<span className="text-blue-600">IB</span>
                 </span>
                 <span className="text-[10px] font-semibold tracking-wider text-gray-500 uppercase mt-0.5">
-                  IGCSE â€¢ MYP â€¢ IBDP â€¢ A-Level
+                  IGCSE • MYP • IBDP • A-Level
                 </span>
               </div>
             </Link>

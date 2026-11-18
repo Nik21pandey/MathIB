@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Add, Minus } from 'iconsax-react';
 import IllustrationPlaceholder from './IllustrationPlaceholder';
 
@@ -109,15 +109,15 @@ const FAQSection: React.FC = () => {
               </p>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center space-x-2">
-                  <span className="text-blue-600">ðŸ“§</span>
+                  <span className="text-blue-600">📧</span>
                   <span className="text-gray-600">support@MathIB.com</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-green-600">ðŸ’¬</span>
+                  <span className="text-green-600">💬</span>
                   <span className="text-gray-600">Live chat available 24/7</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-purple-600">ðŸ“±</span>
+                  <span className="text-purple-600">📱</span>
                   <span className="text-gray-600">Response within 2 hours</span>
                 </div>
               </div>

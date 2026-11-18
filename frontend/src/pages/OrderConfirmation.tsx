@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { getOrders, Order as ApiOrder } from '../utils/paymentsApi';
 import DynamicIcon from '../components/DynamicIcon';
@@ -149,7 +149,7 @@ const OrderConfirmation = () => {
                     <div>
                       <p className="font-medium text-gray-900">{item.item_name}</p>
                       <p className="text-sm text-gray-500">
-                        {item.item_type === 'bundle' ? 'Bundle' : 'Paper'} â€¢ Qty: {item.quantity}
+                        {item.item_type === 'bundle' ? 'Bundle' : 'Paper'} • Qty: {item.quantity}
                       </p>
                     </div>
                   </div>

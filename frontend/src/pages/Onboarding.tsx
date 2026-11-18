@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -99,7 +99,7 @@ const Onboarding: React.FC = () => {
       <div className="max-w-2xl w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl">
         {/* Header */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome to MathIB! ðŸŽ‰</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome to MathIB! 🎉</h2>
           <p className="text-gray-600">Let's set up your profile to personalize your experience</p>
         </div>
 
@@ -269,7 +269,7 @@ const Onboarding: React.FC = () => {
             </div>
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-semibold text-blue-900 mb-2">ðŸŽ¯ You're all set!</h4>
+              <h4 className="font-semibold text-blue-900 mb-2">🎯 You're all set!</h4>
               <p className="text-sm text-blue-800">
                 Click "Complete Setup" to start exploring thousands of past papers and practice questions.
               </p>
