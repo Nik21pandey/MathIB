@@ -103,3 +103,21 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 if 'core.slash_middleware.SlashlessMiddleware' not in MIDDLEWARE:
     MIDDLEWARE.insert(0, 'core.slash_middleware.SlashlessMiddleware')
+
+# --- PERSISTENT S3 STORAGE (SUPABASE / CLOUDFLARE R2) & PDF WATERMARKING ---
+ENABLE_PDF_WATERMARK = config('ENABLE_PDF_WATERMARK', default=True, cast=bool)
+
+S3_BUCKET_NAME = config('S3_BUCKET_NAME', default='')
+if S3_BUCKET_NAME:
+    AWS_STORAGE_BUCKET_NAME = S3_BUCKET_NAME
+    AWS_ACCESS_KEY_ID = config('S3_ACCESS_KEY_ID', default='')
+    AWS_SECRET_ACCESS_KEY = config('S3_SECRET_ACCESS_KEY', default='')
+    AWS_S3_ENDPOINT_URL = config('S3_ENDPOINT_URL', default='')
+    AWS_S3_REGION_NAME = config('S3_REGION_NAME', default='auto')
+    AWS_S3_ADDRESSING_STYLE = 'path'
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
+    AWS_DEFAULT_ACL = None
+    AWS_QUERYSTRING_AUTH = True
+    STORAGES['default'] = {
+        'BACKEND': 'storages.backends.s3.S3Storage',
+    }
