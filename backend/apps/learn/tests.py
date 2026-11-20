@@ -97,3 +97,10 @@ class LearnCatalogTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'User-agent: *', response.content)
         self.assertIn(b'Sitemap:', response.content)
+
+    def test_safe_jwt_gracefully_degrades_on_public_endpoint(self):
+        url = reverse('learn:catalog')
+        # Pass a stale, malformed, or nonexistent user token in Authorization header
+        response = self.client.get(url, HTTP_AUTHORIZATION='Bearer stale_or_invalid_jwt_token_12345')
+        self.assertEqual(response.status_code, 200)
+

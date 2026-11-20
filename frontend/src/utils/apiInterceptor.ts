@@ -86,6 +86,23 @@ export const fetchWithAuth = async (
     };
     response = await fetch(url, { ...options, headers: newHeaders });
 
+    // If retry is STILL 401, the token belongs to an invalid or reset user account
+    if (response.status === 401) {
+      console.warn('Token belongs to an invalid or reset user account. Purging stale credentials.');
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      localStorage.removeItem('user');
+
+      // If GET, retry once anonymously so public views load seamlessly
+      const method = (options.method || 'GET').toUpperCase();
+      if (method === 'GET') {
+        const publicHeaders = { ...options.headers } as Record<string, string>;
+        delete publicHeaders['Authorization'];
+        delete publicHeaders['authorization'];
+        response = await fetch(url, { ...options, headers: publicHeaders });
+      }
+    }
+
     return response;
   } catch (error) {
     console.error('Token refresh failed:', error);
@@ -93,13 +110,15 @@ export const fetchWithAuth = async (
     // Process queue with error
     processQueue(error, null);
 
-    // Clear tokens and redirect to login
+    // Clear tokens
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user');
 
-    // Redirect to login page
-    if (window.location.pathname !== '/login/') {
+    // Only redirect to login if current route is protected
+    const protectedPaths = ['/profile', '/checkout', '/my-purchases', '/favorites'];
+    const isProtected = protectedPaths.some((p) => window.location.pathname.startsWith(p));
+    if (isProtected && window.location.pathname !== '/login/') {
       window.location.href = '/login/';
     }
 

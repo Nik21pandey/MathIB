@@ -1,6 +1,7 @@
-﻿import { fetchWithAuth } from './apiInterceptor';
+﻿import { BASE_URL_GLOBAL } from './api';
+import { fetchWithAuth } from './apiInterceptor';
 
-const API_BASE_URL = 'https://mathib-backend.onrender.com/api/v1';
+const API_BASE_URL = BASE_URL_GLOBAL;
 
 // Types
 export interface CartItem {
