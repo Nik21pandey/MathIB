@@ -26,6 +26,7 @@ wheels/
 media/
 staticfiles/
 logs/
+ingestion_staging/
 
 # Environment
 .env

@@ -30,14 +30,37 @@ KNOWN_WATERMARK_PATTERNS = [
     r'ciepastpapers',
     r'maxpapers',
     r'xtremepapers',
-    r'exam-mate',
+    r'exam-mate(\.com)?',
+    r'ilate(\.in)?',
+    r'imagine\s*[•·]\s*inspire\s*[•·]\s*improve',
+    r'\bdfd\b',
     r'studylib',
     r'scribd\.com',
-    r'www\.[a-zA-Z0-9-]+\.(com|co\.uk|org|net)',
+    r'www\.[a-zA-Z0-9-]+\.(com|co\.uk|org|net|in|io|edu)',
     r'https?://[^\s]+',
 ]
 
-URL_REGEX = re.compile(r'https?://[^\s]+|www\.[^\s]+', re.IGNORECASE)
+LITERAL_PHRASES = [
+    "save my exams",
+    "papacambridge",
+    "gce guide",
+    "dynamic papers",
+    "bestexamhelp",
+    "physics and maths tutor",
+    "revision village",
+    "revision dojo",
+    "exam-mate",
+    "www.exam-mate.com",
+    "ilate",
+    "www.ilate.in",
+    "imagine • inspire • improve",
+    "smart ib",
+]
+
+TARGET_WORD_REGEX = re.compile(
+    r'exam-mate|ilate|dfd|savemyexams|papacambridge|gceguide|bestexamhelp|revisionvillage|revisiondojo|smartib|www\.[a-zA-Z0-9-]+\.(com|in|org|net)',
+    re.IGNORECASE
+)
 
 
 class DocumentSanitizer:
@@ -49,7 +72,8 @@ class DocumentSanitizer:
     def __init__(self, strip_header_height: float = 38.0, strip_footer_height: float = 32.0):
         self.strip_header_height = strip_header_height
         self.strip_footer_height = strip_footer_height
-        self.compiled_patterns = [re.compile(p, re.IGNORECASE) for p in KNOWN_WATERMARK_PATTERNS]
+        self.target_regex = TARGET_WORD_REGEX
+        self.literal_phrases = LITERAL_PHRASES
 
     def sanitize(self, input_pdf_bytes: bytes, clean_watermarks: bool = True, add_mathib_branding: bool = False) -> bytes:
         """
@@ -64,24 +88,18 @@ class DocumentSanitizer:
 
                 # 1. Redact known third-party text patterns anywhere on the page
                 if clean_watermarks:
-                    for pattern in self.compiled_patterns:
-                        text_instances = page.search_for(pattern.pattern)
-                        for inst in text_instances:
-                            # Add redaction annotation (white fill by default)
+                    # A. Word-level regex detection
+                    words = page.get_text("words")
+                    for w in words:
+                        word_text = w[4]
+                        if self.target_regex.search(word_text):
+                            word_rect = fitz.Rect(w[0] - 1, w[1] - 1, w[2] + 1, w[3] + 1)
+                            page.add_redact_annot(word_rect, fill=(1, 1, 1))
+
+                    # B. Multi-word phrase search
+                    for phrase in self.literal_phrases:
+                        for inst in page.search_for(phrase):
                             page.add_redact_annot(inst, fill=(1, 1, 1))
-
-                    # 2. Check top header zone for external website stamps (first page and continuation pages)
-                    # We check text in header zone (0 to strip_header_height)
-                    header_rect = fitz.Rect(0, 0, page_width, self.strip_header_height)
-                    header_text = page.get_text("text", clip=header_rect).lower()
-                    if any(p.search(header_text) for p in self.compiled_patterns) or URL_REGEX.search(header_text):
-                        page.add_redact_annot(header_rect, fill=(1, 1, 1))
-
-                    # 3. Check bottom footer zone for scraper stamps
-                    footer_rect = fitz.Rect(0, page_height - self.strip_footer_height, page_width, page_height)
-                    footer_text = page.get_text("text", clip=footer_rect).lower()
-                    if any(p.search(footer_text) for p in self.compiled_patterns) or URL_REGEX.search(footer_text):
-                        page.add_redact_annot(footer_rect, fill=(1, 1, 1))
 
                     # Apply all staged redactions cleanly
                     page.apply_redactions()

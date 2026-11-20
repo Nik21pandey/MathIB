@@ -5,7 +5,7 @@
     plan: free
     rootDir: backend
     buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --no-input"
-    startCommand: "sed -i 's/\\r$//' start.sh && bash start.sh"
+    startCommand: "sed -i -e '1s/^\\xef\\xbb\\xbf//' -e 's/\\r$//' start.sh && bash start.sh"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: core.settings.production

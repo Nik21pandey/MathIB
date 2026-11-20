@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 python manage.py migrate
 python manage.py seed_learn
 python manage.py populate_categories
