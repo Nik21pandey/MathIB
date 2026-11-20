@@ -6,19 +6,16 @@ django.setup()
 
 from django.contrib.auth import get_user_model
 
-email = os.environ.get("DJANGO_SUPERUSER_EMAIL")
-password = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
+email = os.environ.get("DJANGO_SUPERUSER_EMAIL", "admin@mathib.com")
+password = os.environ.get("DJANGO_SUPERUSER_PASSWORD", "MathIB@2026!")
 username = os.environ.get("DJANGO_SUPERUSER_USERNAME", "admin")
 
-if not email or not password:
-    print("DJANGO_SUPERUSER_EMAIL or DJANGO_SUPERUSER_PASSWORD not set. Skipping superuser creation.")
-    exit(0)
 
 User = get_user_model()
 
 try:
     u = User.objects.filter(email=email).first()
-    if not u and hasattr(User, 'USERNAME_FIELD') and User.USERNAME_FIELD == 'username':
+    if not u:
         u = User.objects.filter(username=username).first()
 
     if not u:
@@ -28,7 +25,7 @@ try:
             u = User.objects.create_superuser(email=email, password=password)
         print("Created new superuser.")
     else:
-        print("Found existing superuser, updating credentials.")
+        print("Found existing user, updating to superuser.")
 
     u.email = email
     if hasattr(u, 'username') and not u.username:

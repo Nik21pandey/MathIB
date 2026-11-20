@@ -76,7 +76,11 @@ const Register: React.FC = () => {
       console.error('Registration error:', err);
       try {
         const errorData = JSON.parse(err.message);
-        setErrors(errorData);
+        if (errorData.errors) {
+          setErrors(errorData.errors);
+        } else {
+          setErrors(errorData);
+        }
       } catch {
         setErrors({ general: ['Registration failed. Please try again.'] });
       }

@@ -126,47 +126,14 @@ function AppContent() {
               <Route path="/crash" element={<Crash />} />
               <Route path="/crash/:slug" element={<Crash />} />
 
-              {/* Legacy / Protected Routes */}
-              <Route
-                path="/questions/:id"
-                element={
-                  <ProtectedRoute>
-                    <QuestionDetail />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/papers"
-                element={
-                  <ProtectedRoute>
-                    <PastPapers />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/papers/:id"
-                element={
-                  <ProtectedRoute>
-                    <PaperDetail />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/bundles"
-                element={
-                  <ProtectedRoute>
-                    <Bundles />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/bundles/:id"
-                element={
-                  <ProtectedRoute>
-                    <BundleDetail />
-                  </ProtectedRoute>
-                }
-              />
+              {/* Catalog & Past Papers: public browsing */}
+              <Route path="/papers" element={<PastPapers />} />
+              <Route path="/papers/:id" element={<PaperDetail />} />
+              <Route path="/bundles" element={<Bundles />} />
+              <Route path="/bundles/:id" element={<BundleDetail />} />
+              <Route path="/questions/:id" element={<QuestionDetail />} />
+
+              {/* Protected User Account & E-commerce Routes */}
               <Route
                 path="/cart"
                 element={

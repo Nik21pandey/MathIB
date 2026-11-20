@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { BASE_URL_GLOBAL } from '../utils/api';
 
 interface OnboardingData {
   first_name: string;
@@ -67,8 +68,7 @@ const Onboarding: React.FC = () => {
     try {
       // Update user profile via API
       const token = localStorage.getItem('access_token');
-      const API_BASE = ((import.meta.env.VITE_API_URL || 'https://mathib-backend.onrender.com/api/v1').includes('[') ? 'https://mathib-backend.onrender.com/api/v1' : (import.meta.env.VITE_API_URL || 'https://mathib-backend.onrender.com/api/v1')) || 'https://mathib-backend.onrender.com/api/v1';
-      const response = await fetch(`${API_BASE}/users/profile/`, {
+      const response = await fetch(`${BASE_URL_GLOBAL}/users/profile/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -41,7 +41,15 @@ const Login: React.FC = () => {
       console.error('Login error:', err);
       try {
         const errorData = JSON.parse(err.message);
-        setError(errorData.error || errorData.detail || 'Login failed. Please check your credentials.');
+        const errorMsg =
+          errorData.errors?.non_field_errors?.[0] ||
+          errorData.errors?.email?.[0] ||
+          errorData.errors?.password?.[0] ||
+          errorData.detail ||
+          errorData.error ||
+          errorData.message ||
+          'Login failed. Please check your credentials.';
+        setError(errorMsg);
       } catch {
         setError('Login failed. Please check your credentials.');
       }
