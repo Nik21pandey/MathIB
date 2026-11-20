@@ -56,13 +56,53 @@
      "blurb": "Paper 2 is 2 hours, 100 marks, no calculator. These are the skills older calculator-era papers never tested: surds, exact trig values and index work by hand."
     },
     {
+     "slug": "number",
+     "name": "Strand 1: Number",
+     "blurb": "Percentages, fractions, ratio, compound interest and bounds."
+    },
+    {
      "slug": "algebra-and-functions",
-     "name": "Algebra and Functions",
-     "blurb": "Quadratics, sequences, and domain and range."
+     "name": "Strand 2: Algebra and Functions",
+     "blurb": "Quadratics, sequences, inequalities, domain and range."
+    },
+    {
+     "slug": "coordinate-geometry",
+     "name": "Strand 3: Coordinate Geometry",
+     "blurb": "Gradients, midpoints, lengths and equations of straight lines."
+    },
+    {
+     "slug": "geometry",
+     "name": "Strand 4: Geometry",
+     "blurb": "Angles, polygons, similarity and circle theorems."
+    },
+    {
+     "slug": "mensuration",
+     "name": "Strand 5: Mensuration",
+     "blurb": "Perimeter, area, surface area and volume of 3D solids."
+    },
+    {
+     "slug": "trigonometry",
+     "name": "Strand 6: Trigonometry and Bearings",
+     "blurb": "Pythagoras, SOHCAHTOA, sine and cosine rules, and 3D trigonometry."
+    },
+    {
+     "slug": "vectors-transformations",
+     "name": "Strand 7: Vectors and Transformations",
+     "blurb": "Column vectors, geometric proofs and transformations."
+    },
+    {
+     "slug": "probability",
+     "name": "Strand 8: Probability",
+     "blurb": "Single events, combined probability, Venn and tree diagrams."
+    },
+    {
+     "slug": "statistics",
+     "name": "Strand 9: Statistics",
+     "blurb": "Averages, frequency tables, cumulative frequency and histograms."
     },
     {
      "slug": "calculus",
-     "name": "Calculus",
+     "name": "Calculus Extension",
      "blurb": "Differentiation and turning points."
     }
    ]
@@ -75,22 +115,22 @@
    "short": "IBDP AA HL",
    "level": "ib-aa-hl",
    "status": "live",
-   "blurb": "Switch between the current guide (exams to November 2028) and the new course (first teaching August 2027, first exams May 2029).",
+   "blurb": "Complete 5-unit curriculum: Number & Algebra, Functions, Geometry & Trig, Statistics & Probability, and Calculus.",
    "papers": [
     {
-     "name": "Paper 1",
+     "name": "Paper 1 (Non-Calculator)",
      "calc": false,
      "duration": "2 hours",
      "marks": 110
     },
     {
-     "name": "Paper 2",
+     "name": "Paper 2 (Calculator)",
      "calc": true,
      "duration": "2 hours",
      "marks": 110
     },
     {
-     "name": "Paper 3",
+     "name": "Paper 3 (Extended Problem Solving)",
      "calc": true,
      "duration": "1 hour",
      "marks": 55
@@ -108,22 +148,83 @@
      "detail": "First teaching August 2027, first exams May 2029"
     }
    ],
-   "versionNote": "The new course removes content rather than adding it. Topics marked \"Leaves in 2029\" are examined up to November 2028 only. The internal assessment moves to four criteria: problem specification, abstraction, computation and interpretation.",
+   "versionNote": "The new course streamlines content. Topics marked \"Leaves in 2029\" are examined up to November 2028 only.",
    "sections": [
     {
      "slug": "number-and-algebra",
-     "name": "Number and Algebra",
-     "blurb": "Binomial theorem, complex numbers and financial applications."
+     "name": "Topic 1: Number and Algebra",
+     "blurb": "Binomial theorem, complex numbers, proof by induction, and systems of equations."
     },
     {
-     "slug": "calculus",
-     "name": "Calculus",
-     "blurb": "Maclaurin series and numerical methods."
+     "slug": "functions",
+     "name": "Topic 2: Functions",
+     "blurb": "Polynomials, rational functions, composite and inverse functions."
+    },
+    {
+     "slug": "geometry-and-trigonometry",
+     "name": "Topic 3: Geometry and Trigonometry",
+     "blurb": "Trigonometric identities, 3D vectors, cross products, and lines & planes."
     },
     {
      "slug": "statistics-and-probability",
-     "name": "Statistics and Probability",
-     "blurb": "Correlation and regression."
+     "name": "Topic 4: Statistics and Probability",
+     "blurb": "Correlation, probability distributions, normal and Poisson distributions."
+    },
+    {
+     "slug": "calculus",
+     "name": "Topic 5: Calculus",
+     "blurb": "Maclaurin series, advanced integration, differential equations, and Euler's method."
+    }
+   ]
+  },
+  {
+   "slug": "ibdp-math-aa-sl",
+   "board": "ib",
+   "code": "AA SL",
+   "name": "IB DP Mathematics: Analysis and Approaches SL",
+   "short": "IBDP AA SL",
+   "level": "ib-aa-sl",
+   "status": "live",
+   "blurb": "Analytical mathematics for STEM, sciences and economics. Non-calculator paper 1 and calculator paper 2.",
+   "papers": [
+    {
+     "name": "Paper 1 (Non-Calculator)",
+     "calc": false,
+     "duration": "1 hour 30 minutes",
+     "marks": 80
+    },
+    {
+     "name": "Paper 2 (Calculator)",
+     "calc": true,
+     "duration": "1 hour 30 minutes",
+     "marks": 80
+    }
+   ],
+   "sections": [
+    {
+     "slug": "number-and-algebra",
+     "name": "Topic 1: Number and Algebra",
+     "blurb": "Sequences, series, exponents and logarithms."
+    },
+    {
+     "slug": "functions",
+     "name": "Topic 2: Functions",
+     "blurb": "Quadratic functions, composite & inverse functions, transformations."
+    },
+    {
+     "slug": "geometry-and-trigonometry",
+     "name": "Topic 3: Geometry and Trigonometry",
+     "blurb": "Sine and cosine rules, radian measure and trigonometric identities."
+    },
+    {
+     "slug": "statistics-and-probability",
+     "name": "Topic 4: Statistics and Probability",
+     "blurb": "Descriptive statistics, Venn & tree diagrams, binomial & normal distributions."
+    },
+    {
+     "slug": "calculus",
+     "name": "Topic 5: Calculus",
+     "blurb": "Differentiation, tangents, optimization, integration and area between curves."
     }
    ]
   },
@@ -135,16 +236,16 @@
    "short": "IBDP AI SL",
    "level": "ib-ai-sl",
    "status": "live",
-   "blurb": "Technology is allowed on every paper, so GDC fluency matters as much as the maths.",
+   "blurb": "Applied mathematical modeling, statistics, Voronoi diagrams and financial maths with active GDC technology.",
    "papers": [
     {
-     "name": "Paper 1",
+     "name": "Paper 1 (Calculator)",
      "calc": true,
      "duration": "1 hour 30 minutes",
      "marks": 80
     },
     {
-     "name": "Paper 2",
+     "name": "Paper 2 (Calculator)",
      "calc": true,
      "duration": "1 hour 30 minutes",
      "marks": 80
@@ -152,28 +253,31 @@
    ],
    "sections": [
     {
+     "slug": "number-and-algebra",
+     "name": "Topic 1: Number and Algebra",
+     "blurb": "Scientific notation, error bounds and financial mathematics."
+    },
+    {
+     "slug": "functions",
+     "name": "Topic 2: Functions",
+     "blurb": "Linear, exponential, power and sinusoidal models."
+    },
+    {
      "slug": "geometry-and-trigonometry",
-     "name": "Geometry and Trigonometry",
-     "blurb": "Voronoi diagrams."
+     "name": "Topic 3: Geometry and Trigonometry",
+     "blurb": "Voronoi diagrams, perpendicular bisectors and 3D trigonometry."
     },
     {
      "slug": "statistics-and-probability",
-     "name": "Statistics and Probability",
-     "blurb": "The normal distribution."
+     "name": "Topic 4: Statistics and Probability",
+     "blurb": "Normal distribution, Spearman's rank and Chi-squared independence tests."
+    },
+    {
+     "slug": "calculus",
+     "name": "Topic 5: Calculus",
+     "blurb": "Differentiation, rates of change and optimization on GDC."
     }
    ]
-  },
-  {
-   "slug": "ibdp-math-aa-sl",
-   "board": "ib",
-   "code": "AA SL",
-   "name": "IB DP Mathematics: Analysis and Approaches SL",
-   "short": "IBDP AA SL",
-   "level": "ib-aa-sl",
-   "status": "soon",
-   "blurb": "Coming next.",
-   "papers": [],
-   "sections": []
   },
   {
    "slug": "ibdp-math-ai-hl",
@@ -182,10 +286,55 @@
    "name": "IB DP Mathematics: Applications and Interpretation HL",
    "short": "IBDP AI HL",
    "level": "ib-ai-hl",
-   "status": "soon",
-   "blurb": "Coming next.",
-   "papers": [],
-   "sections": []
+   "status": "live",
+   "blurb": "Advanced modeling, matrices, graph theory, differential equations and multivariate statistics.",
+   "papers": [
+    {
+     "name": "Paper 1 (Calculator)",
+     "calc": true,
+     "duration": "2 hours",
+     "marks": 110
+    },
+    {
+     "name": "Paper 2 (Calculator)",
+     "calc": true,
+     "duration": "2 hours",
+     "marks": 110
+    },
+    {
+     "name": "Paper 3 (Extended Investigation)",
+     "calc": true,
+     "duration": "1 hour",
+     "marks": 55
+    }
+   ],
+   "sections": [
+    {
+     "slug": "number-and-algebra",
+     "name": "Topic 1: Number and Algebra",
+     "blurb": "Matrices, eigenvalues and Markov chains."
+    },
+    {
+     "slug": "functions",
+     "name": "Topic 2: Functions",
+     "blurb": "Logarithmic, logistic models and non-linear regression."
+    },
+    {
+     "slug": "geometry-and-trigonometry",
+     "name": "Topic 3: Geometry and Trigonometry",
+     "blurb": "Graph theory, adjacency matrices and Dijkstra's algorithm."
+    },
+    {
+     "slug": "statistics-and-probability",
+     "name": "Topic 4: Statistics and Probability",
+     "blurb": "Poisson distribution, confidence intervals and hypothesis testing."
+    },
+    {
+     "slug": "calculus",
+     "name": "Topic 5: Calculus",
+     "blurb": "Coupled linear differential equations and phase portraits."
+    }
+   ]
   },
   {
    "slug": "ib-myp-math",
@@ -195,25 +344,58 @@
    "short": "IB MYP",
    "level": "myp-ext",
    "status": "live",
-   "blurb": "Practice built around the four assessment criteria. Criterion B investigations and Criterion D real-life tasks are interactive.",
-   "papers": [],
+   "blurb": "Practice built around the four branches and four assessment criteria. Criterion B investigations and Criterion D real-life tasks are interactive.",
+   "papers": [
+    {
+     "name": "eAssessment On-Screen (Standard)",
+     "calc": true,
+     "duration": "2 hours",
+     "marks": 100
+    },
+    {
+     "name": "eAssessment On-Screen (Extended)",
+     "calc": true,
+     "duration": "2 hours",
+     "marks": 100
+    }
+   ],
    "sections": [
+    {
+     "slug": "myp-numerical",
+     "name": "Branch 1: Numerical and Abstract Reasoning",
+     "blurb": "Number systems, indices, standard form, surds and error bounds."
+    },
+    {
+     "slug": "myp-models",
+     "name": "Branch 2: Thinking with Models (Algebra & Functions)",
+     "blurb": "Linear & quadratic models, functions, sequences and inequalities."
+    },
+    {
+     "slug": "myp-spatial",
+     "name": "Branch 3: Spatial Reasoning (Geometry & Trig)",
+     "blurb": "Polygons, circle theorems, 3D mensuration, Pythagoras and trigonometry."
+    },
+    {
+     "slug": "myp-data",
+     "name": "Branch 4: Reasoning with Data (Stats & Probability)",
+     "blurb": "Statistical analysis, correlation, sample space and probability trees."
+    },
     {
      "slug": "criterion-a",
      "name": "Criterion A: Knowing and Understanding",
-     "blurb": "Topic tests written with MYP command terms: state, describe, explain, justify."
+     "blurb": "Topic tests with MYP command terms: state, describe, explain, justify."
     },
     {
      "slug": "criterion-b",
      "name": "Criterion B: Investigating Patterns",
      "hub": true,
-     "blurb": "Fill in the pattern table, predict, find the general rule, then verify and justify it. Criterion C (communicating) is assessed through the way you set this out."
+     "blurb": "Pattern table, general rule prediction, verification and formal justification."
     },
     {
      "slug": "criterion-d",
      "name": "Criterion D: Applying Mathematics in Real-Life Contexts",
      "hub": true,
-     "blurb": "Model a real situation, solve it, and comment on accuracy and whether the answer makes sense."
+     "blurb": "Model real situations, solve, evaluate degree of accuracy and contextual sense."
     }
    ]
   },
@@ -225,20 +407,109 @@
    "short": "A Level 9709",
    "level": "a-level",
    "status": "live",
-   "blurb": "Pure Mathematics 1 to begin with.",
+   "blurb": "Complete AS & A Level curriculum: Pure Mathematics (P1, P3), Mechanics (M1) and Probability & Statistics (S1).",
    "papers": [
     {
-     "name": "Paper 1: Pure Mathematics 1",
+     "name": "Paper 1: Pure Mathematics 1 (P1)",
      "calc": true,
      "duration": "1 hour 50 minutes",
      "marks": 75
+    },
+    {
+     "name": "Paper 3: Pure Mathematics 3 (P3)",
+     "calc": true,
+     "duration": "1 hour 50 minutes",
+     "marks": 75
+    },
+    {
+     "name": "Paper 4: Mechanics (M1)",
+     "calc": true,
+     "duration": "1 hour 15 minutes",
+     "marks": 50
+    },
+    {
+     "name": "Paper 5: Probability & Statistics 1 (S1)",
+     "calc": true,
+     "duration": "1 hour 15 minutes",
+     "marks": 50
     }
    ],
    "sections": [
     {
      "slug": "pure-mathematics-1",
-     "name": "Pure Mathematics 1",
-     "blurb": "Series and differentiation."
+     "name": "Paper 1: Pure Mathematics 1",
+     "blurb": "Quadratics, circular measure, trigonometry, series, and differentiation."
+    },
+    {
+     "slug": "pure-mathematics-3",
+     "name": "Paper 3: Pure Mathematics 3",
+     "blurb": "Logarithms, advanced calculus, partial fractions, differential equations and complex numbers."
+    },
+    {
+     "slug": "mechanics-1",
+     "name": "Paper 4: Mechanics",
+     "blurb": "Forces and equilibrium, kinematics in a straight line, momentum and Newton's laws."
+    },
+    {
+     "slug": "probability-statistics-1",
+     "name": "Paper 5: Probability & Statistics 1",
+     "blurb": "Representation of data, permutations, combinations, and the normal distribution."
+    }
+   ]
+  },
+  {
+   "slug": "igcse-0606",
+   "board": "cambridge",
+   "code": "0606",
+   "name": "Cambridge IGCSE Additional Mathematics",
+   "short": "IGCSE 0606",
+   "level": "igcse-ext",
+   "status": "live",
+   "blurb": "Advanced mathematics preparing students for AS/A Level and IB DP. Rigorous algebra, trigonometry and calculus.",
+   "papers": [
+    {
+     "name": "Paper 1",
+     "calc": true,
+     "duration": "2 hours",
+     "marks": 80
+    },
+    {
+     "name": "Paper 2",
+     "calc": true,
+     "duration": "2 hours",
+     "marks": 80
+    }
+   ],
+   "sections": [
+    {
+     "slug": "functions-quadratics",
+     "name": "Functions and Quadratic Theory",
+     "blurb": "Composite and inverse functions, discriminant and completed square form."
+    },
+    {
+     "slug": "indices-surds-logs",
+     "name": "Indices, Surds and Logarithms",
+     "blurb": "Rationalising surds, laws of logarithms and exponential equations."
+    },
+    {
+     "slug": "circular-measure",
+     "name": "Circular Measure (Radians)",
+     "blurb": "Radian measure, arc length, sector and segment area."
+    },
+    {
+     "slug": "trigonometry",
+     "name": "Trigonometry: Identities and Equations",
+     "blurb": "Secant, cosecant, cotangent and solving trigonometric equations."
+    },
+    {
+     "slug": "calculus-differentiation",
+     "name": "Calculus: Differentiation and Rates",
+     "blurb": "Product, quotient and chain rules, tangents and turning points."
+    },
+    {
+     "slug": "calculus-integration",
+     "name": "Calculus: Integration and Area",
+     "blurb": "Definite integrals, area under curves and kinematics."
     }
    ]
   },
@@ -249,22 +520,56 @@
    "name": "Cambridge IGCSE International Mathematics",
    "short": "IGCSE 0607",
    "level": "igcse-ext",
-   "status": "soon",
-   "blurb": "Coming next.",
-   "papers": [],
-   "sections": []
-  },
-  {
-   "slug": "igcse-0606",
-   "board": "cambridge",
-   "code": "0606",
-   "name": "Cambridge IGCSE Additional Mathematics",
-   "short": "IGCSE 0606",
-   "level": "igcse-ext",
-   "status": "soon",
-   "blurb": "Coming next.",
-   "papers": [],
-   "sections": []
+   "status": "live",
+   "blurb": "International curriculum with graphic display calculator (GDC) integration and mathematical investigations.",
+   "papers": [
+    {
+     "name": "Paper 2 (Core/Ext Non-Calc)",
+     "calc": false,
+     "duration": "45 minutes",
+     "marks": 40
+    },
+    {
+     "name": "Paper 4 (Extended Calc)",
+     "calc": true,
+     "duration": "2 hours 15 minutes",
+     "marks": 120
+    },
+    {
+     "name": "Paper 6 (Investigation & Modeling)",
+     "calc": true,
+     "duration": "1 hour 40 minutes",
+     "marks": 60
+    }
+   ],
+   "sections": [
+    {
+     "slug": "number-algebra",
+     "name": "Number and Algebra",
+     "blurb": "Surds, financial calculations and sequences."
+    },
+    {
+     "slug": "functions-gdc",
+     "name": "Functions and Graph Modeling (GDC)",
+     "blurb": "GDC graphing, finding roots, asymptotes and modeling."
+    },
+    {
+     "slug": "geometry-trigonometry",
+     "name": "Geometry and 3D Trigonometry",
+     "blurb": "Circle theorems, 3D triangles, bearings and vectors."
+    },
+    {
+     "slug": "probability-statistics",
+     "name": "Probability and Bivariate Statistics",
+     "blurb": "Scatter graphs, correlation and lines of best fit on GDC."
+    },
+    {
+     "slug": "investigation-modeling",
+     "name": "Paper 6: Investigation & Modeling",
+     "hub": true,
+     "blurb": "Open-ended mathematical pattern deduction and model construction."
+    }
+   ]
   }
  ],
  "topics": [
@@ -521,6 +826,232 @@
    }
   },
   {
+   "syllabus": "igcse-0580",
+   "id": "igcse-number-percent",
+   "section": "number",
+   "slug": "percentages-and-reverse-percentages",
+   "name": "Percentages, Ratio and Reverse Percentages",
+   "summary": "Calculate percentage increase/decrease, reverse percentages, and divide in a given ratio.",
+   "generators": [
+    "percent-change"
+   ],
+   "notes": {
+    "points": [
+     "Multiplier method: an increase of 15% is $\\times 1.15$; a decrease of 20% is $\\times 0.80$.",
+     "Reverse percentages: Original $\\times \\text{multiplier} = \\text{New} \\implies \\text{Original} = \\dfrac{\\text{New}}{\\text{multiplier}}$.",
+     "Sharing in a ratio $a:b$: find total parts $a+b$, divide amount by total parts to find value of 1 part."
+    ],
+    "formulas": [
+     {
+      "label": "Percentage change",
+      "tex": "\\dfrac{\\text{change}}{\\text{original}}\\times 100\\%"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Finding 20% of the new price instead of dividing by the multiplier for reverse percentages."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "igcse-coord-geom",
+   "section": "coordinate-geometry",
+   "slug": "straight-line-graphs-and-gradients",
+   "name": "Straight Line Graphs and Gradients",
+   "summary": "Equations of lines in form y = mx + c, parallel and perpendicular lines.",
+   "generators": [
+    "linear-eq"
+   ],
+   "notes": {
+    "points": [
+     "Gradient $m = \\dfrac{y_2 - y_1}{x_2 - x_1}$.",
+     "Parallel lines have equal gradients: $m_1 = m_2$.",
+     "Perpendicular lines have negative reciprocal gradients: $m_1 \\times m_2 = -1$."
+    ],
+    "formulas": [
+     {
+      "label": "Equation of line",
+      "tex": "y - y_1 = m(x - x_1)"
+     },
+     {
+      "label": "Midpoint",
+      "tex": "\\left(\\dfrac{x_1+x_2}{2},\\ \\dfrac{y_1+y_2}{2}\\right)"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Forgetting to rearrange equations into $y = mx + c$ before reading off the gradient."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "igcse-circle-theorems",
+   "section": "geometry",
+   "slug": "circle-theorems-and-angle-properties",
+   "name": "Circle Theorems and Angle Properties",
+   "summary": "Angles at center, angles in same segment, cyclic quadrilaterals, and alternate segment theorem.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Angle at the center is twice the angle at the circumference subtended by the same arc.",
+     "Angle in a semicircle is a right angle ($90^\\circ$).",
+     "Angles in the same segment are equal.",
+     "Opposite angles in a cyclic quadrilateral sum to $180^\\circ$.",
+     "The tangent to a circle is perpendicular to the radius at the point of contact.",
+     "Alternate segment theorem: angle between tangent and chord equals angle in alternate segment."
+    ],
+    "formulas": [],
+    "gdc": [],
+    "traps": [
+     "Giving only the angle without the formal geometrical reason (e.g. \"angles in same segment are equal\")."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "igcse-3d-mensuration",
+   "section": "mensuration",
+   "slug": "surface-area-and-volume-of-3d-solids",
+   "name": "Surface Area and Volume of 3D Solids",
+   "summary": "Prisms, cylinders, pyramids, cones and spheres.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Volume of a prism = cross-sectional area $\\times$ length.",
+     "Cylinder: $V = \\pi r^2 h$, curved surface area $= 2\\pi r h$.",
+     "Sphere: $V = \\frac{4}{3}\\pi r^3$, surface area $= 4\\pi r^2$.",
+     "Cone: $V = \\frac{1}{3}\\pi r^2 h$, curved surface area $= \\pi r l$ where $l = \\sqrt{r^2 + h^2}$."
+    ],
+    "formulas": [
+     {
+      "label": "Sphere volume",
+      "tex": "V = \\dfrac{4}{3}\\pi r^3"
+     },
+     {
+      "label": "Cone volume",
+      "tex": "V = \\dfrac{1}{3}\\pi r^2 h"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Using vertical height $h$ instead of slant height $l$ in the curved surface area of a cone."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "igcse-sine-cosine",
+   "section": "trigonometry",
+   "slug": "sine-rule-cosine-rule-and-bearings",
+   "name": "Sine Rule, Cosine Rule and Bearings",
+   "summary": "Non-right-angled triangles, 3D trigonometry and navigation bearings.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Bearings are measured from North, clockwise, and written as 3 figures (e.g. $045^\\circ$).",
+     "Sine rule: $\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C}$.",
+     "Cosine rule for sides: $a^2 = b^2 + c^2 - 2bc\\cos A$.",
+     "Area of triangle: $A = \\frac{1}{2}ab\\sin C$."
+    ],
+    "formulas": [
+     {
+      "label": "Triangle area",
+      "tex": "\\text{Area} = \\tfrac12 ab\\sin C"
+     },
+     {
+      "label": "Cosine rule",
+      "tex": "\\cos A = \\dfrac{b^2+c^2-a^2}{2bc}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Forgetting the ambiguous case of the sine rule when the angle can be obtuse ($180^\\circ - \\theta$)."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "igcse-vectors-col",
+   "section": "vectors-transformations",
+   "slug": "column-vectors-and-vector-geometry",
+   "name": "Column Vectors and Vector Geometry",
+   "summary": "Vector arithmetic, scalar multiplication, magnitude, and collinear point proofs.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Column vector $\\begin{pmatrix} x \\\\ y \\end{pmatrix}$: $x$ units horizontally, $y$ units vertically.",
+     "Magnitude $|\\vec{v}| = \\sqrt{x^2 + y^2}$.",
+     "Two vectors are parallel if one is a scalar multiple of the other: $\\vec{u} = k\\vec{v}$.",
+     "To prove $A, B, C$ lie on a straight line: show $\\vec{AB} = k\\vec{BC}$ and state that $B$ is a common point."
+    ],
+    "formulas": [
+     {
+      "label": "Vector magnitude",
+      "tex": "|\\vec{v}| = \\sqrt{x^2+y^2}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Subtracting coordinates in the wrong order: $\\vec{AB} = \\vec{OB} - \\vec{OA}$."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "igcse-probability-trees",
+   "section": "probability",
+   "slug": "probability-tree-diagrams-and-conditional-events",
+   "name": "Probability Tree Diagrams and Conditional Events",
+   "summary": "Independent and dependent events, with and without replacement.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Probabilities along a branch multiply.",
+     "Probabilities at the end of branches add.",
+     "Without replacement: the denominator decreases by 1 on the second pick."
+    ],
+    "formulas": [
+     {
+      "label": "Combined independent",
+      "tex": "P(A \\cap B) = P(A) \\times P(B)"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Forgetting that \"at least one\" is quickest calculated as $1 - P(\\text{none})$."
+    ]
+   }
+  },
+  {
+   "syllabus": "igcse-0580",
+   "id": "igcse-cumulative-freq",
+   "section": "statistics",
+   "slug": "cumulative-frequency-and-box-plots",
+   "name": "Cumulative Frequency and Box Plots",
+   "summary": "Plotting running totals, estimating medians, quartiles, and drawing box-and-whisker plots.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Plot cumulative frequency at the **upper class boundary** of each interval.",
+     "Median is at $\\frac{n}{2}$; lower quartile $Q_1$ at $\\frac{n}{4}$; upper quartile $Q_3$ at $\\frac{3n}{4}$.",
+     "Interquartile range $\\text{IQR} = Q_3 - Q_1$.",
+     "A box plot displays minimum, $Q_1$, median, $Q_3$, and maximum."
+    ],
+    "formulas": [
+     {
+      "label": "Interquartile range",
+      "tex": "\\text{IQR} = Q_3 - Q_1"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Plotting cumulative frequency at the midpoint instead of the upper boundary."
+    ]
+   }
+  },
+  {
    "id": "binomial",
    "syllabus": "ibdp-math-aa-hl",
    "section": "number-and-algebra",
@@ -596,6 +1127,40 @@
    }
   },
   {
+   "id": "proofs",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "number-and-algebra",
+   "slug": "proof-by-induction-and-contradiction",
+   "name": "Proof: Induction and Contradiction",
+   "tag": "HL Core",
+   "summary": "Master the 4-step mathematical induction structure and proof by contradiction.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Induction Step 1 (Base Case): Verify the statement is true for $n=1$ (or specified starting integer).",
+     "Induction Step 2 (Hypothesis): Assume the statement is true for $n=k$, where $k \\in \\mathbb{Z}^+$.",
+     "Induction Step 3 (Inductive Step): Prove that truth for $n=k$ implies truth for $n=k+1$. State $P(k+1)$ clearly before working.",
+     "Induction Step 4 (Conclusion): \"Since true for $n=1$, and true for $n=k \\implies$ true for $n=k+1$, by mathematical induction true for all $n \\in \\mathbb{Z}^+$.\"",
+     "Proof by Contradiction: Assume the negation of the proposition and deduce a logical impossibility."
+    ],
+    "formulas": [
+     {
+      "label": "Divisibility induction",
+      "tex": "f(k+1)-f(k) = m \\cdot g(k)"
+     },
+     {
+      "label": "Series sum induction",
+      "tex": "S_{k+1} = S_k + u_{k+1}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Writing the conclusion without linking the base case and the implication step.",
+     "Assuming $P(k+1)$ is true during the proof rather than deriving it."
+    ]
+   }
+  },
+  {
    "id": "finance",
    "syllabus": "ibdp-math-aa-hl",
    "section": "number-and-algebra",
@@ -608,8 +1173,7 @@
     "points": [
      "Compound growth is a geometric sequence: each period multiplies by the same factor.",
      "$k$ is the number of compounding periods per year: monthly means $k=12$.",
-     "Depreciation uses the same formula with a negative rate.",
-     "To find the time, use logarithms or the GDC finance solver, then round **up** to a whole period if the question asks when a target is first exceeded."
+     "Depreciation uses the same formula with a negative rate."
     ],
     "formulas": [
      {
@@ -618,12 +1182,139 @@
      }
     ],
     "gdc": [
-     "TI-Nspire: menu, Finance, Finance Solver. Enter PV as negative for money you pay in.",
-     "Casio fx-CG50: Financial app, Compound Interest."
+     "TI-Nspire: menu, Finance, Finance Solver. Enter PV as negative for money paid in."
     ],
     "traps": [
-     "Using $r$ as a decimal in a formula that already divides by 100.",
-     "Rounding the multiplier early. Keep full accuracy until the final answer."
+     "Using $r$ as a decimal in a formula that already divides by 100."
+    ]
+   }
+  },
+  {
+   "id": "quadratics-poly",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "functions",
+   "slug": "polynomials-roots-coefficients",
+   "name": "Polynomials and Root Relations",
+   "tag": "HL Core",
+   "summary": "Remainder theorem, factor theorem, and relations between roots and coefficients.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Remainder Theorem: When polynomial $P(x)$ is divided by $(x-c)$, the remainder is $R = P(c)$.",
+     "Factor Theorem: $(x-c)$ is a factor of $P(x)$ if and only if $P(c) = 0$.",
+     "Sum of roots for $ax^n + bx^{n-1} + \\ldots = 0$: $\\sum \\alpha = -\\frac{b}{a}$.",
+     "Product of roots: $\\prod \\alpha = (-1)^n \\frac{a_0}{a_n}$."
+    ],
+    "formulas": [
+     {
+      "label": "Factor theorem",
+      "tex": "P(c)=0 \\iff (x-c) \\mid P(x)"
+     },
+     {
+      "label": "Vieta sum of roots",
+      "tex": "\\alpha_1+\\alpha_2+\\ldots+\\alpha_n = -\\dfrac{b}{a}"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: menu, Algebra, Polynomial Tools, Find Roots of Polynomial."
+    ],
+    "traps": [
+     "Sign error when applying the remainder theorem with $(ax-b)$: evaluate at $x = +b/a$."
+    ]
+   }
+  },
+  {
+   "id": "trig-identities",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "geometry-and-trigonometry",
+   "slug": "trigonometric-identities-and-equations",
+   "name": "Trigonometric Identities and Double-Angle Equations",
+   "tag": "HL Core",
+   "summary": "Compound angle formulae, double-angle identities, and reciprocal functions (sec, csc, cot).",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Reciprocal functions: $\\sec x = \\frac{1}{\\cos x}$, $\\csc x = \\frac{1}{\\sin x}$, $\\cot x = \\frac{1}{\\tan x}$.",
+     "Pythagorean identities: $\\sin^2 x + \\cos^2 x = 1$, $1 + \\tan^2 x = \\sec^2 x$, $1 + \\cot^2 x = \\csc^2 x$.",
+     "Double angle: $\\sin 2x = 2\\sin x \\cos x$, $\\cos 2x = \\cos^2 x - \\sin^2 x = 2\\cos^2 x - 1 = 1 - 2\\sin^2 x$.",
+     "Always check the specified domain (e.g. $0 \\le x \\le 2\\pi$) and include all valid quadrants."
+    ],
+    "formulas": [
+     {
+      "label": "Double angle sine",
+      "tex": "\\sin 2\\theta = 2\\sin\\theta\\cos\\theta"
+     },
+     {
+      "label": "Double angle cosine",
+      "tex": "\\cos 2\\theta = 2\\cos^2\\theta - 1"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Dividing by $\\sin x$ across an equation and losing the $x = 0$ or $x = \\pi$ roots. Always factor instead."
+    ]
+   }
+  },
+  {
+   "id": "vectors-planes",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "geometry-and-trigonometry",
+   "slug": "vectors-cross-product-and-planes",
+   "name": "3D Vectors, Cross Product and Planes",
+   "tag": "Paper 2 & 3",
+   "summary": "Vector equations of lines, scalar and vector products, and equations of planes in 3D.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Dot product: $\\vec{a} \\cdot \\vec{b} = |\\vec{a}||\\vec{b}|\\cos\\theta$. If dot product is $0$, vectors are perpendicular.",
+     "Cross product: $\\vec{a} \\times \\vec{b}$ produces a vector perpendicular to both $\\vec{a}$ and $\\vec{b}$, with magnitude equal to the parallelogram area.",
+     "Vector equation of a line: $\\vec{r} = \\vec{a} + \\lambda \\vec{d}$.",
+     "Cartesian equation of a plane: $n_1 x + n_2 y + n_3 z = d$, where $\\vec{n} = (n_1, n_2, n_3)$ is normal to the plane."
+    ],
+    "formulas": [
+     {
+      "label": "Angle between vectors",
+      "tex": "\\cos\\theta = \\dfrac{\\vec{a}\\cdot\\vec{b}}{|\\vec{a}||\\vec{b}|}"
+     },
+     {
+      "label": "Cartesian plane",
+      "tex": "\\vec{r}\\cdot\\vec{n} = \\vec{a}\\cdot\\vec{n} = d"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: menu, Matrix & Vector, Vector, Cross Product and Dot Product."
+    ],
+    "traps": [
+     "Using the direction vector of a line instead of the normal vector when calculating the angle between a line and a plane."
+    ]
+   }
+  },
+  {
+   "id": "bivariate",
+   "syllabus": "ibdp-math-aa-hl",
+   "section": "statistics-and-probability",
+   "slug": "bivariate-data-correlation-and-regression",
+   "name": "Bivariate Data: Correlation and Regression",
+   "removedIn": "new",
+   "summary": "Interpret correlation and use the regression line of y on x to predict.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Pearson's $r$ measures the strength of a **linear** relationship, from $-1$ to $1$.",
+     "The regression line of $y$ on $x$ predicts $y$ from $x$, and always passes through $(\\bar{x},\\bar{y})$.",
+     "Interpolation is reliable when $|r|$ is close to 1. Extrapolation is not."
+    ],
+    "formulas": [
+     {
+      "label": "Regression line",
+      "tex": "y=ax+b\\ \\text{ through }\\ (\\bar{x},\\,\\bar{y})"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: menu, Statistics, Stat Calculations, Linear Regression."
+    ],
+    "traps": [
+     "Using the $y$ on $x$ line to predict $x$ from $y$."
     ]
    }
   },
@@ -643,33 +1334,17 @@
     "points": [
      "A Maclaurin series rebuilds a function from its derivatives at $x=0$.",
      "Know the standard series for $e^x$, $\\sin x$, $\\cos x$ and $\\ln(1+x)$ from the formula booklet.",
-     "New series from old: substitute (e.g. $x\\to 2x$), multiply two series, differentiate or integrate term by term.",
-     "For limits of the form $\\dfrac00$, replace each function by its series and cancel the lowest power."
+     "New series from old: substitute, multiply two series, differentiate or integrate term by term."
     ],
     "formulas": [
      {
       "label": "Maclaurin series",
-      "tex": "f(x)=f(0)+xf'(0)+\\dfrac{x^2}{2!}f''(0)+\\dfrac{x^3}{3!}f'''(0)+\\ldots"
-     },
-     {
-      "label": "Exponential",
-      "tex": "e^x=1+x+\\dfrac{x^2}{2!}+\\dfrac{x^3}{3!}+\\ldots"
-     },
-     {
-      "label": "Sine",
-      "tex": "\\sin x=x-\\dfrac{x^3}{3!}+\\dfrac{x^5}{5!}-\\ldots"
-     },
-     {
-      "label": "Logarithm",
-      "tex": "\\ln(1+x)=x-\\dfrac{x^2}{2}+\\dfrac{x^3}{3}-\\ldots"
+      "tex": "f(x)=f(0)+xf'(0)+\\dfrac{x^2}{2!}f''(0)+\\ldots"
      }
     ],
-    "gdc": [
-     "Check a series by graphing the function and your polynomial together near $x=0$. They should overlap."
-    ],
+    "gdc": [],
     "traps": [
-     "Substituting $2x$ but forgetting to cube the 2: $(2x)^3=8x^3$.",
-     "When multiplying series, missing a cross term that contributes to the power you need."
+     "Substituting $2x$ but forgetting to cube the 2: $(2x)^3=8x^3$."
     ]
    }
   },
@@ -685,7 +1360,6 @@
    "notes": {
     "points": [
      "Euler's method follows the tangent for a short step $h$, then recalculates the gradient.",
-     "Set out a table with columns $n$, $x_n$, $y_n$ and $f(x_n,y_n)$.",
      "A smaller step size gives a better approximation but needs more steps."
     ],
     "formulas": [
@@ -694,45 +1368,140 @@
       "tex": "y_{n+1}=y_n+h\\,f(x_n,y_n),\\qquad x_{n+1}=x_n+h"
      }
     ],
-    "gdc": [
-     "TI-Nspire: use a Lists and Spreadsheet page with a recursive formula, or the sequence plot.",
-     "Casio fx-CG50: Recursion app with $a_{n+1}$ and $b_{n+1}$ for $x$ and $y$."
-    ],
+    "gdc": [],
     "traps": [
-     "Updating $x$ before using it in the gradient for the same step.",
-     "Rounding $y_n$ at each step. Carry full calculator accuracy."
+     "Updating $x$ before using it in the gradient for the same step."
     ]
    }
   },
   {
-   "id": "bivariate",
-   "syllabus": "ibdp-math-aa-hl",
-   "section": "statistics-and-probability",
-   "slug": "bivariate-data-correlation-and-regression",
-   "name": "Bivariate Data: Correlation and Regression",
-   "removedIn": "new",
-   "summary": "Interpret correlation and use the regression line of y on x to predict.",
-   "generators": [],
+   "id": "aa-sl-sequences",
+   "syllabus": "ibdp-math-aa-sl",
+   "section": "number-and-algebra",
+   "slug": "arithmetic-and-geometric-sequences",
+   "name": "Arithmetic and Geometric Sequences",
+   "tag": "SL Core",
+   "summary": "Find nth terms, sums of series, and solve geometric series with infinite sums.",
+   "generators": [
+    "arithmetic-series"
+   ],
    "notes": {
     "points": [
-     "Pearson's $r$ measures the strength of a **linear** relationship, from $-1$ to $1$.",
-     "The regression line of $y$ on $x$ predicts $y$ from $x$, and always passes through $(\\bar{x},\\bar{y})$.",
-     "Interpolation (inside the data range) is reliable when $|r|$ is close to 1. Extrapolation is not.",
-     "The gradient is the change in $y$ for each one-unit increase in $x$. Say it in context."
+     "Arithmetic: $u_n = u_1 + (n-1)d$, common difference $d = u_{k+1} - u_k$.",
+     "Sum of arithmetic series: $S_n = \\frac{n}{2}(2u_1 + (n-1)d) = \\frac{n}{2}(u_1 + u_n)$.",
+     "Geometric: $u_n = u_1 r^{n-1}$, common ratio $r = \\frac{u_{k+1}}{u_k}$.",
+     "Infinite geometric series converges if and only if $|r| < 1$, with sum $S_\\infty = \\frac{u_1}{1-r}$."
     ],
     "formulas": [
      {
-      "label": "Regression line",
-      "tex": "y=ax+b\\ \\text{ through }\\ (\\bar{x},\\,\\bar{y})"
+      "label": "Arithmetic sum",
+      "tex": "S_n = \\dfrac{n}{2}(2u_1 + (n-1)d)"
+     },
+     {
+      "label": "Infinite sum",
+      "tex": "S_\\infty = \\dfrac{u_1}{1-r},\\quad |r|<1"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Attempting to calculate $S_\\infty$ when $|r| \\ge 1$."
+    ]
+   }
+  },
+  {
+   "id": "aa-sl-functions",
+   "syllabus": "ibdp-math-aa-sl",
+   "section": "functions",
+   "slug": "quadratic-and-exponential-functions",
+   "name": "Quadratic Functions and Graph Transformations",
+   "tag": "SL Core",
+   "summary": "Roots, vertex form, discriminant tests, and function transformations.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Discriminant $\\Delta = b^2 - 4ac$: $>0$ (two real roots), $=0$ (one repeated root), $<0$ (no real roots).",
+     "Vertex form: $y = a(x-h)^2 + k$, vertex at $(h, k)$, axis of symmetry $x = h$.",
+     "Transformations: $f(x+a)$ moves left by $a$; $f(x)+b$ moves up by $b$; $af(x)$ vertical stretch by scale factor $a$."
+    ],
+    "formulas": [
+     {
+      "label": "Discriminant",
+      "tex": "\\Delta = b^2 - 4ac"
+     },
+     {
+      "label": "Vertex coordinates",
+      "tex": "x = -\\dfrac{b}{2a}"
      }
     ],
     "gdc": [
-     "TI-Nspire: enter lists, then menu, Statistics, Stat Calculations, Linear Regression (mx+b).",
-     "Casio fx-CG50: Statistics app, CALC, REG, X, ax+b."
+     "TI-Nspire: menu, Analyze Graph, Zero / Minimum / Maximum."
     ],
     "traps": [
-     "Using the $y$ on $x$ line to predict $x$ from $y$.",
-     "Saying correlation proves that one variable causes the other."
+     "Confusing $f(x-3)$ (shift right by 3) with $f(x)-3$ (shift down by 3)."
+    ]
+   }
+  },
+  {
+   "id": "aa-sl-trig",
+   "syllabus": "ibdp-math-aa-sl",
+   "section": "geometry-and-trigonometry",
+   "slug": "sine-and-cosine-rules-circular-measure",
+   "name": "Sine and Cosine Rules and Circular Measure",
+   "tag": "SL Core",
+   "summary": "Radian measure, arc length, sector area, and non-right-angled triangle trigonometry.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Arc length: $l = r\\theta$ where $\\theta$ is in radians.",
+     "Sector area: $A = \\frac{1}{2}r^2\\theta$.",
+     "Sine rule: $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}$. Beware the ambiguous case (obtuse angle).",
+     "Cosine rule for sides: $a^2 = b^2 + c^2 - 2bc\\cos A$. For angles: $\\cos A = \\frac{b^2+c^2-a^2}{2bc}$."
+    ],
+    "formulas": [
+     {
+      "label": "Sector area",
+      "tex": "A = \\tfrac12 r^2 \\theta"
+     },
+     {
+      "label": "Cosine rule",
+      "tex": "a^2 = b^2 + c^2 - 2bc\\cos A"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Calculator set to Degree mode when using $\\theta$ in radians for arc length."
+    ]
+   }
+  },
+  {
+   "id": "aa-sl-calculus",
+   "syllabus": "ibdp-math-aa-sl",
+   "section": "calculus",
+   "slug": "differentiation-tangents-and-optimization",
+   "name": "Differentiation: Tangents, Normals and Turning Points",
+   "tag": "SL Core",
+   "summary": "Power rule, chain rule, product and quotient rules, tangents and optimization.",
+   "generators": [
+    "differentiate-poly"
+   ],
+   "notes": {
+    "points": [
+     "Tangent at $(x_1, y_1)$ has gradient $m = f'(x_1)$. Normal has gradient $-\\frac{1}{m}$.",
+     "Stationary points occur where $f'(x) = 0$. Use $f''(x)$ to classify: $>0$ is local minimum, $<0$ is local maximum."
+    ],
+    "formulas": [
+     {
+      "label": "Product rule",
+      "tex": "(uv)' = u'v + uv'"
+     },
+     {
+      "label": "Quotient rule",
+      "tex": "\\left(\\dfrac{u}{v}\\right)' = \\dfrac{u'v - uv'}{v^2}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Forgetting the chain rule when differentiating composite functions like $(3x-1)^4$."
     ]
    }
   },
@@ -783,7 +1552,7 @@
    "notes": {
     "points": [
      "$X\\sim N(\\mu,\\sigma^2)$ is symmetric about the mean $\\mu$.",
-     "About 68% of values lie within one standard deviation of the mean, 95% within two and 99.7% within three.",
+     "About 68% of values lie within $1\\sigma$ of the mean, 95% within $2\\sigma$ and 99.7% within $3\\sigma$.",
      "Use normal cdf for a probability and inverse normal when the probability is given and a value is wanted.",
      "Expected number = probability $\\times$ number of trials."
     ],
@@ -794,13 +1563,101 @@
      }
     ],
     "gdc": [
-     "TI-Nspire: menu, Probability, Distributions, Normal Cdf (lower, upper, mean, sd).",
-     "TI-Nspire inverse: Inverse Normal (area to the left, mean, sd).",
-     "Casio fx-CG50: Statistics, DIST, NORM, Ncd or InvN."
+     "TI-Nspire: menu, Probability, Distributions, Normal Cdf (lower, upper, mean, sd)."
     ],
     "traps": [
-     "Entering the variance where the calculator wants the standard deviation.",
-     "For $P(X>k)$ with inverse normal, convert to the area on the left first."
+     "Entering the variance where the calculator wants the standard deviation."
+    ]
+   }
+  },
+  {
+   "id": "ai-sl-chi",
+   "syllabus": "ibdp-math-ai-sl",
+   "section": "statistics-and-probability",
+   "slug": "chi-squared-independence-test",
+   "name": "Chi-Squared (chi^2) Test of Independence",
+   "tag": "AI Core",
+   "summary": "Contingency tables, expected frequencies, degrees of freedom, and p-value decision rule.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Null hypothesis $H_0$: The two variables are independent. Alternative $H_1$: The two variables are not independent.",
+     "Expected frequency for a cell: $f_e = \\frac{\\text{Row Total} \\times \\text{Column Total}}{\\text{Grand Total}}$. All expected frequencies must be $\\ge 5$.",
+     "Degrees of freedom: $\\nu = (r-1)(c-1)$.",
+     "Decision rule: Reject $H_0$ if $p < \\alpha$ (significance level, typically $0.05$) or if $\\chi^2_{\\text{calc}} > \\chi^2_{\\text{crit}}$."
+    ],
+    "formulas": [
+     {
+      "label": "Chi-squared statistic",
+      "tex": "\\chi^2 = \\sum \\dfrac{(f_o - f_e)^2}{f_e}"
+     },
+     {
+      "label": "Degrees of freedom",
+      "tex": "\\nu = (r-1)(c-1)"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: Enter observed table in Matrix, menu, Statistics, Stat Tests, $\\chi^2$ 2-way Test."
+    ],
+    "traps": [
+     "Failing to state $H_0$ and $H_1$ in complete, contextual sentences."
+    ]
+   }
+  },
+  {
+   "id": "ai-hl-matrices",
+   "syllabus": "ibdp-math-ai-hl",
+   "section": "number-and-algebra",
+   "slug": "matrices-and-markov-chains",
+   "name": "Matrices, Eigenvalues and Markov Chains",
+   "tag": "AI HL",
+   "summary": "Matrix multiplication, determinants, inverses, eigenvalues, eigenvectors, and steady-state probabilities.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "A transition matrix $T$ has columns (or rows depending on convention) summing to 1.",
+     "State vector at step $n$: $S_n = T^n S_0$.",
+     "Steady state vector $S_\\infty$ satisfies $T S_\\infty = S_\\infty$, with the sum of elements equal to 1."
+    ],
+    "formulas": [
+     {
+      "label": "Steady state",
+      "tex": "T \\mathbf{s} = \\mathbf{s}"
+     }
+    ],
+    "gdc": [
+     "TI-Nspire: Raise matrix to a large power (e.g. $T^{50}$) to inspect numerical convergence."
+    ],
+    "traps": [
+     "Multiplying in the wrong order: matrix multiplication is non-commutative ($AB \\ne BA$)."
+    ]
+   }
+  },
+  {
+   "id": "ai-hl-graphs",
+   "syllabus": "ibdp-math-ai-hl",
+   "section": "geometry-and-trigonometry",
+   "slug": "graph-theory-trees-and-dijkstra",
+   "name": "Graph Theory, Trees and Dijkstra Algorithm",
+   "tag": "AI HL",
+   "summary": "Vertices, edges, Eulerian and Hamiltonian paths, Kruskal & Prim MST, and Dijkstra shortest path.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Eulerian trail: visits every **edge** once. Exists iff graph has 0 or 2 vertices of odd degree.",
+     "Hamiltonian cycle: visits every **vertex** once.",
+     "A tree with $n$ vertices has exactly $n-1$ edges and contains no cycles.",
+     "Dijkstra\\'s algorithm finds the shortest path from a start vertex to all other vertices."
+    ],
+    "formulas": [
+     {
+      "label": "Handshaking lemma",
+      "tex": "\\sum \\deg(v) = 2e"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Confusing Eulerian (every edge) with Hamiltonian (every vertex)."
     ]
    }
   },
@@ -1168,6 +2025,245 @@
     "gdc": [],
     "traps": [
      "Forgetting the factor from the inside: $\\dfrac{d}{dx}(3x-2)^5$ is $15(3x-2)^4$, not $5(3x-2)^4$."
+    ]
+   }
+  },
+  {
+   "id": "myp-spatial-theorems",
+   "syllabus": "ib-myp-math",
+   "section": "myp-spatial",
+   "slug": "spatial-reasoning-circle-theorems",
+   "name": "Spatial Reasoning: Circle Theorems",
+   "summary": "Analyze circle geometry, prove cyclic quadrilateral angle sums, and apply tangent rules.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Opposite angles in a cyclic quadrilateral sum to $180^\\circ$.",
+     "Angle at the circumference subtended by a diameter is always $90^\\circ$."
+    ],
+    "formulas": [],
+    "gdc": [],
+    "traps": [
+     "Forgetting to justify each step with the formal theorem name."
+    ]
+   }
+  },
+  {
+   "id": "al-p1-circular",
+   "syllabus": "a-level-9709",
+   "section": "pure-mathematics-1",
+   "slug": "circular-measure-radians-arcs-sectors",
+   "name": "Circular Measure: Radians, Arcs and Sectors",
+   "tag": "P1 Core",
+   "summary": "Radian measure, arc length s = r theta, and area of sector and segment.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Arc length: $s = r\\theta$ with $\\theta$ in radians.",
+     "Sector area: $A = \\frac{1}{2}r^2\\theta$.",
+     "Segment area: $A_{\\text{segment}} = \\frac{1}{2}r^2(\\theta - \\sin\\theta)$."
+    ],
+    "formulas": [
+     {
+      "label": "Arc length",
+      "tex": "s = r\\theta"
+     },
+     {
+      "label": "Segment area",
+      "tex": "A = \\tfrac12 r^2(\\theta - \\sin\\theta)"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Using degree formulas with radian angles."
+    ]
+   }
+  },
+  {
+   "id": "al-p3-diff",
+   "syllabus": "a-level-9709",
+   "section": "pure-mathematics-3",
+   "slug": "advanced-differentiation-product-quotient-implicit",
+   "name": "Advanced Differentiation: Product, Quotient and Implicit",
+   "tag": "P3 Core",
+   "summary": "Differentiate exponential, logarithmic, trigonometric functions, and implicit curves.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "$\\frac{d}{dx}[\\ln(f(x))] = \\frac{f'(x)}{f(x)}$ and $\\frac{d}{dx}[e^{f(x)}] = f'(x)e^{f(x)}$.",
+     "Implicit differentiation: differentiate both sides with respect to $x$, applying chain rule to $y$ terms (e.g. $\\frac{d}{dx}[y^2] = 2y\\frac{dy}{dx}$)."
+    ],
+    "formulas": [
+     {
+      "label": "Log derivative",
+      "tex": "\\dfrac{d}{dx}[\\ln x] = \\dfrac{1}{x}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Missing the product rule when differentiating mixed terms like $x^2 y$."
+    ]
+   }
+  },
+  {
+   "id": "al-m1-kinematics",
+   "syllabus": "a-level-9709",
+   "section": "mechanics-1",
+   "slug": "kinematics-motion-in-straight-line",
+   "name": "Kinematics: Motion in a Straight Line",
+   "tag": "M1 Core",
+   "summary": "Constant acceleration formulae (SUVAT) and variable acceleration with calculus.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Velocity is the rate of change of displacement: $v = \\frac{ds}{dt}$.",
+     "Acceleration is the rate of change of velocity: $a = \\frac{dv}{dt} = \\frac{d^2s}{dt^2}$.",
+     "Displacement is the integral of velocity: $s = \\int v\\,dt$."
+    ],
+    "formulas": [
+     {
+      "label": "Velocity",
+      "tex": "v = \\dfrac{ds}{dt}"
+     },
+     {
+      "label": "Acceleration",
+      "tex": "a = \\dfrac{dv}{dt}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Using constant acceleration formulae (SUVAT) when acceleration varies with time."
+    ]
+   }
+  },
+  {
+   "id": "al-s1-permutations",
+   "syllabus": "a-level-9709",
+   "section": "probability-statistics-1",
+   "slug": "permutations-and-combinations",
+   "name": "Permutations and Combinations",
+   "tag": "S1 Core",
+   "summary": "Arrangements in a line, circular permutations, restrictions, and selections with nCr.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Permutations (order matters): $^n P_r = \\frac{n!}{(n-r)!}$.",
+     "Combinations (order does not matter): $\\binom{n}{r} = \\frac{n!}{r!(n-r)!}$.",
+     "Items together: bundle them as one item, multiply by internal arrangements."
+    ],
+    "formulas": [
+     {
+      "label": "Combinations",
+      "tex": "\\binom{n}{r} = \\dfrac{n!}{r!(n-r)!}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Using permutations when the group order does not matter (e.g. choosing a committee)."
+    ]
+   }
+  },
+  {
+   "id": "add-indices-logs",
+   "syllabus": "igcse-0606",
+   "section": "indices-surds-logs",
+   "slug": "logarithmic-equations-and-laws",
+   "name": "Logarithmic Equations and Laws of Logarithms",
+   "tag": "0606 Core",
+   "summary": "Solve equations using laws of logarithms, change of base, and natural logarithms.",
+   "generators": [
+    "log-evaluate"
+   ],
+   "notes": {
+    "points": [
+     "$\\log_a(xy) = \\log_a x + \\log_a y$ and $\\log_a\\left(\\frac{x}{y}\\right) = \\log_a x - \\log_a y$.",
+     "Power rule: $\\log_a(x^k) = k\\log_a x$.",
+     "Change of base: $\\log_a b = \\frac{\\log_c b}{\\log_c a}$."
+    ],
+    "formulas": [
+     {
+      "label": "Change of base",
+      "tex": "\\log_a b = \\dfrac{\\ln b}{\\ln a}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Writing $\\log(x+y) = \\log x + \\log y$, which is completely false."
+    ]
+   }
+  },
+  {
+   "id": "add-diff",
+   "syllabus": "igcse-0606",
+   "section": "calculus-differentiation",
+   "slug": "chain-rule-product-and-quotient-rules",
+   "name": "Chain Rule, Product and Quotient Rules",
+   "tag": "0606 Core",
+   "summary": "Differentiate composite functions, products and quotients, and apply to tangents.",
+   "generators": [
+    "differentiate-poly"
+   ],
+   "notes": {
+    "points": [
+     "Chain rule: $\\frac{dy}{dx} = \\frac{dy}{du} \\times \\frac{du}{dx}$.",
+     "Product rule: $\\frac{d}{dx}(uv) = u\\frac{dv}{dx} + v\\frac{du}{dx}$.",
+     "Quotient rule: $\\frac{d}{dx}\\left(\\frac{u}{v}\\right) = \\frac{v\\frac{du}{dx} - u\\frac{dv}{dx}}{v^2}$."
+    ],
+    "formulas": [
+     {
+      "label": "Chain rule",
+      "tex": "\\dfrac{dy}{dx} = \\dfrac{dy}{du}\\cdot\\dfrac{du}{dx}"
+     }
+    ],
+    "gdc": [],
+    "traps": [
+     "Subtracting in reverse order in the quotient rule numerator."
+    ]
+   }
+  },
+  {
+   "id": "cam-0607-gdc-functions",
+   "syllabus": "igcse-0607",
+   "section": "functions-gdc",
+   "slug": "gdc-graphing-roots-and-extrema",
+   "name": "GDC Graphing, Roots and Local Extrema",
+   "tag": "0607 Core",
+   "summary": "Sketch graphs, locate zeros, local maxima/minima, and vertical/horizontal asymptotes using GDC.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "Ensure viewing window encompasses all key features (intercepts, turning points, asymptotes).",
+     "Use GDC solver to find coordinates of intersection between two curves."
+    ],
+    "formulas": [],
+    "gdc": [
+     "TI-Nspire: menu, Analyze Graph, Zero / Minimum / Maximum / Intersection."
+    ],
+    "traps": [
+     "Rounding intermediate coordinates: keep 3 significant figures for the final answer."
+    ]
+   }
+  },
+  {
+   "id": "cam-0607-stats",
+   "syllabus": "igcse-0607",
+   "section": "probability-statistics",
+   "slug": "bivariate-statistics-and-regression-on-gdc",
+   "name": "Bivariate Statistics and Linear Regression on GDC",
+   "tag": "0607 Core",
+   "summary": "Scatter diagrams, correlation, equation of regression line, and mean point on GDC.",
+   "generators": [],
+   "notes": {
+    "points": [
+     "The regression line passes through the mean point $(\\bar{x}, \\bar{y})$.",
+     "Use regression line only for estimating within the range of observed $x$ values (interpolation)."
+    ],
+    "formulas": [],
+    "gdc": [
+     "TI-Nspire: Lists & Spreadsheet, menu, Statistics, Stat Calculations, Linear Regression (mx+b)."
+    ],
+    "traps": [
+     "Swapping the X List and Y List when calculating regression parameters."
     ]
    }
   }
@@ -2174,6 +3270,275 @@
    "video": null
   },
   {
+   "id": "num1",
+   "topic": "igcse-number-percent",
+   "slug": "percentages-and-reverse-percentages-easy-num1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": true,
+   "stem": "A jacket originally costs \\$80. In a sale, its price is reduced by 15%. Calculate the sale price.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$80 \\times (1 - 0.15) = 80 \\times 0.85$"
+    },
+    {
+     "mark": "A1",
+     "text": "$68$"
+    },
+    {
+     "mark": "A1",
+     "text": "\\$68"
+    }
+   ],
+   "answer": "\\$68",
+   "video": null
+  },
+  {
+   "id": "num2",
+   "topic": "igcse-number-percent",
+   "slug": "percentages-and-reverse-percentages-medium-num2",
+   "difficulty": "medium",
+   "marks": 4,
+   "calc": true,
+   "stem": "After a 20% price increase, a television costs \\$420.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Calculate the original price of the television before the increase.",
+     "marks": 3
+    },
+    {
+     "label": "b",
+     "text": "Find the dollar amount of the increase.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) $\\text{Original} \\times 1.20 = 420$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\text{Original} = 420 \\div 1.20$"
+    },
+    {
+     "mark": "A1",
+     "text": "\\$350"
+    },
+    {
+     "mark": "A1",
+     "text": "(b) $420 - 350 = \\$70$"
+    }
+   ],
+   "answer": "(a) \\$350  (b) \\$70",
+   "video": null
+  },
+  {
+   "id": "cg1",
+   "topic": "igcse-coord-geom",
+   "slug": "straight-line-graphs-and-gradients-easy-cg1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "Line $L$ passes through $(1, 3)$ and $(5, 11)$. Find the gradient of line $L$ and write down the gradient of any line perpendicular to $L$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$m = \\dfrac{11 - 3}{5 - 1} = \\dfrac{8}{4}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$m = 2$"
+    },
+    {
+     "mark": "A1",
+     "text": "Perpendicular gradient $m_\\perp = -\\frac12$"
+    }
+   ],
+   "answer": "$m = 2,\\ m_\\perp = -\\frac12$",
+   "video": null
+  },
+  {
+   "id": "ct1",
+   "topic": "igcse-circle-theorems",
+   "slug": "circle-theorems-and-angle-properties-easy-ct1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "Points $A, B, C$ lie on a circle with center $O$. The angle $\\angle AOB = 110^\\circ$. Find the angle $\\angle ACB$ and state the geometrical reason.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\angle ACB = 110^\\circ \\div 2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\angle ACB = 55^\\circ$"
+    },
+    {
+     "mark": "R1",
+     "text": "Angle at center is twice angle at circumference"
+    }
+   ],
+   "answer": "$55^\\circ$",
+   "video": null
+  },
+  {
+   "id": "men1",
+   "topic": "igcse-3d-mensuration",
+   "slug": "surface-area-and-volume-of-3d-solids-easy-men1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": true,
+   "stem": "A solid sphere has a radius of $3\\text{ cm}$. Calculate its volume, giving your answer correct to 3 significant figures.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$V = \\frac{4}{3}\\pi (3)^3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$V = 36\\pi$"
+    },
+    {
+     "mark": "A1",
+     "text": "$V = 113\\text{ cm}^3$"
+    }
+   ],
+   "answer": "$113\\text{ cm}^3$",
+   "video": null
+  },
+  {
+   "id": "tg1",
+   "topic": "igcse-sine-cosine",
+   "slug": "sine-rule-cosine-rule-and-bearings-easy-tg1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": true,
+   "stem": "In triangle $PQR$, $PQ = 7\\text{ cm}$, $PR = 9\\text{ cm}$, and $\\angle QPR = 48^\\circ$. Calculate the area of triangle $PQR$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\text{Area} = \\frac{1}{2}(7)(9)\\sin 48^\\circ$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\text{Area} = 31.5\\sin 48^\\circ$"
+    },
+    {
+     "mark": "M1",
+     "text": "Evaluates with calculator"
+    },
+    {
+     "mark": "A1",
+     "text": "$23.4\\text{ cm}^2$"
+    }
+   ],
+   "answer": "$23.4\\text{ cm}^2$",
+   "video": null
+  },
+  {
+   "id": "vec1",
+   "topic": "igcse-vectors-col",
+   "slug": "column-vectors-and-vector-geometry-easy-vec1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "Given $\\vec{a} = \\begin{pmatrix} 3 \\\\ -4 \\end{pmatrix}$ and $\\vec{b} = \\begin{pmatrix} -1 \\\\ 2 \\end{pmatrix}$, find $2\\vec{a} + 3\\vec{b}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$2\\begin{pmatrix} 3 \\\\ -4 \\end{pmatrix} + 3\\begin{pmatrix} -1 \\\\ 2 \\end{pmatrix}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\begin{pmatrix} 6 - 3 \\\\ -8 + 6 \\end{pmatrix}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\begin{pmatrix} 3 \\\\ -2 \\end{pmatrix}$"
+    }
+   ],
+   "answer": "$\\begin{pmatrix} 3 \\\\ -2 \\end{pmatrix}$",
+   "video": null
+  },
+  {
+   "id": "pr1",
+   "topic": "igcse-probability-trees",
+   "slug": "probability-tree-diagrams-and-conditional-events-easy-pr1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "A bag contains 5 red balls and 3 blue balls. A ball is drawn, its color recorded, and not replaced. A second ball is drawn. Find the probability that both balls are red.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$P(R_1) = \\frac{5}{8}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$P(R_2|R_1) = \\frac{4}{7}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$P(\\text{both red}) = \\frac{5}{8}\\times\\frac{4}{7} = \\frac{20}{56} = \\frac{5}{14}$"
+    }
+   ],
+   "answer": "$\\frac{5}{14}$",
+   "video": null
+  },
+  {
+   "id": "st1",
+   "topic": "igcse-cumulative-freq",
+   "slug": "cumulative-frequency-and-box-plots-easy-st1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "A cumulative frequency curve is plotted for 80 students. State the cumulative frequency values used to read off:",
+   "parts": [
+    {
+     "label": "a",
+     "text": "The median",
+     "marks": 1
+    },
+    {
+     "label": "b",
+     "text": "The lower quartile $Q_1$",
+     "marks": 1
+    },
+    {
+     "label": "c",
+     "text": "The upper quartile $Q_3$",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "A1",
+     "text": "(a) Cumulative frequency of $40$"
+    },
+    {
+     "mark": "A1",
+     "text": "(b) Cumulative frequency of $20$"
+    },
+    {
+     "mark": "A1",
+     "text": "(c) Cumulative frequency of $60$"
+    }
+   ],
+   "answer": "(a) 40  (b) 20  (c) 60",
+   "video": null
+  },
+  {
    "id": "bi1",
    "topic": "binomial",
    "slug": "binomial-theorem-easy-bi1",
@@ -2439,6 +3804,156 @@
    "video": null
   },
   {
+   "id": "pf1",
+   "topic": "proofs",
+   "slug": "proof-by-induction-and-contradiction-easy-pf1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "Prove by induction that $\\sum_{r=1}^{n} r = \\dfrac{n(n+1)}{2}$ for all $n \\in \\mathbb{Z}^+$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Base case: For $n=1$, LHS$=1$, RHS$=\\frac{1(2)}{2}=1$, so true for $n=1$"
+    },
+    {
+     "mark": "M1",
+     "text": "Assume true for $n=k$: $\\sum_{r=1}^{k} r = \\frac{k(k+1)}{2}$"
+    },
+    {
+     "mark": "M1",
+     "text": "For $n=k+1$: $\\frac{k(k+1)}{2} + (k+1) = (k+1)\\left(\\frac{k}{2}+1\\right) = \\frac{(k+1)(k+2)}{2}$"
+    },
+    {
+     "mark": "R1",
+     "text": "Concludes valid by mathematical induction for all $n \\in \\mathbb{Z}^+$"
+    }
+   ],
+   "answer": "Proved by induction",
+   "video": null
+  },
+  {
+   "id": "pf2",
+   "topic": "proofs",
+   "slug": "proof-by-induction-and-contradiction-medium-pf2",
+   "difficulty": "medium",
+   "marks": 5,
+   "calc": false,
+   "stem": "Prove by induction that $3^{2n} - 1$ is divisible by $8$ for all $n \\in \\mathbb{Z}^+$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "For $n=1$: $3^2 - 1 = 8 = 8(1)$, true for $n=1$"
+    },
+    {
+     "mark": "M1",
+     "text": "Assume $3^{2k} - 1 = 8m$ for integer $m$"
+    },
+    {
+     "mark": "M1",
+     "text": "For $n=k+1$: $3^{2(k+1)} - 1 = 9(3^{2k}) - 1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$= 9(8m+1)-1 = 72m + 8 = 8(9m+1)$, which is divisible by 8"
+    },
+    {
+     "mark": "R1",
+     "text": "Induction conclusion"
+    }
+   ],
+   "answer": "Proved by induction",
+   "video": null
+  },
+  {
+   "id": "pl1",
+   "topic": "quadratics-poly",
+   "slug": "polynomials-roots-coefficients-easy-pl1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "When $P(x) = 2x^3 - x^2 + kx - 5$ is divided by $(x-2)$, the remainder is $7$. Find the value of $k$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Sets $P(2) = 7$"
+    },
+    {
+     "mark": "M1",
+     "text": "$2(8) - 4 + 2k - 5 = 7 \\implies 7 + 2k = 7$"
+    },
+    {
+     "mark": "A1",
+     "text": "$k = 0$"
+    }
+   ],
+   "answer": "$k=0$",
+   "video": null
+  },
+  {
+   "id": "tr1",
+   "topic": "trig-identities",
+   "slug": "trigonometric-identities-and-equations-easy-tr1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "Solve $\\sin 2x = \\cos x$ for $0 \\le x \\le \\pi$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$2\\sin x \\cos x - \\cos x = 0$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\cos x(2\\sin x - 1) = 0$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\cos x = 0 \\implies x = \\frac{\\pi}{2}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\sin x = \\frac12 \\implies x = \\frac{\\pi}{6},\\ \\frac{5\\pi}{6}$"
+    }
+   ],
+   "answer": "$x = \\frac{\\pi}{6},\\ \\frac{\\pi}{2},\\ \\frac{5\\pi}{6}$",
+   "video": null
+  },
+  {
+   "id": "vp1",
+   "topic": "vectors-planes",
+   "slug": "vectors-cross-product-and-planes-easy-vp1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "Find a vector perpendicular to both $\\vec{a} = \\begin{pmatrix} 1 \\\\ 2 \\\\ 0 \\end{pmatrix}$ and $\\vec{b} = \\begin{pmatrix} 0 \\\\ 1 \\\\ 3 \\end{pmatrix}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Evaluates $\\vec{a} \\times \\vec{b}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$i(6 - 0) = 6$"
+    },
+    {
+     "mark": "A1",
+     "text": "$j(0 - 3) = -3$"
+    },
+    {
+     "mark": "A1",
+     "text": "$k(1 - 0) = 1$, so $\\begin{pmatrix} 6 \\\\ -3 \\\\ 1 \\end{pmatrix}$"
+    }
+   ],
+   "answer": "$\\begin{pmatrix} 6 \\\\ -3 \\\\ 1 \\end{pmatrix}$",
+   "video": null
+  },
+  {
    "id": "fa1",
    "topic": "finance",
    "slug": "financial-applications-compound-interest-easy-fa1",
@@ -2507,6 +4022,93 @@
     }
    ],
    "answer": "(a) \\$2393.36  (b) 12 years",
+   "video": null
+  },
+  {
+   "id": "bv1",
+   "topic": "bivariate",
+   "slug": "bivariate-data-correlation-and-regression-easy-bv1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": true,
+   "stem": "For a group of students, $x$ is the number of hours spent revising and $y$ is the test score. The data has $1\\le x\\le10$ and the regression line of $y$ on $x$ is $y=2.4x+11$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Interpret the gradient of the line in context.",
+     "marks": 1
+    },
+    {
+     "label": "b",
+     "text": "Estimate the score of a student who revises for 5 hours.",
+     "marks": 2
+    },
+    {
+     "label": "c",
+     "text": "Explain why the line should not be used to estimate the score of a student who revises for 30 hours.",
+     "marks": 1
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "R1",
+     "text": "(a) Each extra hour of revision is associated with an increase of 2.4 marks"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $2.4(5)+11$"
+    },
+    {
+     "mark": "A1",
+     "text": "$23$"
+    },
+    {
+     "mark": "R1",
+     "text": "(c) 30 is outside the range of the data (extrapolation)"
+    }
+   ],
+   "answer": "(b) $23$",
+   "video": null
+  },
+  {
+   "id": "bv2",
+   "topic": "bivariate",
+   "slug": "bivariate-data-correlation-and-regression-medium-bv2",
+   "difficulty": "medium",
+   "marks": 4,
+   "calc": true,
+   "stem": "A set of bivariate data has mean point $(6,\\,20)$. The regression line of $y$ on $x$ is $y=1.5x+c$.",
+   "parts": [
+    {
+     "label": "a",
+     "text": "Find the value of $c$.",
+     "marks": 2
+    },
+    {
+     "label": "b",
+     "text": "Estimate the value of $y$ when $x=8$.",
+     "marks": 2
+    }
+   ],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "(a) Substitutes $(6,\\,20)$: $20=1.5(6)+c$"
+    },
+    {
+     "mark": "A1",
+     "text": "$c=11$"
+    },
+    {
+     "mark": "M1",
+     "text": "(b) $1.5(8)+11$"
+    },
+    {
+     "mark": "A1",
+     "text": "$23$"
+    }
+   ],
+   "answer": "(a) $c=11$  (b) $23$",
    "video": null
   },
   {
@@ -2732,90 +4334,123 @@
    "video": null
   },
   {
-   "id": "bv1",
-   "topic": "bivariate",
-   "slug": "bivariate-data-correlation-and-regression-easy-bv1",
+   "id": "asq1",
+   "topic": "aa-sl-sequences",
+   "slug": "arithmetic-and-geometric-sequences-easy-asq1",
    "difficulty": "easy",
    "marks": 4,
-   "calc": true,
-   "stem": "For a group of students, $x$ is the number of hours spent revising and $y$ is the test score. The data has $1\\le x\\le10$ and the regression line of $y$ on $x$ is $y=2.4x+11$.",
-   "parts": [
-    {
-     "label": "a",
-     "text": "Interpret the gradient of the line in context.",
-     "marks": 1
-    },
-    {
-     "label": "b",
-     "text": "Estimate the score of a student who revises for 5 hours.",
-     "marks": 2
-    },
-    {
-     "label": "c",
-     "text": "Explain why the line should not be used to estimate the score of a student who revises for 30 hours.",
-     "marks": 1
-    }
-   ],
+   "calc": false,
+   "stem": "The first three terms of an arithmetic sequence are $5, 8, 11$. Find the 20th term and the sum of the first 20 terms.",
+   "parts": [],
    "scheme": [
     {
-     "mark": "R1",
-     "text": "(a) Each extra hour of revision is associated with an increase of 2.4 marks"
-    },
-    {
      "mark": "M1",
-     "text": "(b) $2.4(5)+11$"
+     "text": "$u_1 = 5, d = 3$"
     },
     {
      "mark": "A1",
-     "text": "$23$"
+     "text": "$u_{20} = 5 + 19(3) = 62$"
     },
     {
-     "mark": "R1",
-     "text": "(c) 30 is outside the range of the data (extrapolation)"
+     "mark": "M1",
+     "text": "$S_{20} = \\frac{20}{2}(5 + 62)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$S_{20} = 670$"
     }
    ],
-   "answer": "(b) $23$",
+   "answer": "$u_{20} = 62,\\ S_{20} = 670$",
    "video": null
   },
   {
-   "id": "bv2",
-   "topic": "bivariate",
-   "slug": "bivariate-data-correlation-and-regression-medium-bv2",
-   "difficulty": "medium",
+   "id": "afn1",
+   "topic": "aa-sl-functions",
+   "slug": "quadratic-and-exponential-functions-easy-afn1",
+   "difficulty": "easy",
    "marks": 4,
-   "calc": true,
-   "stem": "A set of bivariate data has mean point $(6,\\,20)$. The regression line of $y$ on $x$ is $y=1.5x+c$.",
-   "parts": [
-    {
-     "label": "a",
-     "text": "Find the value of $c$.",
-     "marks": 2
-    },
-    {
-     "label": "b",
-     "text": "Estimate the value of $y$ when $x=8$.",
-     "marks": 2
-    }
-   ],
+   "calc": false,
+   "stem": "Find the coordinates of the vertex of the parabola $y = 2x^2 - 8x + 11$.",
+   "parts": [],
    "scheme": [
     {
      "mark": "M1",
-     "text": "(a) Substitutes $(6,\\,20)$: $20=1.5(6)+c$"
+     "text": "$x_v = -\\frac{-8}{2(2)} = 2$"
     },
     {
      "mark": "A1",
-     "text": "$c=11$"
+     "text": "$x = 2$"
     },
     {
      "mark": "M1",
-     "text": "(b) $1.5(8)+11$"
+     "text": "$y = 2(4) - 8(2) + 11$"
     },
     {
      "mark": "A1",
-     "text": "$23$"
+     "text": "$y = 3$, vertex $(2, 3)$"
     }
    ],
-   "answer": "(a) $c=11$  (b) $23$",
+   "answer": "$(2, 3)$",
+   "video": null
+  },
+  {
+   "id": "atg1",
+   "topic": "aa-sl-trig",
+   "slug": "sine-and-cosine-rules-circular-measure-easy-atg1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": true,
+   "stem": "In triangle $ABC$, $AB = 6\\text{ cm}$, $BC = 8\\text{ cm}$ and $\\angle ABC = 40^\\circ$. Find the length of $AC$ to 3 significant figures.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$b^2 = 6^2 + 8^2 - 2(6)(8)\\cos 40^\\circ$"
+    },
+    {
+     "mark": "A1",
+     "text": "$b^2 = 36 + 64 - 96\\cos 40^\\circ = 26.46$"
+    },
+    {
+     "mark": "M1",
+     "text": "$b = \\sqrt{26.46}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$b = 5.14\\text{ cm}$"
+    }
+   ],
+   "answer": "$5.14\\text{ cm}$",
+   "video": null
+  },
+  {
+   "id": "acl1",
+   "topic": "aa-sl-calculus",
+   "slug": "differentiation-tangents-and-optimization-easy-acl1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "Find the equation of the tangent to the curve $y = x^3 - 4x + 1$ at the point where $x = 2$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\frac{dy}{dx} = 3x^2 - 4$"
+    },
+    {
+     "mark": "A1",
+     "text": "At $x=2$: $m = 3(4) - 4 = 8$"
+    },
+    {
+     "mark": "M1",
+     "text": "When $x=2$: $y = 8 - 8 + 1 = 1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y - 1 = 8(x - 2) \\implies y = 8x - 15$"
+    }
+   ],
+   "answer": "$y = 8x - 15$",
    "video": null
   },
   {
@@ -2972,6 +4607,96 @@
     }
    ],
    "answer": "$k\\approx177.7$",
+   "video": null
+  },
+  {
+   "id": "aic1",
+   "topic": "ai-sl-chi",
+   "slug": "chi-squared-independence-test-easy-aic1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": true,
+   "stem": "A survey investigates gender and music preference. The contingency table has 2 rows and 3 columns. Calculate the degrees of freedom and state the null hypothesis.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "A1",
+     "text": "$\\nu = (2-1)(3-1) = 2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$H_0$: Gender and music preference are independent"
+    },
+    {
+     "mark": "M1",
+     "text": "For significance level $\\alpha = 0.05$ with $2$ df, critical value is $5.991$"
+    },
+    {
+     "mark": "A1",
+     "text": "Decision rule stated"
+    }
+   ],
+   "answer": "$\\nu = 2$",
+   "video": null
+  },
+  {
+   "id": "aimx1",
+   "topic": "ai-hl-matrices",
+   "slug": "matrices-and-markov-chains-easy-aimx1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": true,
+   "stem": "Given the transition matrix $T = \\begin{pmatrix} 0.8 & 0.1 \\\\ 0.2 & 0.9 \\end{pmatrix}$, find the steady-state probability vector.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Sets $T\\mathbf{s} = \\mathbf{s}$ with $\\mathbf{s} = \\begin{pmatrix} x \\\\ y \\end{pmatrix}$ and $x+y=1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$0.8x + 0.1y = x \\implies -0.2x + 0.1y = 0 \\implies y = 2x$"
+    },
+    {
+     "mark": "M1",
+     "text": "$x + 2x = 1 \\implies x = \\frac13$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\mathbf{s} = \\begin{pmatrix} 1/3 \\\\ 2/3 \\end{pmatrix}$"
+    }
+   ],
+   "answer": "$\\begin{pmatrix} 1/3 \\\\ 2/3 \\end{pmatrix}$",
+   "video": null
+  },
+  {
+   "id": "aigt1",
+   "topic": "ai-hl-graphs",
+   "slug": "graph-theory-trees-and-dijkstra-easy-aigt1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "A connected planar graph has 6 vertices and 9 edges. Find the number of faces of the graph.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Applies Euler's formula $v - e + f = 2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$6 - 9 + f = 2$"
+    },
+    {
+     "mark": "M1",
+     "text": "$-3 + f = 2$"
+    },
+    {
+     "mark": "A1",
+     "text": "$f = 5$"
+    }
+   ],
+   "answer": "$f = 5$",
    "video": null
   },
   {
@@ -3515,6 +5240,252 @@
     }
    ],
    "answer": "Minimum at $(2,\\,-11)$, maximum at $(1,\\,-7)$",
+   "video": null
+  },
+  {
+   "id": "myps1",
+   "topic": "myp-spatial-theorems",
+   "slug": "spatial-reasoning-circle-theorems-easy-myps1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "In a cyclic quadrilateral $ABCD$, angle $\\angle ABC = 75^\\circ$. Find angle $\\angle ADC$ and state the geometrical property.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Opposite angles sum to $180^\\circ$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\angle ADC = 180^\\circ - 75^\\circ = 105^\\circ$"
+    },
+    {
+     "mark": "R1",
+     "text": "Opposite angles of a cyclic quadrilateral are supplementary"
+    }
+   ],
+   "answer": "$105^\\circ$",
+   "video": null
+  },
+  {
+   "id": "alp1",
+   "topic": "al-p1-circular",
+   "slug": "circular-measure-radians-arcs-sectors-easy-alp1",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "A circle has radius $6\\text{ cm}$. A sector has angle $\\theta = \\frac{2\\pi}{3}\\text{ radians}$. Find the perimeter and area of the sector in terms of $\\pi$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Arc length $s = 6 \\times \\frac{2\\pi}{3} = 4\\pi$"
+    },
+    {
+     "mark": "A1",
+     "text": "Perimeter $= 6 + 6 + 4\\pi = 12 + 4\\pi\\text{ cm}$"
+    },
+    {
+     "mark": "M1",
+     "text": "Area $= \\frac{1}{2}(6^2)\\left(\\frac{2\\pi}{3}\\right)$"
+    },
+    {
+     "mark": "A1",
+     "text": "Area $= 12\\pi\\text{ cm}^2$"
+    }
+   ],
+   "answer": "$P = 12+4\\pi\\text{ cm},\\ A = 12\\pi\\text{ cm}^2$",
+   "video": null
+  },
+  {
+   "id": "alp3",
+   "topic": "al-p3-diff",
+   "slug": "advanced-differentiation-product-quotient-implicit-easy-alp3",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "Find $\\dfrac{dy}{dx}$ for $y = x^2 e^{3x}$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Applies product rule: $u = x^2, v = e^{3x}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$u' = 2x, v' = 3e^{3x}$"
+    },
+    {
+     "mark": "M1",
+     "text": "$\\frac{dy}{dx} = 2x e^{3x} + 3x^2 e^{3x}$"
+    },
+    {
+     "mark": "A1",
+     "text": "$= x e^{3x}(2 + 3x)$"
+    }
+   ],
+   "answer": "$x e^{3x}(2 + 3x)$",
+   "video": null
+  },
+  {
+   "id": "alm1",
+   "topic": "al-m1-kinematics",
+   "slug": "kinematics-motion-in-straight-line-easy-alm1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "A particle moves in a straight line so that its displacement at time $t$ is $s = 2t^3 - 9t^2 + 12t$. Find the times at which the particle is momentarily at rest.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$v = \\frac{ds}{dt} = 6t^2 - 18t + 12$"
+    },
+    {
+     "mark": "M1",
+     "text": "Sets $6(t^2 - 3t + 2) = 0 \\implies 6(t-1)(t-2) = 0$"
+    },
+    {
+     "mark": "A1",
+     "text": "$t = 1\\text{ s},\\ t = 2\\text{ s}$"
+    }
+   ],
+   "answer": "$t = 1\\text{ s},\\ t = 2\\text{ s}$",
+   "video": null
+  },
+  {
+   "id": "als1",
+   "topic": "al-s1-permutations",
+   "slug": "permutations-and-combinations-easy-als1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "In how many ways can 5 books be arranged in a line on a shelf?",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Calculates $5!$"
+    },
+    {
+     "mark": "A1",
+     "text": "$5 \\times 4 \\times 3 \\times 2 \\times 1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$120$"
+    }
+   ],
+   "answer": "$120$",
+   "video": null
+  },
+  {
+   "id": "add1",
+   "topic": "add-indices-logs",
+   "slug": "logarithmic-equations-and-laws-easy-add1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": false,
+   "stem": "Solve $\\log_2(x+3) + \\log_2(x-3) = 4$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "$\\log_2[(x+3)(x-3)] = 4 \\implies x^2 - 9 = 2^4$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x^2 - 9 = 16 \\implies x^2 = 25$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x = 5$ (rejects $x = -5$ since $\\log_2$ requires positive argument)"
+    }
+   ],
+   "answer": "$x = 5$",
+   "video": null
+  },
+  {
+   "id": "add2",
+   "topic": "add-diff",
+   "slug": "chain-rule-product-and-quotient-rules-easy-add2",
+   "difficulty": "easy",
+   "marks": 4,
+   "calc": false,
+   "stem": "Differentiate $y = (2x - 5)^4$ with respect to $x$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Applies chain rule: $4(2x-5)^3 \\times \\frac{d}{dx}(2x-5)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$\\frac{d}{dx}(2x-5) = 2$"
+    },
+    {
+     "mark": "M1",
+     "text": "Multiplies coefficients"
+    },
+    {
+     "mark": "A1",
+     "text": "$8(2x-5)^3$"
+    }
+   ],
+   "answer": "$8(2x-5)^3$",
+   "video": null
+  },
+  {
+   "id": "cam1",
+   "topic": "cam-0607-gdc-functions",
+   "slug": "gdc-graphing-roots-and-extrema-easy-cam1",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": true,
+   "stem": "Use a graphic display calculator to find the zeros of $f(x) = x^3 - 3x^2 - x + 3$.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Graphs function on GDC and inspects roots"
+    },
+    {
+     "mark": "A1",
+     "text": "$x = -1,\\ x = 1$"
+    },
+    {
+     "mark": "A1",
+     "text": "$x = 3$"
+    }
+   ],
+   "answer": "$x = -1,\\ 1,\\ 3$",
+   "video": null
+  },
+  {
+   "id": "cam2",
+   "topic": "cam-0607-stats",
+   "slug": "bivariate-statistics-and-regression-on-gdc-easy-cam2",
+   "difficulty": "easy",
+   "marks": 3,
+   "calc": true,
+   "stem": "A dataset has mean values $\\bar{x} = 10$ and $\\bar{y} = 25$. The regression line of $y$ on $x$ has gradient $1.8$. Find the equation of the regression line.",
+   "parts": [],
+   "scheme": [
+    {
+     "mark": "M1",
+     "text": "Line passes through $(10, 25)$: $y - 25 = 1.8(x - 10)$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y = 1.8x - 18 + 25$"
+    },
+    {
+     "mark": "A1",
+     "text": "$y = 1.8x + 7$"
+    }
+   ],
+   "answer": "$y = 1.8x + 7$",
    "video": null
   }
  ],

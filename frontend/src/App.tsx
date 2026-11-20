@@ -85,7 +85,7 @@ function AppContent() {
 
         <main className="flex-1 min-w-0">
           <Suspense fallback={<PageLoader />}>
-            <Routes>
+            <Routes location={location} key={location.pathname}>
               <Route path="/" element={<Home />} />
               <Route
                 path="/login/"
@@ -117,6 +117,9 @@ function AppContent() {
               <Route path="/questions" element={<Contents />} />
               <Route path="/learn" element={<Learn />} />
               <Route path="/daily-5" element={<DailyFive />} />
+              <Route path="/practice" element={<DailyFive />} />
+              <Route path="/practice/mcq" element={<Contents />} />
+              <Route path="/practice/question-bank" element={<Contents />} />
               <Route path="/quiz/:spec" element={<QuizPage />} />
               <Route path="/question/:slug" element={<QuestionPage />} />
               <Route path="/worksheet-builder" element={<WorksheetBuilder />} />

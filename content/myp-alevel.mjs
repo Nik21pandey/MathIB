@@ -18,22 +18,69 @@ const bandsD = [
 export const syllabuses = [
   {
     slug: 'ib-myp-math', board: 'ib', code: 'MYP 4-5', name: 'IB MYP Mathematics', short: 'IB MYP', level: 'myp-ext', status: 'live',
-    blurb: 'Practice built around the four assessment criteria. Criterion B investigations and Criterion D real-life tasks are interactive.',
-    papers: [],
+    blurb: 'Practice built around the four branches and four assessment criteria. Criterion B investigations and Criterion D real-life tasks are interactive.',
+    papers: [
+      { name: 'eAssessment On-Screen (Standard)', calc: true, duration: '2 hours', marks: 100 },
+      { name: 'eAssessment On-Screen (Extended)', calc: true, duration: '2 hours', marks: 100 },
+    ],
     sections: [
-      { slug: 'criterion-a', name: 'Criterion A: Knowing and Understanding', blurb: 'Topic tests written with MYP command terms: state, describe, explain, justify.' },
-      { slug: 'criterion-b', name: 'Criterion B: Investigating Patterns', hub: true, blurb: 'Fill in the pattern table, predict, find the general rule, then verify and justify it. Criterion C (communicating) is assessed through the way you set this out.' },
-      { slug: 'criterion-d', name: 'Criterion D: Applying Mathematics in Real-Life Contexts', hub: true, blurb: 'Model a real situation, solve it, and comment on accuracy and whether the answer makes sense.' },
+      { slug: 'myp-numerical', name: 'Branch 1: Numerical and Abstract Reasoning', blurb: 'Number systems, indices, standard form, surds and error bounds.' },
+      { slug: 'myp-models', name: 'Branch 2: Thinking with Models (Algebra & Functions)', blurb: 'Linear & quadratic models, functions, sequences and inequalities.' },
+      { slug: 'myp-spatial', name: 'Branch 3: Spatial Reasoning (Geometry & Trig)', blurb: 'Polygons, circle theorems, 3D mensuration, Pythagoras and trigonometry.' },
+      { slug: 'myp-data', name: 'Branch 4: Reasoning with Data (Stats & Probability)', blurb: 'Statistical analysis, correlation, sample space and probability trees.' },
+      { slug: 'criterion-a', name: 'Criterion A: Knowing and Understanding', blurb: 'Topic tests with MYP command terms: state, describe, explain, justify.' },
+      { slug: 'criterion-b', name: 'Criterion B: Investigating Patterns', hub: true, blurb: 'Pattern table, general rule prediction, verification and formal justification.' },
+      { slug: 'criterion-d', name: 'Criterion D: Applying Mathematics in Real-Life Contexts', hub: true, blurb: 'Model real situations, solve, evaluate degree of accuracy and contextual sense.' },
     ],
   },
   {
     slug: 'a-level-9709', board: 'cambridge', code: '9709', name: 'Cambridge International AS & A Level Mathematics', short: 'A Level 9709', level: 'a-level', status: 'live',
-    blurb: 'Pure Mathematics 1 to begin with.',
-    papers: [{ name: 'Paper 1: Pure Mathematics 1', calc: true, duration: '1 hour 50 minutes', marks: 75 }],
-    sections: [{ slug: 'pure-mathematics-1', name: 'Pure Mathematics 1', blurb: 'Series and differentiation.' }],
+    blurb: 'Complete AS & A Level curriculum: Pure Mathematics (P1, P3), Mechanics (M1) and Probability & Statistics (S1).',
+    papers: [
+      { name: 'Paper 1: Pure Mathematics 1 (P1)', calc: true, duration: '1 hour 50 minutes', marks: 75 },
+      { name: 'Paper 3: Pure Mathematics 3 (P3)', calc: true, duration: '1 hour 50 minutes', marks: 75 },
+      { name: 'Paper 4: Mechanics (M1)', calc: true, duration: '1 hour 15 minutes', marks: 50 },
+      { name: 'Paper 5: Probability & Statistics 1 (S1)', calc: true, duration: '1 hour 15 minutes', marks: 50 },
+    ],
+    sections: [
+      { slug: 'pure-mathematics-1', name: 'Paper 1: Pure Mathematics 1', blurb: 'Quadratics, circular measure, trigonometry, series, and differentiation.' },
+      { slug: 'pure-mathematics-3', name: 'Paper 3: Pure Mathematics 3', blurb: 'Logarithms, advanced calculus, partial fractions, differential equations and complex numbers.' },
+      { slug: 'mechanics-1', name: 'Paper 4: Mechanics', blurb: 'Forces and equilibrium, kinematics in a straight line, momentum and Newton\'s laws.' },
+      { slug: 'probability-statistics-1', name: 'Paper 5: Probability & Statistics 1', blurb: 'Representation of data, permutations, combinations, and the normal distribution.' },
+    ],
   },
-  { slug: 'igcse-0607', board: 'cambridge', code: '0607', name: 'Cambridge IGCSE International Mathematics', short: 'IGCSE 0607', level: 'igcse-ext', status: 'soon', blurb: 'Coming next.', papers: [], sections: [] },
-  { slug: 'igcse-0606', board: 'cambridge', code: '0606', name: 'Cambridge IGCSE Additional Mathematics', short: 'IGCSE 0606', level: 'igcse-ext', status: 'soon', blurb: 'Coming next.', papers: [], sections: [] },
+  {
+    slug: 'igcse-0606', board: 'cambridge', code: '0606', name: 'Cambridge IGCSE Additional Mathematics', short: 'IGCSE 0606', level: 'igcse-ext', status: 'live',
+    blurb: 'Advanced mathematics preparing students for AS/A Level and IB DP. Rigorous algebra, trigonometry and calculus.',
+    papers: [
+      { name: 'Paper 1', calc: true, duration: '2 hours', marks: 80 },
+      { name: 'Paper 2', calc: true, duration: '2 hours', marks: 80 },
+    ],
+    sections: [
+      { slug: 'functions-quadratics', name: 'Functions and Quadratic Theory', blurb: 'Composite and inverse functions, discriminant and completed square form.' },
+      { slug: 'indices-surds-logs', name: 'Indices, Surds and Logarithms', blurb: 'Rationalising surds, laws of logarithms and exponential equations.' },
+      { slug: 'circular-measure', name: 'Circular Measure (Radians)', blurb: 'Radian measure, arc length, sector and segment area.' },
+      { slug: 'trigonometry', name: 'Trigonometry: Identities and Equations', blurb: 'Secant, cosecant, cotangent and solving trigonometric equations.' },
+      { slug: 'calculus-differentiation', name: 'Calculus: Differentiation and Rates', blurb: 'Product, quotient and chain rules, tangents and turning points.' },
+      { slug: 'calculus-integration', name: 'Calculus: Integration and Area', blurb: 'Definite integrals, area under curves and kinematics.' },
+    ],
+  },
+  {
+    slug: 'igcse-0607', board: 'cambridge', code: '0607', name: 'Cambridge IGCSE International Mathematics', short: 'IGCSE 0607', level: 'igcse-ext', status: 'live',
+    blurb: 'International curriculum with graphic display calculator (GDC) integration and mathematical investigations.',
+    papers: [
+      { name: 'Paper 2 (Core/Ext Non-Calc)', calc: false, duration: '45 minutes', marks: 40 },
+      { name: 'Paper 4 (Extended Calc)', calc: true, duration: '2 hours 15 minutes', marks: 120 },
+      { name: 'Paper 6 (Investigation & Modeling)', calc: true, duration: '1 hour 40 minutes', marks: 60 },
+    ],
+    sections: [
+      { slug: 'number-algebra', name: 'Number and Algebra', blurb: 'Surds, financial calculations and sequences.' },
+      { slug: 'functions-gdc', name: 'Functions and Graph Modeling (GDC)', blurb: 'GDC graphing, finding roots, asymptotes and modeling.' },
+      { slug: 'geometry-trigonometry', name: 'Geometry and 3D Trigonometry', blurb: 'Circle theorems, 3D triangles, bearings and vectors.' },
+      { slug: 'probability-statistics', name: 'Probability and Bivariate Statistics', blurb: 'Scatter graphs, correlation and lines of best fit on GDC.' },
+      { slug: 'investigation-modeling', name: 'Paper 6: Investigation & Modeling', hub: true, blurb: 'Open-ended mathematical pattern deduction and model construction.' },
+    ],
+  },
 ];
 
 export const topics = [
@@ -190,6 +237,188 @@ export const topics = [
       ],
     },
   },
+  // --- MYP Branches ---
+  {
+    id: 'myp-spatial-theorems', syllabus: 'ib-myp-math', section: 'myp-spatial', slug: 'spatial-reasoning-circle-theorems', name: 'Spatial Reasoning: Circle Theorems',
+    summary: 'Analyze circle geometry, prove cyclic quadrilateral angle sums, and apply tangent rules.',
+    generators: [],
+    notes: {
+      points: [
+        R`Opposite angles in a cyclic quadrilateral sum to $180^\circ$.`,
+        R`Angle at the circumference subtended by a diameter is always $90^\circ$.`,
+      ],
+      formulas: [],
+      gdc: [],
+      traps: [
+        R`Forgetting to justify each step with the formal theorem name.`,
+      ],
+    },
+  },
+
+  // --- A Level 9709 Topics ---
+  {
+    id: 'al-p1-circular', syllabus: 'a-level-9709', section: 'pure-mathematics-1', slug: 'circular-measure-radians-arcs-sectors', name: 'Circular Measure: Radians, Arcs and Sectors',
+    tag: 'P1 Core',
+    summary: 'Radian measure, arc length s = r theta, and area of sector and segment.',
+    generators: [],
+    notes: {
+      points: [
+        R`Arc length: $s = r\theta$ with $\theta$ in radians.`,
+        R`Sector area: $A = \frac{1}{2}r^2\theta$.`,
+        R`Segment area: $A_{\text{segment}} = \frac{1}{2}r^2(\theta - \sin\theta)$.`,
+      ],
+      formulas: [
+        { label: 'Arc length', tex: R`s = r\theta` },
+        { label: 'Segment area', tex: R`A = \tfrac12 r^2(\theta - \sin\theta)` },
+      ],
+      gdc: [],
+      traps: [
+        R`Using degree formulas with radian angles.`,
+      ],
+    },
+  },
+  {
+    id: 'al-p3-diff', syllabus: 'a-level-9709', section: 'pure-mathematics-3', slug: 'advanced-differentiation-product-quotient-implicit', name: 'Advanced Differentiation: Product, Quotient and Implicit',
+    tag: 'P3 Core',
+    summary: 'Differentiate exponential, logarithmic, trigonometric functions, and implicit curves.',
+    generators: [],
+    notes: {
+      points: [
+        R`$\frac{d}{dx}[\ln(f(x))] = \frac{f'(x)}{f(x)}$ and $\frac{d}{dx}[e^{f(x)}] = f'(x)e^{f(x)}$.`,
+        R`Implicit differentiation: differentiate both sides with respect to $x$, applying chain rule to $y$ terms (e.g. $\frac{d}{dx}[y^2] = 2y\frac{dy}{dx}$).`,
+      ],
+      formulas: [
+        { label: 'Log derivative', tex: R`\dfrac{d}{dx}[\ln x] = \dfrac{1}{x}` },
+      ],
+      gdc: [],
+      traps: [
+        R`Missing the product rule when differentiating mixed terms like $x^2 y$.`,
+      ],
+    },
+  },
+  {
+    id: 'al-m1-kinematics', syllabus: 'a-level-9709', section: 'mechanics-1', slug: 'kinematics-motion-in-straight-line', name: 'Kinematics: Motion in a Straight Line',
+    tag: 'M1 Core',
+    summary: 'Constant acceleration formulae (SUVAT) and variable acceleration with calculus.',
+    generators: [],
+    notes: {
+      points: [
+        R`Velocity is the rate of change of displacement: $v = \frac{ds}{dt}$.`,
+        R`Acceleration is the rate of change of velocity: $a = \frac{dv}{dt} = \frac{d^2s}{dt^2}$.`,
+        R`Displacement is the integral of velocity: $s = \int v\,dt$.`,
+      ],
+      formulas: [
+        { label: 'Velocity', tex: R`v = \dfrac{ds}{dt}` },
+        { label: 'Acceleration', tex: R`a = \dfrac{dv}{dt}` },
+      ],
+      gdc: [],
+      traps: [
+        R`Using constant acceleration formulae (SUVAT) when acceleration varies with time.`,
+      ],
+    },
+  },
+  {
+    id: 'al-s1-permutations', syllabus: 'a-level-9709', section: 'probability-statistics-1', slug: 'permutations-and-combinations', name: 'Permutations and Combinations',
+    tag: 'S1 Core',
+    summary: 'Arrangements in a line, circular permutations, restrictions, and selections with nCr.',
+    generators: [],
+    notes: {
+      points: [
+        R`Permutations (order matters): $^n P_r = \frac{n!}{(n-r)!}$.`,
+        R`Combinations (order does not matter): $\binom{n}{r} = \frac{n!}{r!(n-r)!}$.`,
+        R`Items together: bundle them as one item, multiply by internal arrangements.`,
+      ],
+      formulas: [
+        { label: 'Combinations', tex: R`\binom{n}{r} = \dfrac{n!}{r!(n-r)!}` },
+      ],
+      gdc: [],
+      traps: [
+        R`Using permutations when the group order does not matter (e.g. choosing a committee).`,
+      ],
+    },
+  },
+
+  // --- IGCSE 0606 Topics ---
+  {
+    id: 'add-indices-logs', syllabus: 'igcse-0606', section: 'indices-surds-logs', slug: 'logarithmic-equations-and-laws', name: 'Logarithmic Equations and Laws of Logarithms',
+    tag: '0606 Core',
+    summary: 'Solve equations using laws of logarithms, change of base, and natural logarithms.',
+    generators: ['log-evaluate'],
+    notes: {
+      points: [
+        R`$\log_a(xy) = \log_a x + \log_a y$ and $\log_a\left(\frac{x}{y}\right) = \log_a x - \log_a y$.`,
+        R`Power rule: $\log_a(x^k) = k\log_a x$.`,
+        R`Change of base: $\log_a b = \frac{\log_c b}{\log_c a}$.`,
+      ],
+      formulas: [
+        { label: 'Change of base', tex: R`\log_a b = \dfrac{\ln b}{\ln a}` },
+      ],
+      gdc: [],
+      traps: [
+        R`Writing $\log(x+y) = \log x + \log y$, which is completely false.`,
+      ],
+    },
+  },
+  {
+    id: 'add-diff', syllabus: 'igcse-0606', section: 'calculus-differentiation', slug: 'chain-rule-product-and-quotient-rules', name: 'Chain Rule, Product and Quotient Rules',
+    tag: '0606 Core',
+    summary: 'Differentiate composite functions, products and quotients, and apply to tangents.',
+    generators: ['differentiate-poly'],
+    notes: {
+      points: [
+        R`Chain rule: $\frac{dy}{dx} = \frac{dy}{du} \times \frac{du}{dx}$.`,
+        R`Product rule: $\frac{d}{dx}(uv) = u\frac{dv}{dx} + v\frac{du}{dx}$.`,
+        R`Quotient rule: $\frac{d}{dx}\left(\frac{u}{v}\right) = \frac{v\frac{du}{dx} - u\frac{dv}{dx}}{v^2}$.`,
+      ],
+      formulas: [
+        { label: 'Chain rule', tex: R`\dfrac{dy}{dx} = \dfrac{dy}{du}\cdot\dfrac{du}{dx}` },
+      ],
+      gdc: [],
+      traps: [
+        R`Subtracting in reverse order in the quotient rule numerator.`,
+      ],
+    },
+  },
+
+  // --- IGCSE 0607 Topics ---
+  {
+    id: 'cam-0607-gdc-functions', syllabus: 'igcse-0607', section: 'functions-gdc', slug: 'gdc-graphing-roots-and-extrema', name: 'GDC Graphing, Roots and Local Extrema',
+    tag: '0607 Core',
+    summary: 'Sketch graphs, locate zeros, local maxima/minima, and vertical/horizontal asymptotes using GDC.',
+    generators: [],
+    notes: {
+      points: [
+        R`Ensure viewing window encompasses all key features (intercepts, turning points, asymptotes).`,
+        R`Use GDC solver to find coordinates of intersection between two curves.`,
+      ],
+      formulas: [],
+      gdc: [
+        R`TI-Nspire: menu, Analyze Graph, Zero / Minimum / Maximum / Intersection.`,
+      ],
+      traps: [
+        R`Rounding intermediate coordinates: keep 3 significant figures for the final answer.`,
+      ],
+    },
+  },
+  {
+    id: 'cam-0607-stats', syllabus: 'igcse-0607', section: 'probability-statistics', slug: 'bivariate-statistics-and-regression-on-gdc', name: 'Bivariate Statistics and Linear Regression on GDC',
+    tag: '0607 Core',
+    summary: 'Scatter diagrams, correlation, equation of regression line, and mean point on GDC.',
+    generators: [],
+    notes: {
+      points: [
+        R`The regression line passes through the mean point $(\bar{x}, \bar{y})$.`,
+        R`Use regression line only for estimating within the range of observed $x$ values (interpolation).`,
+      ],
+      formulas: [],
+      gdc: [
+        R`TI-Nspire: Lists & Spreadsheet, menu, Statistics, Stat Calculations, Linear Regression (mx+b).`,
+      ],
+      traps: [
+        R`Swapping the X List and Y List when calculating regression parameters.`,
+      ],
+    },
+  },
 ];
 
 export const questions = [
@@ -236,6 +465,41 @@ export const questions = [
   ['al3', 'al-chain', 'hard', 6, true, R`A curve has equation $y=(2x-3)^3-6x$. Find the coordinates of the stationary points and determine the nature of each.`, null,
     [['M1', R`$\dfrac{dy}{dx}=6(2x-3)^2-6$`], ['M1', R`$(2x-3)^2=1$`], ['A1', R`$x=2$ or $x=1$`], ['A1', R`$(2,\,-11)$ and $(1,\,-7)$`], ['M1', R`$\dfrac{d^2y}{dx^2}=24(2x-3)$`], ['A1', R`$(2,\,-11)$ minimum, $(1,\,-7)$ maximum`]],
     R`Minimum at $(2,\,-11)$, maximum at $(1,\,-7)$`],
+  // MYP Spatial
+  ['myps1', 'myp-spatial-theorems', 'easy', 3, false, R`In a cyclic quadrilateral $ABCD$, angle $\angle ABC = 75^\circ$. Find angle $\angle ADC$ and state the geometrical property.`, null,
+    [['M1', R`Opposite angles sum to $180^\circ$`], ['A1', R`$\angle ADC = 180^\circ - 75^\circ = 105^\circ$`], ['R1', R`Opposite angles of a cyclic quadrilateral are supplementary`]], R`$105^\circ$`],
+
+  // A Level P1 Circular Measure
+  ['alp1', 'al-p1-circular', 'easy', 4, false, R`A circle has radius $6\text{ cm}$. A sector has angle $\theta = \frac{2\pi}{3}\text{ radians}$. Find the perimeter and area of the sector in terms of $\pi$.`, null,
+    [['M1', R`Arc length $s = 6 \times \frac{2\pi}{3} = 4\pi$`], ['A1', R`Perimeter $= 6 + 6 + 4\pi = 12 + 4\pi\text{ cm}$`], ['M1', R`Area $= \frac{1}{2}(6^2)\left(\frac{2\pi}{3}\right)$`], ['A1', R`Area $= 12\pi\text{ cm}^2$`]], R`$P = 12+4\pi\text{ cm},\ A = 12\pi\text{ cm}^2$`],
+
+  // A Level P3 Differentiation
+  ['alp3', 'al-p3-diff', 'easy', 4, false, R`Find $\dfrac{dy}{dx}$ for $y = x^2 e^{3x}$.`, null,
+    [['M1', R`Applies product rule: $u = x^2, v = e^{3x}$`], ['A1', R`$u' = 2x, v' = 3e^{3x}$`], ['M1', R`$\frac{dy}{dx} = 2x e^{3x} + 3x^2 e^{3x}$`], ['A1', R`$= x e^{3x}(2 + 3x)$`]], R`$x e^{3x}(2 + 3x)$`],
+
+  // A Level M1 Kinematics
+  ['alm1', 'al-m1-kinematics', 'easy', 3, false, R`A particle moves in a straight line so that its displacement at time $t$ is $s = 2t^3 - 9t^2 + 12t$. Find the times at which the particle is momentarily at rest.`, null,
+    [['M1', R`$v = \frac{ds}{dt} = 6t^2 - 18t + 12$`], ['M1', R`Sets $6(t^2 - 3t + 2) = 0 \implies 6(t-1)(t-2) = 0$`], ['A1', R`$t = 1\text{ s},\ t = 2\text{ s}$`]], R`$t = 1\text{ s},\ t = 2\text{ s}$`],
+
+  // A Level S1 Permutations
+  ['als1', 'al-s1-permutations', 'easy', 3, false, R`In how many ways can 5 books be arranged in a line on a shelf?`, null,
+    [['M1', R`Calculates $5!$`], ['A1', R`$5 \times 4 \times 3 \times 2 \times 1$`], ['A1', R`$120$`]], R`$120$`],
+
+  // 0606 Logs
+  ['add1', 'add-indices-logs', 'easy', 3, false, R`Solve $\log_2(x+3) + \log_2(x-3) = 4$.`, null,
+    [['M1', R`$\log_2[(x+3)(x-3)] = 4 \implies x^2 - 9 = 2^4$`], ['A1', R`$x^2 - 9 = 16 \implies x^2 = 25$`], ['A1', R`$x = 5$ (rejects $x = -5$ since $\log_2$ requires positive argument)`]], R`$x = 5$`],
+
+  // 0606 Differentiation
+  ['add2', 'add-diff', 'easy', 4, false, R`Differentiate $y = (2x - 5)^4$ with respect to $x$.`, null,
+    [['M1', R`Applies chain rule: $4(2x-5)^3 \times \frac{d}{dx}(2x-5)$`], ['A1', R`$\frac{d}{dx}(2x-5) = 2$`], ['M1', R`Multiplies coefficients`], ['A1', R`$8(2x-5)^3$`]], R`$8(2x-5)^3$`],
+
+  // 0607 Functions
+  ['cam1', 'cam-0607-gdc-functions', 'easy', 3, true, R`Use a graphic display calculator to find the zeros of $f(x) = x^3 - 3x^2 - x + 3$.`, null,
+    [['M1', R`Graphs function on GDC and inspects roots`], ['A1', R`$x = -1,\ x = 1$`], ['A1', R`$x = 3$`]], R`$x = -1,\ 1,\ 3$`],
+
+  // 0607 Stats
+  ['cam2', 'cam-0607-stats', 'easy', 3, true, R`A dataset has mean values $\bar{x} = 10$ and $\bar{y} = 25$. The regression line of $y$ on $x$ has gradient $1.8$. Find the equation of the regression line.`, null,
+    [['M1', R`Line passes through $(10, 25)$: $y - 25 = 1.8(x - 10)$`], ['A1', R`$y = 1.8x - 18 + 25$`], ['A1', R`$y = 1.8x + 7$`]], R`$y = 1.8x + 7$`],
 ];
 
 export const checklists = [

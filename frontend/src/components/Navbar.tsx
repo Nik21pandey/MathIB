@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
               </div>
             </Link>
 
-            <div className="hidden xl:flex items-center space-x-1">
+            <div className="hidden lg:flex items-center space-x-1">
               <Link to="/contents" className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                 Contents Index
               </Link>

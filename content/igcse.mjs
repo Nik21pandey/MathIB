@@ -13,8 +13,16 @@ export const syllabus = {
   sections: [
     { slug: 'non-calculator-paper-2', name: 'Non-Calculator Paper 2 Sprint Hub', hub: true,
       blurb: 'Paper 2 is 2 hours, 100 marks, no calculator. These are the skills older calculator-era papers never tested: surds, exact trig values and index work by hand.' },
-    { slug: 'algebra-and-functions', name: 'Algebra and Functions', blurb: 'Quadratics, sequences, and domain and range.' },
-    { slug: 'calculus', name: 'Calculus', blurb: 'Differentiation and turning points.' },
+    { slug: 'number', name: 'Strand 1: Number', blurb: 'Percentages, fractions, ratio, compound interest and bounds.' },
+    { slug: 'algebra-and-functions', name: 'Strand 2: Algebra and Functions', blurb: 'Quadratics, sequences, inequalities, domain and range.' },
+    { slug: 'coordinate-geometry', name: 'Strand 3: Coordinate Geometry', blurb: 'Gradients, midpoints, lengths and equations of straight lines.' },
+    { slug: 'geometry', name: 'Strand 4: Geometry', blurb: 'Angles, polygons, similarity and circle theorems.' },
+    { slug: 'mensuration', name: 'Strand 5: Mensuration', blurb: 'Perimeter, area, surface area and volume of 3D solids.' },
+    { slug: 'trigonometry', name: 'Strand 6: Trigonometry and Bearings', blurb: 'Pythagoras, SOHCAHTOA, sine and cosine rules, and 3D trigonometry.' },
+    { slug: 'vectors-transformations', name: 'Strand 7: Vectors and Transformations', blurb: 'Column vectors, geometric proofs and transformations.' },
+    { slug: 'probability', name: 'Strand 8: Probability', blurb: 'Single events, combined probability, Venn and tree diagrams.' },
+    { slug: 'statistics', name: 'Strand 9: Statistics', blurb: 'Averages, frequency tables, cumulative frequency and histograms.' },
+    { slug: 'calculus', name: 'Calculus Extension', blurb: 'Differentiation and turning points.' },
   ],
 };
 
@@ -184,6 +192,166 @@ export const topics = [
       ],
     },
   },
+  {
+    id: 'igcse-number-percent', section: 'number', slug: 'percentages-and-reverse-percentages', name: 'Percentages, Ratio and Reverse Percentages',
+    summary: 'Calculate percentage increase/decrease, reverse percentages, and divide in a given ratio.',
+    generators: ['percent-change'],
+    notes: {
+      points: [
+        R`Multiplier method: an increase of 15% is $\times 1.15$; a decrease of 20% is $\times 0.80$.`,
+        R`Reverse percentages: Original $\times \text{multiplier} = \text{New} \implies \text{Original} = \dfrac{\text{New}}{\text{multiplier}}$.`,
+        R`Sharing in a ratio $a:b$: find total parts $a+b$, divide amount by total parts to find value of 1 part.`,
+      ],
+      formulas: [
+        { label: 'Percentage change', tex: R`\dfrac{\text{change}}{\text{original}}\times 100\%` },
+      ],
+      gdc: [],
+      traps: [
+        R`Finding 20% of the new price instead of dividing by the multiplier for reverse percentages.`,
+      ],
+    },
+  },
+  {
+    id: 'igcse-coord-geom', section: 'coordinate-geometry', slug: 'straight-line-graphs-and-gradients', name: 'Straight Line Graphs and Gradients',
+    summary: 'Equations of lines in form y = mx + c, parallel and perpendicular lines.',
+    generators: ['linear-eq'],
+    notes: {
+      points: [
+        R`Gradient $m = \dfrac{y_2 - y_1}{x_2 - x_1}$.`,
+        R`Parallel lines have equal gradients: $m_1 = m_2$.`,
+        R`Perpendicular lines have negative reciprocal gradients: $m_1 \times m_2 = -1$.`,
+      ],
+      formulas: [
+        { label: 'Equation of line', tex: R`y - y_1 = m(x - x_1)` },
+        { label: 'Midpoint', tex: R`\left(\dfrac{x_1+x_2}{2},\ \dfrac{y_1+y_2}{2}\right)` },
+      ],
+      gdc: [],
+      traps: [
+        R`Forgetting to rearrange equations into $y = mx + c$ before reading off the gradient.`,
+      ],
+    },
+  },
+  {
+    id: 'igcse-circle-theorems', section: 'geometry', slug: 'circle-theorems-and-angle-properties', name: 'Circle Theorems and Angle Properties',
+    summary: 'Angles at center, angles in same segment, cyclic quadrilaterals, and alternate segment theorem.',
+    generators: [],
+    notes: {
+      points: [
+        R`Angle at the center is twice the angle at the circumference subtended by the same arc.`,
+        R`Angle in a semicircle is a right angle ($90^\circ$).`,
+        R`Angles in the same segment are equal.`,
+        R`Opposite angles in a cyclic quadrilateral sum to $180^\circ$.`,
+        R`The tangent to a circle is perpendicular to the radius at the point of contact.`,
+        R`Alternate segment theorem: angle between tangent and chord equals angle in alternate segment.`,
+      ],
+      formulas: [],
+      gdc: [],
+      traps: [
+        R`Giving only the angle without the formal geometrical reason (e.g. "angles in same segment are equal").`,
+      ],
+    },
+  },
+  {
+    id: 'igcse-3d-mensuration', section: 'mensuration', slug: 'surface-area-and-volume-of-3d-solids', name: 'Surface Area and Volume of 3D Solids',
+    summary: 'Prisms, cylinders, pyramids, cones and spheres.',
+    generators: [],
+    notes: {
+      points: [
+        R`Volume of a prism = cross-sectional area $\times$ length.`,
+        R`Cylinder: $V = \pi r^2 h$, curved surface area $= 2\pi r h$.`,
+        R`Sphere: $V = \frac{4}{3}\pi r^3$, surface area $= 4\pi r^2$.`,
+        R`Cone: $V = \frac{1}{3}\pi r^2 h$, curved surface area $= \pi r l$ where $l = \sqrt{r^2 + h^2}$.`,
+      ],
+      formulas: [
+        { label: 'Sphere volume', tex: R`V = \dfrac{4}{3}\pi r^3` },
+        { label: 'Cone volume', tex: R`V = \dfrac{1}{3}\pi r^2 h` },
+      ],
+      gdc: [],
+      traps: [
+        R`Using vertical height $h$ instead of slant height $l$ in the curved surface area of a cone.`,
+      ],
+    },
+  },
+  {
+    id: 'igcse-sine-cosine', section: 'trigonometry', slug: 'sine-rule-cosine-rule-and-bearings', name: 'Sine Rule, Cosine Rule and Bearings',
+    summary: 'Non-right-angled triangles, 3D trigonometry and navigation bearings.',
+    generators: [],
+    notes: {
+      points: [
+        R`Bearings are measured from North, clockwise, and written as 3 figures (e.g. $045^\circ$).`,
+        R`Sine rule: $\dfrac{a}{\sin A} = \dfrac{b}{\sin B} = \dfrac{c}{\sin C}$.`,
+        R`Cosine rule for sides: $a^2 = b^2 + c^2 - 2bc\cos A$.`,
+        R`Area of triangle: $A = \frac{1}{2}ab\sin C$.`,
+      ],
+      formulas: [
+        { label: 'Triangle area', tex: R`\text{Area} = \tfrac12 ab\sin C` },
+        { label: 'Cosine rule', tex: R`\cos A = \dfrac{b^2+c^2-a^2}{2bc}` },
+      ],
+      gdc: [],
+      traps: [
+        R`Forgetting the ambiguous case of the sine rule when the angle can be obtuse ($180^\circ - \theta$).`,
+      ],
+    },
+  },
+  {
+    id: 'igcse-vectors-col', section: 'vectors-transformations', slug: 'column-vectors-and-vector-geometry', name: 'Column Vectors and Vector Geometry',
+    summary: 'Vector arithmetic, scalar multiplication, magnitude, and collinear point proofs.',
+    generators: [],
+    notes: {
+      points: [
+        R`Column vector $\begin{pmatrix} x \\ y \end{pmatrix}$: $x$ units horizontally, $y$ units vertically.`,
+        R`Magnitude $|\vec{v}| = \sqrt{x^2 + y^2}$.`,
+        R`Two vectors are parallel if one is a scalar multiple of the other: $\vec{u} = k\vec{v}$.`,
+        R`To prove $A, B, C$ lie on a straight line: show $\vec{AB} = k\vec{BC}$ and state that $B$ is a common point.`,
+      ],
+      formulas: [
+        { label: 'Vector magnitude', tex: R`|\vec{v}| = \sqrt{x^2+y^2}` },
+      ],
+      gdc: [],
+      traps: [
+        R`Subtracting coordinates in the wrong order: $\vec{AB} = \vec{OB} - \vec{OA}$.`,
+      ],
+    },
+  },
+  {
+    id: 'igcse-probability-trees', section: 'probability', slug: 'probability-tree-diagrams-and-conditional-events', name: 'Probability Tree Diagrams and Conditional Events',
+    summary: 'Independent and dependent events, with and without replacement.',
+    generators: [],
+    notes: {
+      points: [
+        R`Probabilities along a branch multiply.`,
+        R`Probabilities at the end of branches add.`,
+        R`Without replacement: the denominator decreases by 1 on the second pick.`,
+      ],
+      formulas: [
+        { label: 'Combined independent', tex: R`P(A \cap B) = P(A) \times P(B)` },
+      ],
+      gdc: [],
+      traps: [
+        R`Forgetting that "at least one" is quickest calculated as $1 - P(\text{none})$.`,
+      ],
+    },
+  },
+  {
+    id: 'igcse-cumulative-freq', section: 'statistics', slug: 'cumulative-frequency-and-box-plots', name: 'Cumulative Frequency and Box Plots',
+    summary: 'Plotting running totals, estimating medians, quartiles, and drawing box-and-whisker plots.',
+    generators: [],
+    notes: {
+      points: [
+        R`Plot cumulative frequency at the **upper class boundary** of each interval.`,
+        R`Median is at $\frac{n}{2}$; lower quartile $Q_1$ at $\frac{n}{4}$; upper quartile $Q_3$ at $\frac{3n}{4}$.`,
+        R`Interquartile range $\text{IQR} = Q_3 - Q_1$.`,
+        R`A box plot displays minimum, $Q_1$, median, $Q_3$, and maximum.`,
+      ],
+      formulas: [
+        { label: 'Interquartile range', tex: R`\text{IQR} = Q_3 - Q_1` },
+      ],
+      gdc: [],
+      traps: [
+        R`Plotting cumulative frequency at the midpoint instead of the upper boundary.`,
+      ],
+    },
+  },
 ];
 
 // q: [id, topic, difficulty, marks, calc, stem, parts, scheme, answer]
@@ -273,4 +441,41 @@ export const questions = [
   ['df3', 'differentiation', 'hard', 6, true, R`A curve has equation $y=x^3-3x^2-9x+2$. Find the coordinates of the two turning points and determine whether each is a maximum or a minimum.`, null,
     [['M1', R`$\dfrac{dy}{dx}=3x^2-6x-9$`], ['M1', R`Sets equal to $0$: $3(x-3)(x+1)=0$`], ['A1', R`$x=3$ and $x=-1$`], ['A1', R`$(-1,\,7)$`], ['A1', R`$(3,\,-25)$`], ['B1', R`$\dfrac{d^2y}{dx^2}=6x-6$: negative at $x=-1$ so maximum, positive at $x=3$ so minimum`]],
     R`Maximum at $(-1,\,7)$, minimum at $(3,\,-25)$`],
+  // Strand 1: Number
+  ['num1', 'igcse-number-percent', 'easy', 3, true, R`A jacket originally costs \$80. In a sale, its price is reduced by 15%. Calculate the sale price.`, null,
+    [['M1', R`$80 \times (1 - 0.15) = 80 \times 0.85$`], ['A1', R`$68$`], ['A1', R`\$68`]], R`\$68`],
+  ['num2', 'igcse-number-percent', 'medium', 4, true, R`After a 20% price increase, a television costs \$420.`,
+    [['a', R`Calculate the original price of the television before the increase.`, 3], ['b', R`Find the dollar amount of the increase.`, 1]],
+    [['M1', R`(a) $\text{Original} \times 1.20 = 420$`], ['M1', R`$\text{Original} = 420 \div 1.20$`], ['A1', R`\$350`], ['A1', R`(b) $420 - 350 = \$70$`]],
+    R`(a) \$350  (b) \$70`],
+
+  // Strand 3: Coordinate geometry
+  ['cg1', 'igcse-coord-geom', 'easy', 3, false, R`Line $L$ passes through $(1, 3)$ and $(5, 11)$. Find the gradient of line $L$ and write down the gradient of any line perpendicular to $L$.`, null,
+    [['M1', R`$m = \dfrac{11 - 3}{5 - 1} = \dfrac{8}{4}$`], ['A1', R`$m = 2$`], ['A1', R`Perpendicular gradient $m_\perp = -\frac12$`]], R`$m = 2,\ m_\perp = -\frac12$`],
+
+  // Strand 4: Geometry
+  ['ct1', 'igcse-circle-theorems', 'easy', 3, false, R`Points $A, B, C$ lie on a circle with center $O$. The angle $\angle AOB = 110^\circ$. Find the angle $\angle ACB$ and state the geometrical reason.`, null,
+    [['M1', R`$\angle ACB = 110^\circ \div 2$`], ['A1', R`$\angle ACB = 55^\circ$`], ['R1', R`Angle at center is twice angle at circumference`]], R`$55^\circ$`],
+
+  // Strand 5: Mensuration
+  ['men1', 'igcse-3d-mensuration', 'easy', 3, true, R`A solid sphere has a radius of $3\text{ cm}$. Calculate its volume, giving your answer correct to 3 significant figures.`, null,
+    [['M1', R`$V = \frac{4}{3}\pi (3)^3$`], ['A1', R`$V = 36\pi$`], ['A1', R`$V = 113\text{ cm}^3$`]], R`$113\text{ cm}^3$`],
+
+  // Strand 6: Trigonometry
+  ['tg1', 'igcse-sine-cosine', 'easy', 4, true, R`In triangle $PQR$, $PQ = 7\text{ cm}$, $PR = 9\text{ cm}$, and $\angle QPR = 48^\circ$. Calculate the area of triangle $PQR$.`, null,
+    [['M1', R`$\text{Area} = \frac{1}{2}(7)(9)\sin 48^\circ$`], ['A1', R`$\text{Area} = 31.5\sin 48^\circ$`], ['M1', R`Evaluates with calculator`], ['A1', R`$23.4\text{ cm}^2$`]], R`$23.4\text{ cm}^2$`],
+
+  // Strand 7: Vectors
+  ['vec1', 'igcse-vectors-col', 'easy', 3, false, R`Given $\vec{a} = \begin{pmatrix} 3 \\ -4 \end{pmatrix}$ and $\vec{b} = \begin{pmatrix} -1 \\ 2 \end{pmatrix}$, find $2\vec{a} + 3\vec{b}$.`, null,
+    [['M1', R`$2\begin{pmatrix} 3 \\ -4 \end{pmatrix} + 3\begin{pmatrix} -1 \\ 2 \end{pmatrix}$`], ['A1', R`$\begin{pmatrix} 6 - 3 \\ -8 + 6 \end{pmatrix}$`], ['A1', R`$\begin{pmatrix} 3 \\ -2 \end{pmatrix}$`]], R`$\begin{pmatrix} 3 \\ -2 \end{pmatrix}$`],
+
+  // Strand 8: Probability
+  ['pr1', 'igcse-probability-trees', 'easy', 3, false, R`A bag contains 5 red balls and 3 blue balls. A ball is drawn, its color recorded, and not replaced. A second ball is drawn. Find the probability that both balls are red.`, null,
+    [['M1', R`$P(R_1) = \frac{5}{8}$`], ['M1', R`$P(R_2|R_1) = \frac{4}{7}$`], ['A1', R`$P(\text{both red}) = \frac{5}{8}\times\frac{4}{7} = \frac{20}{56} = \frac{5}{14}$`]], R`$\frac{5}{14}$`],
+
+  // Strand 9: Statistics
+  ['st1', 'igcse-cumulative-freq', 'easy', 3, false, R`A cumulative frequency curve is plotted for 80 students. State the cumulative frequency values used to read off:`,
+    [['a', R`The median`, 1], ['b', R`The lower quartile $Q_1$`, 1], ['c', R`The upper quartile $Q_3$`, 1]],
+    [['A1', R`(a) Cumulative frequency of $40$`], ['A1', R`(b) Cumulative frequency of $20$`], ['A1', R`(c) Cumulative frequency of $60$`]],
+    R`(a) 40  (b) 20  (c) 60`],
 ];

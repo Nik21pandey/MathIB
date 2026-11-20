@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { BASE_URL_GLOBAL } from '../utils/api';
+import { fetchWithAuth } from '../utils/apiInterceptor';
 import type { Catalog, Question, Syllabus, Topic } from './types';
 import { DIFFICULTY_ORDER } from './types';
 
@@ -14,8 +15,8 @@ import { DIFFICULTY_ORDER } from './types';
 async function fetchCatalog(): Promise<Catalog> {
   try {
     const controller = new AbortController();
-    const timer = window.setTimeout(() => controller.abort(), 4000);
-    const res = await fetch(`${BASE_URL_GLOBAL}/learn/catalog/`, { signal: controller.signal });
+    const timer = window.setTimeout(() => controller.abort(), 6000);
+    const res = await fetchWithAuth(`${BASE_URL_GLOBAL}/learn/catalog/`, { signal: controller.signal });
     window.clearTimeout(timer);
     if (res.ok) {
       const body = await res.json();
