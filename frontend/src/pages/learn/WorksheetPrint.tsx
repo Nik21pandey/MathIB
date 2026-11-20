@@ -8,6 +8,7 @@ import { absoluteUrl, parseWorksheetCode, worksheetCode } from '../../learn/shar
 import { SITE_NAME, useSeo } from '../../learn/seo';
 import MathText from '../../components/learn/MathText';
 import { EmptyState, QrCode } from '../../components/learn/ui';
+import { renderQuestionDiagram } from '../../components/learn/MathDiagram';
 
 type Mode = 'student' | 'scheme';
 
@@ -45,6 +46,7 @@ const StudentQuestion: React.FC<{ q: Question; n: number; topicName?: string }> 
 
     <div className="pl-4">
       <MathText text={q.stem} as="div" className="text-gray-900 leading-relaxed text-sm" />
+      {renderQuestionDiagram(q.id)}
       {q.parts.length === 0 ? (
         <>
           <WorkingSpace marks={q.marks} />

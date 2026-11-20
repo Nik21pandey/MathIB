@@ -1,5 +1,5 @@
 """
-Custom User Manager for GenIB platform
+Custom User Manager for MathIB platform
 """
 
 from django.contrib.auth.models import BaseUserManager

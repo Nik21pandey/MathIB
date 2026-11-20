@@ -1,5 +1,5 @@
 """
-Development settings for GenIB project.
+Development settings for MathIB project.
 """
 
 from .base import *

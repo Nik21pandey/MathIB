@@ -5,7 +5,10 @@ PDF processing utilities powered by PyMuPDF (fitz):
 - On-the-fly multi-PDF merging for bundles
 """
 
-import fitz
+try:
+    import pymupdf as fitz
+except ImportError:
+    import fitz
 
 
 def read_file_field_bytes(file_field) -> bytes:

@@ -16,10 +16,6 @@
       - key: ALLOWED_HOSTS
         value: ".onrender.com,localhost,127.0.0.1"
       - key: CORS_ALLOW_ALL_ORIGINS
-        value: "True"
-      - key: DJANGO_SUPERUSER_USERNAME
-        value: "admin"
-      - key: DJANGO_SUPERUSER_EMAIL
-        value: "admin@mathib.com"
-      - key: DJANGO_SUPERUSER_PASSWORD
-        value: "MathIB@2026!"
+        value: "False"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://mathib.com,https://www.mathib.com,https://math-ib.vercel.app,http://localhost:5173"

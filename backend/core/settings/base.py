@@ -1,5 +1,5 @@
 """
-Base settings for GenIB project.
+Base settings for MathIB project.
 This file contains settings common to all environments.
 """
 
@@ -115,6 +115,7 @@ USE_TZ = True
 # Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT.mkdir(exist_ok=True)
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Media files

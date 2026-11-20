@@ -9,6 +9,7 @@ import { plainText } from '../../learn/seo';
 import { useWorksheet } from '../../contexts/WorksheetContext';
 import MathText from './MathText';
 import { DifficultyBadge, Tag } from './ui';
+import { renderQuestionDiagram } from './MathDiagram';
 
 interface QuestionCardProps {
   question: Question;
@@ -66,6 +67,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question: q, number, defaul
         </div>
 
         <MathText text={q.stem} as="div" className="text-gray-900 leading-relaxed" />
+        {renderQuestionDiagram(q.id)}
         {q.parts.length > 0 && (
           <ol className="mt-3 space-y-2">
             {q.parts.map((p) => (

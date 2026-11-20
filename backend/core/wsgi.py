@@ -1,5 +1,5 @@
 """
-WSGI config for GenIB project.
+WSGI config for MathIB project.
 """
 
 import os

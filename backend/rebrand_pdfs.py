@@ -10,7 +10,10 @@ Usage:
 """
 import argparse
 from pathlib import Path
-import fitz  # PyMuPDF
+try:
+    import pymupdf as fitz
+except ImportError:
+    import fitz
 
 BRAND_NAME = "MathIB"
 BRAND_SUB = "IBDP  |  MYP  |  IGCSE  |  A-LEVEL"

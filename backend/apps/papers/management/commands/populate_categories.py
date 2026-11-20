@@ -64,7 +64,7 @@ class Command(BaseCommand):
                 'display_order': 5
             },
             {
-                'name': 'GenIB Question Bank',
+                'name': 'MathIB Question Bank',
                 'description': 'Free, online, not downloadable',
                 'icon': 'Building4',
                 'is_main': False,

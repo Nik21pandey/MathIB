@@ -1,4 +1,4 @@
-// IB Diploma Mathematics - original GenIB content.
+// IB Diploma Mathematics - original MathIB content.
 const R = String.raw;
 
 export const syllabuses = [

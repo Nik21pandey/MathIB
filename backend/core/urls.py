@@ -1,5 +1,5 @@
 """
-URL configuration for GenIB project.
+URL configuration for MathIB project.
 """
 
 from django.contrib import admin

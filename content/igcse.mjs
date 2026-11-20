@@ -1,4 +1,4 @@
-// Cambridge IGCSE Mathematics 0580 (2025-2027 syllabus) - original GenIB content.
+// Cambridge IGCSE Mathematics 0580 (2025-2027 syllabus) - original MathIB content.
 // Text uses $...$ for inline maths and $$...$$ for display maths (KaTeX).
 const R = String.raw;
 

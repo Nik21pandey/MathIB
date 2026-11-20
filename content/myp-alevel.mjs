@@ -1,7 +1,7 @@
-// IB MYP Mathematics (criteria A, B, D) and Cambridge A Level 9709 - original GenIB content.
+// IB MYP Mathematics (criteria A, B, D) and Cambridge A Level 9709 - original MathIB content.
 const R = String.raw;
 
-// Student-friendly achievement bands written for GenIB (not the IB's published descriptors).
+// Student-friendly achievement bands written for MathIB (not the IB's published descriptors).
 const bandsB = [
   { band: '1-2', text: 'You apply a strategy you were given and state a pattern that matches some of the results.' },
   { band: '3-4', text: 'You choose a strategy, find a pattern and suggest a rule that matches your results.' },

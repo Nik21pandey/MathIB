@@ -1,4 +1,4 @@
-# GenIB
+# MathIB
 
 Exam-preparation platform: the original past-paper library, bundles and payments, plus a
 maths learning platform (notes, drills, graded exam questions, worksheet builder, Daily 5).

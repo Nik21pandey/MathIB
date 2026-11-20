@@ -1,5 +1,5 @@
 """
-ASGI config for GenIB project.
+ASGI config for MathIB project.
 """
 
 import os

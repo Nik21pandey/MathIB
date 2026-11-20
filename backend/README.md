@@ -1,6 +1,6 @@
-# GenIB Backend API
+# MathIB Backend API
 
-Production-ready Django REST API for GenIB exam platform with JWT authentication.
+Production-ready Django REST API for MathIB exam platform with JWT authentication.
 
 ## 🏗️ Architecture
 

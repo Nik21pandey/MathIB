@@ -94,11 +94,27 @@ LOGGING = {
 
 REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = ('rest_framework.renderers.JSONRenderer',)
 
-# --- PERMANENT PRODUCTION AUTH & CORS FIXES ---
-CORS_ALLOW_ALL_ORIGINS = True
+# --- PRODUCTION AUTH & CORS CONFIGURATION ---
+CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bool)
 CORS_ALLOW_CREDENTIALS = True
-ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'https://*.vercel.app', 'https://math-ib.vercel.app']
+ALLOWED_HOSTS = [
+    h.strip() for h in config('ALLOWED_HOSTS', default='.onrender.com,.railway.app,localhost,127.0.0.1,mathib.com,www.mathib.com').split(',')
+    if h.strip()
+]
+CORS_ALLOWED_ORIGINS = [
+    o.strip() for o in config(
+        'CORS_ALLOWED_ORIGINS',
+        default='http://localhost:5173,https://mathib.com,https://www.mathib.com,https://math-ib.vercel.app'
+    ).split(',')
+    if o.strip()
+]
+CSRF_TRUSTED_ORIGINS = [
+    o.strip() for o in config(
+        'CSRF_TRUSTED_ORIGINS',
+        default='https://*.onrender.com,https://*.vercel.app,https://math-ib.vercel.app,https://mathib.com,https://www.mathib.com'
+    ).split(',')
+    if o.strip()
+]
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 if 'core.slash_middleware.SlashlessMiddleware' not in MIDDLEWARE:

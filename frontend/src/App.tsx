@@ -1,37 +1,53 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar.tsx';
-import Sidebar from './components/Sidebar.tsx';
-import Home from './pages/Home';
-import Login from './pages/Login.tsx';
-import Register from './pages/Register.tsx';
-import Onboarding from './pages/Onboarding.tsx';
-import PastPapers from './pages/PastPapers.tsx';
-import Favorites from './pages/Favorites.tsx';
-import Profile from './pages/Profile.tsx';
-import Bundles from './pages/Bundles.tsx';
-import BundleDetail from './pages/BundleDetail.tsx';
-import Cart from './pages/Cart.tsx';
-import MyPurchases from './pages/MyPurchases.tsx';
-import Checkout from './pages/Checkout.tsx';
-import OrderConfirmation from './pages/OrderConfirmation.tsx';
-import QuestionDetail from './components/QuestionDetail.tsx';
-import PaperDetail from './components/PaperDetail.tsx';
+import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import { ProtectedRoute, PublicOnlyRoute } from './guards/RouteGuards';
 import { CatalogProvider } from './learn/catalog';
 import { WorksheetProvider } from './contexts/WorksheetContext';
 import WorksheetTray from './components/learn/WorksheetTray';
-import Contents from './pages/learn/Contents';
-import Learn from './pages/learn/Learn';
-import SyllabusPage from './pages/learn/SyllabusPage';
-import TopicWorkspace from './pages/learn/TopicWorkspace';
-import QuestionPage, { WorksheetSolutions } from './pages/learn/QuestionPage';
-import WorksheetBuilder from './pages/learn/WorksheetBuilder';
-import WorksheetPrint from './pages/learn/WorksheetPrint';
-import DailyFive, { QuizPage } from './pages/learn/Practice';
-import Crash from './pages/learn/Crash';
+
+// Lazy load all pages for optimal bundle splitting
+const Home = lazy(() => import('./pages/Home'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const Onboarding = lazy(() => import('./pages/Onboarding'));
+const PastPapers = lazy(() => import('./pages/PastPapers'));
+const Favorites = lazy(() => import('./pages/Favorites'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Bundles = lazy(() => import('./pages/Bundles'));
+const BundleDetail = lazy(() => import('./pages/BundleDetail'));
+const Cart = lazy(() => import('./pages/Cart'));
+const MyPurchases = lazy(() => import('./pages/MyPurchases'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const OrderConfirmation = lazy(() => import('./pages/OrderConfirmation'));
+const QuestionDetail = lazy(() => import('./components/QuestionDetail'));
+const PaperDetail = lazy(() => import('./components/PaperDetail'));
+
+// Learn platform pages
+const Contents = lazy(() => import('./pages/learn/Contents'));
+const Learn = lazy(() => import('./pages/learn/Learn'));
+const SyllabusPage = lazy(() => import('./pages/learn/SyllabusPage'));
+const TopicWorkspace = lazy(() => import('./pages/learn/TopicWorkspace'));
+const QuestionPage = lazy(() => import('./pages/learn/QuestionPage'));
+const WorksheetSolutions = lazy(() =>
+  import('./pages/learn/QuestionPage').then((m) => ({ default: m.WorksheetSolutions }))
+);
+const WorksheetBuilder = lazy(() => import('./pages/learn/WorksheetBuilder'));
+const WorksheetPrint = lazy(() => import('./pages/learn/WorksheetPrint'));
+const DailyFive = lazy(() => import('./pages/learn/Practice'));
+const QuizPage = lazy(() =>
+  import('./pages/learn/Practice').then((m) => ({ default: m.QuizPage }))
+);
+const Crash = lazy(() => import('./pages/learn/Crash'));
+
+const PageLoader: React.FC = () => (
+  <div className="flex items-center justify-center min-h-[50vh]">
+    <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -42,14 +58,14 @@ function AppContent() {
   };
 
   // Hide navbar and sidebar on auth pages and onboarding
-  const isAuthPage = location.pathname === '/login/' || 
-                     location.pathname === '/register/' || 
-                     location.pathname === '/onboarding';
-  
+  const isAuthPage =
+    location.pathname === '/login/' ||
+    location.pathname === '/register/' ||
+    location.pathname === '/onboarding';
+
   // The printable worksheet is a bare page: no navbar, no sidebar.
   const isPrintPage = location.pathname.startsWith('/worksheet/print');
 
-  // Show sidebar on all pages except auth pages and the printable worksheet
   const hideSidebar = isAuthPage || isPrintPage;
 
   return (
@@ -59,148 +75,153 @@ function AppContent() {
           <Navbar toggleSidebar={toggleSidebar} />
         </div>
       )}
-      
+
       <div className="flex">
         {!hideSidebar && (
           <div className="print:hidden">
             <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
           </div>
         )}
-        
+
         <main className="flex-1 min-w-0">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route 
-              path="/login/" 
-              element={
-                <PublicOnlyRoute>
-                  <Login />
-                </PublicOnlyRoute>
-              } 
-            />
-            <Route 
-              path="/register/" 
-              element={
-                <PublicOnlyRoute>
-                  <Register />
-                </PublicOnlyRoute>
-              } 
-            />
-            <Route 
-              path="/onboarding" 
-              element={
-                <ProtectedRoute>
-                  <Onboarding />
-                </ProtectedRoute>
-              } 
-            />
-            {/* Learning platform: public, no login needed */}
-            <Route path="/contents" element={<Contents />} />
-            <Route path="/questions" element={<Contents />} />
-            <Route path="/learn" element={<Learn />} />
-            <Route path="/daily-5" element={<DailyFive />} />
-            <Route path="/quiz/:spec" element={<QuizPage />} />
-            <Route path="/question/:slug" element={<QuestionPage />} />
-            <Route path="/worksheet-builder" element={<WorksheetBuilder />} />
-            <Route path="/exam-builder" element={<WorksheetBuilder />} />
-            <Route path="/worksheet/print" element={<WorksheetPrint />} />
-            <Route path="/w/:code" element={<WorksheetSolutions />} />
-            <Route path="/crash" element={<Crash />} />
-            <Route path="/crash/:slug" element={<Crash />} />
-            <Route 
-              path="/questions/:id" 
-              element={
-                <ProtectedRoute>
-                  <QuestionDetail />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/papers" 
-              element={
-                <ProtectedRoute>
-                  <PastPapers />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/papers/:id" 
-              element={
-                <ProtectedRoute>
-                  <PaperDetail />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/bundles" 
-              element={
-                <ProtectedRoute>
-                  <Bundles />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/bundles/:id" 
-              element={
-                <ProtectedRoute>
-                  <BundleDetail />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/cart" 
-              element={
-                <ProtectedRoute>
-                  <Cart />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/checkout" 
-              element={
-                <ProtectedRoute>
-                  <Checkout />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/orders/:id" 
-              element={
-                <ProtectedRoute>
-                  <OrderConfirmation />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/purchases" 
-              element={
-                <ProtectedRoute>
-                  <MyPurchases />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/favorites" 
-              element={
-                <ProtectedRoute>
-                  <Favorites />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/profile" 
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              } 
-            />
-            {/* Syllabus-matched URLs, e.g. /igcse-0580/non-calculator-paper-2/surds-and-rationalising.
-                Keep these last: every fixed route above takes priority over them. */}
-            <Route path="/:syllabus" element={<SyllabusPage />} />
-            <Route path="/:syllabus/:section" element={<SyllabusPage />} />
-            <Route path="/:syllabus/:section/:topic" element={<TopicWorkspace />} />
-          </Routes>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route
+                path="/login/"
+                element={
+                  <PublicOnlyRoute>
+                    <Login />
+                  </PublicOnlyRoute>
+                }
+              />
+              <Route
+                path="/register/"
+                element={
+                  <PublicOnlyRoute>
+                    <Register />
+                  </PublicOnlyRoute>
+                }
+              />
+              <Route
+                path="/onboarding"
+                element={
+                  <ProtectedRoute>
+                    <Onboarding />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Learning platform: public, no login needed */}
+              <Route path="/contents" element={<Contents />} />
+              <Route path="/questions" element={<Contents />} />
+              <Route path="/learn" element={<Learn />} />
+              <Route path="/daily-5" element={<DailyFive />} />
+              <Route path="/quiz/:spec" element={<QuizPage />} />
+              <Route path="/question/:slug" element={<QuestionPage />} />
+              <Route path="/worksheet-builder" element={<WorksheetBuilder />} />
+              <Route path="/exam-builder" element={<WorksheetBuilder />} />
+              <Route path="/worksheet/print" element={<WorksheetPrint />} />
+              <Route path="/w/:code" element={<WorksheetSolutions />} />
+              <Route path="/crash" element={<Crash />} />
+              <Route path="/crash/:slug" element={<Crash />} />
+
+              {/* Legacy / Protected Routes */}
+              <Route
+                path="/questions/:id"
+                element={
+                  <ProtectedRoute>
+                    <QuestionDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/papers"
+                element={
+                  <ProtectedRoute>
+                    <PastPapers />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/papers/:id"
+                element={
+                  <ProtectedRoute>
+                    <PaperDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/bundles"
+                element={
+                  <ProtectedRoute>
+                    <Bundles />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/bundles/:id"
+                element={
+                  <ProtectedRoute>
+                    <BundleDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/cart"
+                element={
+                  <ProtectedRoute>
+                    <Cart />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/checkout"
+                element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/orders/:id"
+                element={
+                  <ProtectedRoute>
+                    <OrderConfirmation />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/purchases"
+                element={
+                  <ProtectedRoute>
+                    <MyPurchases />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/favorites"
+                element={
+                  <ProtectedRoute>
+                    <Favorites />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Syllabus-matched URLs */}
+              <Route path="/:syllabus" element={<SyllabusPage />} />
+              <Route path="/:syllabus/:section" element={<SyllabusPage />} />
+              <Route path="/:syllabus/:section/:topic" element={<TopicWorkspace />} />
+            </Routes>
+          </Suspense>
         </main>
       </div>
       <WorksheetTray />

@@ -1,5 +1,5 @@
 """
-Custom User model for GenIB platform
+Custom User model for MathIB platform
 """
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
