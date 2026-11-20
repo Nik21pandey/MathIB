@@ -31,6 +31,16 @@ export const fetchWithAuth = async (
   url: string,
   options: RequestInit = {}
 ): Promise<Response> => {
+  // Self-heal any accidental duplicate base URLs
+  if (url.includes('https://') && url.lastIndexOf('https://') > 0) {
+    url = url.substring(url.lastIndexOf('https://'));
+  } else if (url.includes('http://') && url.lastIndexOf('http://') > 0) {
+    url = url.substring(url.lastIndexOf('http://'));
+  }
+  if (url.includes('/api/v1/api/v1')) {
+    url = url.replace('/api/v1/api/v1', '/api/v1');
+  }
+
   const token = localStorage.getItem('access_token');
 
   // Add authorization header if token exists
