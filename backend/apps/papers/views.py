@@ -485,12 +485,19 @@ class AdminBulkIngestView(APIView):
             if not opt_name:
                 return None
             ftype, _ = FilterType.objects.get_or_create(slug=type_slug, defaults={'name': type_name})
-            opt_slug = slugify(str(opt_name))
-            opt, _ = FilterOption.objects.get_or_create(
-                filter_type=ftype,
-                slug=opt_slug,
-                defaults={'name': str(opt_name), 'code': str(opt_name)[:10]}
-            )
+            opt_name_str = str(opt_name).strip()
+            opt_slug = slugify(opt_name_str)[:50]
+            opt_code = slugify(opt_name_str).upper().replace('-', '_')[:50]
+            opt = FilterOption.objects.filter(filter_type=ftype, name=opt_name_str).first()
+            if not opt:
+                opt = FilterOption.objects.filter(filter_type=ftype, code=opt_code).first()
+            if not opt:
+                opt = FilterOption.objects.create(
+                    filter_type=ftype,
+                    name=opt_name_str,
+                    code=opt_code,
+                    slug=opt_slug
+                )
             return opt
 
         temp_dir = tempfile.mkdtemp(prefix='mathib_bulk_')
