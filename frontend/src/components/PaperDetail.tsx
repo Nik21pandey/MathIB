@@ -12,6 +12,7 @@ interface PaperData {
   description?: string;
   category_name?: string;
   pdf_url?: string;
+  markscheme_url?: string;
   is_free?: boolean;
   is_premium?: boolean;
   filters?: { id: number; name: string; filter_type_slug?: string }[];
@@ -54,8 +55,12 @@ const PaperDetail: React.FC = () => {
     }
   };
 
-  const handleDownload = async () => {
+  const handleDownload = async (type: 'question' | 'markscheme' = 'question') => {
     if (!paper) return;
+    if (type === 'markscheme' && paper.markscheme_url) {
+      window.open(paper.markscheme_url, '_blank');
+      return;
+    }
     try {
       const res = await fetch(`${BASE_URL_GLOBAL}/papers/papers/${paper.id}/download/`, { method: 'POST' });
       const body = await res.json().catch(() => null);
@@ -124,7 +129,12 @@ const PaperDetail: React.FC = () => {
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden h-[75vh]">
         {paper.pdf_url ? (
-          <PDFViewer pdfUrl={paper.pdf_url} paperTitle={paper.title} onDownload={handleDownload} />
+          <PDFViewer
+            pdfUrl={paper.pdf_url}
+            markschemeUrl={paper.markscheme_url}
+            paperTitle={paper.title}
+            onDownload={(type) => handleDownload(type)}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center h-full text-gray-500">
             <DocumentTextIcon className="h-16 w-16 mb-3 text-gray-400" />

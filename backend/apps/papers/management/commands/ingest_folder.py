@@ -345,6 +345,25 @@ class Command(BaseCommand):
                 paper_obj.filters.set([f for f in filters if f])
                 total_ingested += 1
 
+            # Process remaining mark schemes (attach to existing papers in database)
+            for pair_key, ms_info in mss.items():
+                if pair_key in qps:
+                    continue  # already paired above
+                possible_title = ms_info['title'].replace(' (MARKING-SCHEME)', '').replace(' (MS)', '')
+                paper_obj = Paper.objects.filter(title__icontains=ms_info.get('code', 'xyz')).filter(title__icontains=str(ms_info.get('year', '9999'))).first()
+                if not paper_obj:
+                    paper_obj = Paper.objects.filter(title=possible_title).first()
+
+                if paper_obj:
+                    self.stdout.write(f"-> Attaching Mark Scheme to existing paper: {paper_obj.title}")
+                    if not dry_run:
+                        with open(ms_info['file_path'], 'rb') as f_ms:
+                            raw_ms = f_ms.read()
+                        cleaned_ms = sanitizer.sanitize(raw_ms, clean_watermarks=clean_wm, add_mathib_branding=branding)
+                        safe_slug = slugify(paper_obj.title)[:60]
+                        paper_obj.markscheme_file.save(f"{safe_slug}_ms.pdf", ContentFile(cleaned_ms), save=True)
+                        total_ingested += 1
+
             # Process topicals
             for top_info in topicals:
                 title = top_info['title']

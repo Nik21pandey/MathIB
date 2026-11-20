@@ -22,6 +22,7 @@ interface Paper {
   isFavorite: boolean;
   totalPages?: number;
   pdfUrl?: string;
+  markschemeUrl?: string;
 }
 
 interface FilterState extends Record<string, string> {
@@ -81,6 +82,7 @@ const PastPapers: React.FC = () => {
       isFavorite: false,
       totalPages: apiPaper.page_count || undefined,
       pdfUrl: apiPaper.pdf_url || undefined,
+      markschemeUrl: apiPaper.markscheme_url || undefined,
     };
   };
 
@@ -200,12 +202,18 @@ const PastPapers: React.FC = () => {
     }
   };
 
-  const handleDownload = async (paper: Paper): Promise<void> => {
+  const handleDownload = async (paper: Paper, type: 'question' | 'markscheme' = 'question'): Promise<void> => {
     try {
+      if (type === 'markscheme' && paper.markschemeUrl) {
+        window.open(paper.markschemeUrl, '_blank');
+        return;
+      }
       await downloadPaper(paper.id);
       console.log('Paper download initiated:', paper.title);
     } catch (error) {
       console.error('Error downloading paper:', error);
+      const fallback = type === 'markscheme' ? paper.markschemeUrl : paper.pdfUrl;
+      if (fallback) window.open(fallback, '_blank');
     }
   };
 
@@ -336,11 +344,12 @@ const PastPapers: React.FC = () => {
           )}
           <PDFViewer
             pdfUrl={selectedPaper?.pdfUrl}
-            paperTitle={selectedPaper ? `${selectedPaper.curriculum}/${selectedPaper.paperNumber}_${selectedPaper.season.replace('/', '')}_${selectedPaper.year}` : undefined}
+            markschemeUrl={selectedPaper?.markschemeUrl}
+            paperTitle={selectedPaper ? `${selectedPaper.curriculum} · ${selectedPaper.paperNumber} (${selectedPaper.season} ${selectedPaper.year})` : undefined}
             currentPage={currentPage}
             totalPages={selectedPaper?.totalPages || 20}
             onPageChange={setCurrentPage}
-            onDownload={() => selectedPaper && handleDownload(selectedPaper)}
+            onDownload={(type) => selectedPaper && handleDownload(selectedPaper, type)}
             onPrint={handlePrint}
             onShare={handleShare}
           />

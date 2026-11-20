@@ -14,6 +14,7 @@ interface Paper {
   duration?: number;
   isFavorite: boolean;
   type: 'question' | 'marking-scheme' | 'examiner-report';
+  markschemeUrl?: string;
 }
 
 interface PaperListProps {
@@ -164,17 +165,20 @@ const PaperList: React.FC<PaperListProps> = ({
                 </div>
 
                 {/* Paper Type Badges */}
-                <div className="mt-2 flex items-center space-x-2">
-                  <span className={`px-2 py-1 text-xs rounded-full ${
-                    paper.type === 'question' 
-                      ? 'bg-blue-100 text-blue-800'
-                      : paper.type === 'marking-scheme'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-purple-100 text-purple-800'
-                  }`}>
-                    {paper.type === 'question' ? 'Question Paper' :
-                     paper.type === 'marking-scheme' ? 'Mark Scheme' : 'Examiner Report'}
+                <div className="mt-2 flex items-center space-x-1.5">
+                  <span className="px-2 py-0.5 text-[11px] rounded-full bg-blue-100 text-blue-800 font-medium">
+                    QP
                   </span>
+                  {paper.markschemeUrl ? (
+                    <span className="px-2 py-0.5 text-[11px] rounded-full bg-emerald-100 text-emerald-800 font-medium flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                      MS Included
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 text-[11px] rounded-full bg-gray-100 text-gray-500">
+                      QP Only
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

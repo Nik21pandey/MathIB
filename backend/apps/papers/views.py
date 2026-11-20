@@ -431,3 +431,232 @@ class BundleFileView(APIView):
             return _build_pdf_response(pdf_bytes, filename, request, bundle.is_paid, user)
         except Exception:
             raise Http404('File not found')
+
+
+class AdminBulkIngestView(APIView):
+    """
+    POST: Bulk upload PDFs or a ZIP archive of past papers / mark schemes.
+    Automatically:
+    1. Extracts files (if ZIP) or accepts multiple uploaded PDFs.
+    2. Runs DocumentClassifier to identify board (IB, Cambridge, Edexcel), year, session, paper number, variant, QP vs MS.
+    3. Runs DocumentSanitizer with PyMuPDF to purge watermarks and third-party logos.
+    4. Auto-pairs Question Papers and Mark Schemes into a unified Paper record.
+    5. Generates high-res thumbnail and saves with proper filter tags.
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        import zipfile
+        import tempfile
+        import shutil
+        from django.core.files.base import ContentFile
+        from django.utils.text import slugify
+        from rest_framework.parsers import MultiPartParser, FormParser
+        from .classifier import DocumentClassifier
+        from .sanitizer import DocumentSanitizer
+        from apps.filters.models import FilterType, FilterOption
+
+        user = _resolve_user(request)
+        # Verify admin / staff permission or secret admin key
+        admin_key = request.headers.get('X-Admin-Key') or request.query_params.get('admin_key')
+        is_admin = (user and user.is_staff) or (admin_key == getattr(settings, 'SECRET_KEY', 'mathib'))
+        if not is_admin:
+            return Response({'success': False, 'message': 'Admin authentication required.'}, status=status.HTTP_403_FORBIDDEN)
+
+        uploaded_files = request.FILES.getlist('files')
+        zip_file = request.FILES.get('zip_file')
+        clean_wm = request.data.get('clean_watermarks', 'true').lower() in ('true', '1')
+        branding = request.data.get('add_branding', 'false').lower() in ('true', '1')
+
+        if not uploaded_files and not zip_file:
+            return Response({'success': False, 'message': 'No PDF files or ZIP archive provided.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        sanitizer = DocumentSanitizer()
+        past_paper_cat, _ = Category.objects.get_or_create(
+            slug='past-year-papers',
+            defaults={'name': 'Past Year Papers', 'description': 'Official Past Year Examination Papers', 'display_order': 1}
+        )
+        topical_cat, _ = Category.objects.get_or_create(
+            slug='topical-past-papers',
+            defaults={'name': 'Topical Past Papers', 'description': 'Questions classified by Topic and Subtopic', 'display_order': 2}
+        )
+
+        def get_or_create_filter(type_slug, type_name, opt_name):
+            if not opt_name:
+                return None
+            ftype, _ = FilterType.objects.get_or_create(slug=type_slug, defaults={'name': type_name})
+            opt_slug = slugify(str(opt_name))
+            opt, _ = FilterOption.objects.get_or_create(
+                filter_type=ftype,
+                slug=opt_slug,
+                defaults={'name': str(opt_name), 'code': str(opt_name)[:10]}
+            )
+            return opt
+
+        temp_dir = tempfile.mkdtemp(prefix='mathib_bulk_')
+        discovered_pdfs = []
+
+        try:
+            # Handle ZIP
+            if zip_file:
+                with zipfile.ZipFile(zip_file, 'r') as z:
+                    for filename in z.namelist():
+                        if filename.lower().endswith('.pdf') and not filename.startswith('__MACOSX'):
+                            target_path = os.path.join(temp_dir, os.path.basename(filename))
+                            with open(target_path, 'wb') as f:
+                                f.write(z.read(filename))
+                            discovered_pdfs.append(target_path)
+
+            # Handle direct PDF files
+            for uf in uploaded_files:
+                if uf.name.lower().endswith('.pdf'):
+                    target_path = os.path.join(temp_dir, uf.name)
+                    with open(target_path, 'wb') as f:
+                        for chunk in uf.chunks():
+                            f.write(chunk)
+                    discovered_pdfs.append(target_path)
+
+            # Classify
+            qps = {}
+            mss = {}
+            topicals = []
+            generic = []
+
+            for fpath in discovered_pdfs:
+                info = DocumentClassifier.classify_filename(fpath)
+                info['file_path'] = fpath
+                if info.get('is_markscheme') and info.get('pair_key'):
+                    mss[info['pair_key']] = info
+                elif info.get('pair_key'):
+                    qps[info['pair_key']] = info
+                elif info.get('format') == 'topical':
+                    topicals.append(info)
+                else:
+                    generic.append(info)
+
+            processed_papers = []
+
+            # 1. Process paired QPs + MSs
+            for pair_key, qp_info in qps.items():
+                ms_info = mss.get(pair_key)
+                title = qp_info['title'].replace(' (QUESTION)', '').replace(' (QP)', '')
+
+                with open(qp_info['file_path'], 'rb') as f:
+                    raw_qp = f.read()
+                cleaned_qp = sanitizer.sanitize(raw_qp, clean_watermarks=clean_wm, add_mathib_branding=branding)
+                page_count, thumb_bytes = extract_pdf_info(cleaned_qp)
+
+                paper_obj, _ = Paper.objects.update_or_create(
+                    title=title,
+                    defaults={
+                        'category': past_paper_cat,
+                        'file_size': len(cleaned_qp),
+                        'page_count': page_count,
+                        'is_active': True,
+                        'is_free': True,
+                    }
+                )
+                safe_slug = slugify(f"{qp_info['code']}-{pair_key}")[:60]
+                paper_obj.pdf_file.save(f"{safe_slug}.pdf", ContentFile(cleaned_qp), save=False)
+                if thumb_bytes:
+                    paper_obj.thumbnail.save(f"{safe_slug}_thumb.png", ContentFile(thumb_bytes), save=False)
+
+                if ms_info:
+                    with open(ms_info['file_path'], 'rb') as f_ms:
+                        raw_ms = f_ms.read()
+                    cleaned_ms = sanitizer.sanitize(raw_ms, clean_watermarks=clean_wm, add_mathib_branding=branding)
+                    paper_obj.markscheme_file.save(f"{safe_slug}_ms.pdf", ContentFile(cleaned_ms), save=False)
+
+                paper_obj.save()
+
+                filters = []
+                if qp_info.get('curriculum'):
+                    filters.append(get_or_create_filter('curriculum', 'Curriculum', qp_info['curriculum']))
+                if qp_info.get('year'):
+                    filters.append(get_or_create_filter('year', 'Year', str(qp_info['year'])))
+                if qp_info.get('season'):
+                    filters.append(get_or_create_filter('season', 'Season', qp_info['season']))
+                if qp_info.get('zone'):
+                    filters.append(get_or_create_filter('zone', 'Zone / Timezone', qp_info['zone']))
+                if qp_info.get('paper_number'):
+                    filters.append(get_or_create_filter('paper', 'Paper Number', qp_info['paper_number']))
+
+                paper_obj.filters.set([f for f in filters if f])
+                processed_papers.append({
+                    'id': paper_obj.id,
+                    'title': paper_obj.title,
+                    'has_qp': bool(paper_obj.pdf_file),
+                    'has_ms': bool(paper_obj.markscheme_file),
+                    'category': past_paper_cat.name,
+                })
+
+            # 2. Process remaining MSs (link to existing papers)
+            for pair_key, ms_info in mss.items():
+                if pair_key in qps:
+                    continue
+                possible_title = ms_info['title'].replace(' (MARKING-SCHEME)', '').replace(' (MS)', '')
+                paper_obj = Paper.objects.filter(title__icontains=ms_info.get('code', 'xyz')).filter(title__icontains=str(ms_info.get('year', '9999'))).first()
+                if not paper_obj:
+                    paper_obj = Paper.objects.filter(title=possible_title).first()
+
+                if paper_obj:
+                    with open(ms_info['file_path'], 'rb') as f_ms:
+                        raw_ms = f_ms.read()
+                    cleaned_ms = sanitizer.sanitize(raw_ms, clean_watermarks=clean_wm, add_mathib_branding=branding)
+                    safe_slug = slugify(paper_obj.title)[:60]
+                    paper_obj.markscheme_file.save(f"{safe_slug}_ms.pdf", ContentFile(cleaned_ms), save=True)
+                    processed_papers.append({
+                        'id': paper_obj.id,
+                        'title': f"{paper_obj.title} (Attached MS)",
+                        'has_qp': bool(paper_obj.pdf_file),
+                        'has_ms': True,
+                        'category': paper_obj.category.name if paper_obj.category else 'Past Papers',
+                    })
+
+            # 3. Process topicals
+            for top_info in topicals:
+                title = top_info['title']
+                with open(top_info['file_path'], 'rb') as f:
+                    raw_bytes = f.read()
+                cleaned_bytes = sanitizer.sanitize(raw_bytes, clean_watermarks=clean_wm, add_mathib_branding=branding)
+                page_count, thumb_bytes = extract_pdf_info(cleaned_bytes)
+
+                safe_slug = slugify(title)[:60]
+                paper_obj, _ = Paper.objects.update_or_create(
+                    title=title,
+                    defaults={
+                        'category': topical_cat,
+                        'file_size': len(cleaned_bytes),
+                        'page_count': page_count,
+                        'is_active': True,
+                        'is_free': True,
+                    }
+                )
+                paper_obj.pdf_file.save(f"{safe_slug}.pdf", ContentFile(cleaned_bytes), save=False)
+                if thumb_bytes:
+                    paper_obj.thumbnail.save(f"{safe_slug}_thumb.png", ContentFile(thumb_bytes), save=False)
+                paper_obj.save()
+
+                filters = []
+                if top_info.get('curriculum'):
+                    filters.append(get_or_create_filter('curriculum', 'Curriculum', top_info['curriculum']))
+                if top_info.get('topic'):
+                    filters.append(get_or_create_filter('subject', 'Topic', top_info['topic']))
+                paper_obj.filters.set([f for f in filters if f])
+                processed_papers.append({
+                    'id': paper_obj.id,
+                    'title': title,
+                    'has_qp': True,
+                    'has_ms': False,
+                    'category': topical_cat.name,
+                })
+
+            return Response({
+                'success': True,
+                'message': f'Successfully ingested {len(processed_papers)} examination resource(s) into MathIB.',
+                'total_discovered': len(discovered_pdfs),
+                'total_processed': len(processed_papers),
+                'data': processed_papers,
+            })
+        finally:
+            shutil.rmtree(temp_dir, ignore_errors=True)

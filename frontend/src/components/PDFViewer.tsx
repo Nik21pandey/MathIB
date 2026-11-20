@@ -12,11 +12,12 @@ import {
 
 interface PDFViewerProps {
   pdfUrl?: string;
+  markschemeUrl?: string;
   paperTitle?: string;
   currentPage?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
-  onDownload?: () => void;
+  onDownload?: (type?: 'question' | 'markscheme') => void;
   onPrint?: () => void;
   onShare?: () => void;
   onFullscreen?: () => void;
@@ -25,6 +26,7 @@ interface PDFViewerProps {
 
 const PDFViewer: React.FC<PDFViewerProps> = ({
   pdfUrl,
+  markschemeUrl,
   paperTitle = "Select a paper to view",
   currentPage = 1,
   totalPages = 20,
@@ -34,15 +36,27 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   onShare,
   onFullscreen
 }) => {
+  const [activeTab, setActiveTab] = useState<'question' | 'markscheme'>('question');
   const [zoom, setZoom] = useState(78);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Determine active document URL
+  const currentUrl = activeTab === 'markscheme' && markschemeUrl ? markschemeUrl : pdfUrl;
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev + 25, 200));
   const handleZoomOut = () => setZoom(prev => Math.max(prev - 25, 25));
+
+  const handleDownloadClick = () => {
+    if (onDownload) {
+      onDownload(activeTab);
+    } else if (currentUrl) {
+      window.open(currentUrl, '_blank');
+    }
+  };
 
   const handlePreviousPage = () => {
     if (currentPage > 1 && onPageChange) {
@@ -85,8 +99,39 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
       {/* Top Toolbar */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between px-3 lg:px-4 py-2 bg-gray-800 border-b border-gray-700 space-y-2 lg:space-y-0">
         <div className="flex items-center space-x-2 lg:space-x-4">
-          <div className="flex items-center space-x-1">
-            <span className="text-xs lg:text-sm font-medium truncate">{paperTitle}</span>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs lg:text-sm font-medium truncate max-w-[200px] lg:max-w-xs">{paperTitle}</span>
+          </div>
+
+          {/* Question vs Mark Scheme Switcher */}
+          <div className="flex items-center bg-gray-900 rounded-lg p-0.5 border border-gray-700 shadow-inner">
+            <button
+              onClick={() => setActiveTab('question')}
+              className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors ${
+                activeTab === 'question'
+                  ? 'bg-blue-600 text-white shadow'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+              }`}
+            >
+              📄 Question Paper
+            </button>
+            <button
+              onClick={() => markschemeUrl && setActiveTab('markscheme')}
+              disabled={!markschemeUrl}
+              className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors flex items-center gap-1.5 ${
+                activeTab === 'markscheme'
+                  ? 'bg-emerald-600 text-white shadow'
+                  : markschemeUrl
+                  ? 'text-gray-300 hover:text-white hover:bg-gray-800'
+                  : 'text-gray-500 cursor-not-allowed opacity-60'
+              }`}
+              title={markschemeUrl ? "Switch to Official Mark Scheme" : "Mark scheme not available for this paper"}
+            >
+              <span>📝 Mark Scheme</span>
+              {markschemeUrl && (
+                <span className={`w-1.5 h-1.5 rounded-full ${activeTab === 'markscheme' ? 'bg-white' : 'bg-emerald-400'}`}></span>
+              )}
+            </button>
           </div>
         </div>
 
@@ -146,7 +191,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
           {/* Mobile Action Buttons - Simplified */}
           <div className="flex items-center space-x-1 lg:hidden">
             <button
-              onClick={onDownload}
+              onClick={handleDownloadClick}
               className="p-2 rounded hover:bg-gray-700 bg-blue-600"
               title="Download"
             >
@@ -171,9 +216,9 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               <ShareIcon className="h-5 w-5" />
             </button>
             <button
-              onClick={onDownload}
-              className="p-1 rounded hover:bg-gray-700"
-              title="Download"
+              onClick={handleDownloadClick}
+              className="p-1 rounded hover:bg-gray-700 text-blue-400 hover:text-blue-300"
+              title={`Download ${activeTab === 'markscheme' ? 'Mark Scheme' : 'Question Paper'}`}
             >
               <ArrowDownTrayIcon className="h-5 w-5" />
             </button>
@@ -202,29 +247,50 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
-        {pdfUrl ? (
+        {currentUrl ? (
           <div className="flex justify-center p-2 lg:p-4 h-full">
             <div 
-              className="bg-white shadow-2xl rounded-lg overflow-hidden w-full max-w-full lg:max-w-4xl h-full"
+              className="bg-white shadow-2xl rounded-lg overflow-hidden w-full max-w-full lg:max-w-4xl h-full flex flex-col"
               style={{ 
                 width: `min(100%, ${zoom}%)`,
               }}
             >
+              <div className="bg-gray-800 text-gray-200 text-xs px-3 py-1 flex items-center justify-between border-b border-gray-700">
+                <span className="font-semibold flex items-center gap-1.5">
+                  <span className={`w-2 h-2 rounded-full ${activeTab === 'markscheme' ? 'bg-emerald-400' : 'bg-blue-400'}`} />
+                  {activeTab === 'markscheme' ? 'Official Mark Scheme & Grading Criteria' : 'Official Question Paper'}
+                </span>
+                <span className="text-gray-400">{activeTab === 'markscheme' ? 'Answers & Method Marks' : 'Exam Questions'}</span>
+              </div>
               {/* PDF Embed */}
               <iframe
-                src={pdfUrl}
-                className="w-full h-full"
-                title={paperTitle}
+                src={currentUrl}
+                className="w-full flex-1"
+                title={`${paperTitle} - ${activeTab}`}
                 style={{ minHeight: '600px' }}
               />
             </div>
           </div>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-400">
-            <div className="text-center">
+            <div className="text-center p-6 bg-gray-800/80 rounded-xl border border-gray-700 max-w-md">
               <div className="text-6xl mb-4">📄</div>
-              <p className="text-lg">Select a paper from the list to view</p>
-              <p className="text-sm mt-2">Papers will be displayed here in PDF format</p>
+              <p className="text-lg font-semibold text-white">
+                {activeTab === 'markscheme' ? 'Mark Scheme Not Attached' : 'Select a paper from the list to view'}
+              </p>
+              <p className="text-sm mt-2 text-gray-400">
+                {activeTab === 'markscheme'
+                  ? 'The official mark scheme has not yet been paired for this session.'
+                  : 'Past papers and marking schemes are displayed here in high definition.'}
+              </p>
+              {activeTab === 'markscheme' && pdfUrl && (
+                <button
+                  onClick={() => setActiveTab('question')}
+                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition"
+                >
+                  Return to Question Paper
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -232,15 +298,34 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
 
       {/* Bottom Action Bar */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between px-3 lg:px-4 py-2 bg-gray-800 border-t border-gray-700 space-y-2 lg:space-y-0">
-        <div className="flex items-center justify-center lg:justify-start space-x-4 text-sm text-gray-300">
-          <button className="flex items-center space-x-1 hover:text-white py-1 px-2 rounded">
-            <span>Question</span>
+        <div className="flex items-center justify-center lg:justify-start space-x-2 text-sm">
+          <button
+            onClick={() => setActiveTab('question')}
+            className={`flex items-center space-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold transition ${
+              activeTab === 'question'
+                ? 'bg-blue-600 text-white shadow'
+                : 'text-gray-300 hover:text-white hover:bg-gray-700'
+            }`}
+          >
+            <span>Question Paper</span>
           </button>
-          <button className="flex items-center space-x-1 hover:text-white py-1 px-2 rounded">
-            <span>Answer</span>
-          </button>
-          <button className="flex items-center space-x-1 hover:text-white py-1 px-2 rounded">
-            <span>Extra Files</span>
+          <button
+            onClick={() => markschemeUrl && setActiveTab('markscheme')}
+            disabled={!markschemeUrl}
+            className={`flex items-center space-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold transition ${
+              activeTab === 'markscheme'
+                ? 'bg-emerald-600 text-white shadow'
+                : markschemeUrl
+                ? 'text-gray-300 hover:text-white hover:bg-gray-700'
+                : 'text-gray-500 cursor-not-allowed opacity-50'
+            }`}
+          >
+            <span>Mark Scheme</span>
+            {markschemeUrl ? (
+              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full font-mono">Available</span>
+            ) : (
+              <span className="text-[10px] bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded-full font-mono">N/A</span>
+            )}
           </button>
         </div>
         

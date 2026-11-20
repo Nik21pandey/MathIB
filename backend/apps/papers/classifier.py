@@ -1,7 +1,7 @@
 """
 MathIB Intelligent Document Classifier
 Parses filenames, path structures, and page text to categorize:
-- Syllabuses: IBDP AA/AI, IB MYP, Cambridge IGCSE 0580/0607/0606, A-Level 9709
+- Syllabuses: IBDP AA/AI, IB MYP, Cambridge IGCSE 0580/0607/0606, A-Level 9709, Edexcel IGCSE 4MA1, Edexcel GCSE 1MA1
 - Document Types: Question Paper (QP), Mark Scheme (MS), Examiner Report (ER), Notes, Worksheet
 - Metadata: Year, Season, Zone, Paper Number, Variant, Topic, Subtopic
 """
@@ -30,9 +30,16 @@ class DocumentClassifier:
         re.IGNORECASE
     )
 
+    # Pearson Edexcel IGCSE 4MA1 & GCSE 1MA1 pattern:
+    # Examples: 4MA1_1H_que_20230608.pdf, 4MA1_1H_rms_20230824.pdf, 1MA1_1H_qp.pdf, 1MA1_2H_ms.pdf
+    EDEXCEL_PATTERN = re.compile(
+        r'^(?P<code>4MA1|1MA1)_(?P<paper>[123])(?P<tier>[HF])_(?P<type>que|rms|msc|qp|ms)(?:_(?P<date>\d{4,8}))?',
+        re.IGNORECASE
+    )
+
     # Topical pattern: {code}_{topic}_{subtopic}.pdf or {code}_{topic}.pdf
     TOPICAL_PATTERN = re.compile(
-        r'^(?P<code>0580|0607|0606|9709|IB_AA_HL|IB_AA_SL|IB_AI_HL|IB_AI_SL|MYP)_(?P<topic>[a-zA-Z0-9_-]+)',
+        r'^(?P<code>0580|0607|0606|9709|IB_AA_HL|IB_AA_SL|IB_AI_HL|IB_AI_SL|MYP|4MA1|1MA1)_(?P<topic>[a-zA-Z0-9_-]+)',
         re.IGNORECASE
     )
 
@@ -42,6 +49,9 @@ class DocumentClassifier:
         'w': 'Oct/Nov',
         'M': 'May',
         'N': 'November',
+        'jun': 'June',
+        'jan': 'January',
+        'nov': 'November',
     }
 
     SYLLABUS_NAMES = {
@@ -54,13 +64,17 @@ class DocumentClassifier:
         'AI_HL': 'IB DP Mathematics: Applications and Interpretation HL',
         'AI_SL': 'IB DP Mathematics: Applications and Interpretation SL',
         'MYP': 'IB Middle Years Programme (MYP) Mathematics',
+        '4MA1': 'Pearson Edexcel International GCSE Mathematics A (4MA1)',
+        '1MA1': 'Pearson Edexcel GCSE Mathematics (1MA1)',
     }
 
     @classmethod
     def classify_filename(cls, filename: str) -> Dict[str, Any]:
         """
-        Extract structured metadata from filename.
+        Extract structured metadata from filename and directory path.
         """
+        norm_path = os.path.normpath(filename)
+        path_parts = norm_path.split(os.sep)
         basename = os.path.basename(filename)
         name_without_ext = os.path.splitext(basename)[0]
 
@@ -126,7 +140,107 @@ class DocumentClassifier:
                 "is_markscheme": is_ms,
             }
 
-        # 3. Try Topical / Chapter format (e.g. 0580_trigonometry_bearings.pdf)
+        # 3. Try Pearson Edexcel 4MA1 / 1MA1 format
+        edx_match = cls.EDEXCEL_PATTERN.match(name_without_ext)
+        if edx_match:
+            d = edx_match.groupdict()
+            code = d['code'].upper()
+            paper_num = d['paper']
+            tier = d['tier'].upper()
+            type_raw = d['type'].lower()
+            is_ms = type_raw in ('rms', 'msc', 'ms')
+            doc_type = 'marking-scheme' if is_ms else 'question'
+            date_val = d.get('date') or ''
+            year = 2024
+            season = 'Summer'
+            if date_val:
+                if len(date_val) >= 4:
+                    year = int(date_val[:4])
+                if len(date_val) >= 6:
+                    month = date_val[4:6]
+                    if month in ('05', '06'):
+                        season = 'May/June'
+                    elif month in ('01', '02'):
+                        season = 'January'
+                    elif month in ('10', '11'):
+                        season = 'October/November'
+            tier_label = 'Higher' if tier == 'H' else 'Foundation'
+            pair_key = f"{code}_{year}_{season}_{paper_num}{tier}"
+
+            return {
+                "matched": True,
+                "format": "edexcel",
+                "code": code,
+                "curriculum": cls.SYLLABUS_NAMES.get(code, code),
+                "year": year,
+                "season": season,
+                "paper_number": f"Paper {paper_num}{tier} ({tier_label})",
+                "tier": tier_label,
+                "type": doc_type,
+                "title": f"Edexcel {code} {season} {year} Paper {paper_num}{tier} ({doc_type.upper()})",
+                "pair_key": pair_key,
+                "is_markscheme": is_ms,
+            }
+
+        # 4. Try Flexible Human-Friendly Exam Filename
+        # e.g., "Edexcel_4MA1_2023_June_Paper_1H_QP", "IB_AA_HL_2024_May_Paper_1_TZ2_MS"
+        is_ms_kw = bool(re.search(r'\b(ms|markscheme|mark_scheme|rms|answers?)\b', name_without_ext, re.IGNORECASE))
+        is_qp_kw = bool(re.search(r'\b(qp|question_paper|questions?|que)\b', name_without_ext, re.IGNORECASE))
+        year_m = re.search(r'\b(20\d{2})\b', name_without_ext)
+        year = int(year_m.group(1)) if year_m else None
+
+        season = None
+        for s_key in ['january', 'february', 'march', 'may', 'june', 'october', 'november', 'summer', 'winter']:
+            if s_key in name_without_ext.lower():
+                season = s_key.capitalize()
+                break
+
+        paper_m = re.search(r'paper\s*([0-9][a-zA-Z]?)', name_without_ext, re.IGNORECASE)
+        paper_num = f"Paper {paper_m.group(1).upper()}" if paper_m else None
+
+        # Check curriculum code
+        code = None
+        for test_code, curr_name in cls.SYLLABUS_NAMES.items():
+            if test_code.lower() in name_without_ext.lower() or test_code.replace('_', ' ').lower() in name_without_ext.lower():
+                code = test_code
+                break
+
+        if code and year and (is_ms_kw or is_qp_kw):
+            doc_type = 'marking-scheme' if is_ms_kw else 'question'
+            pair_key = f"{code}_{year}_{season or 'Session'}_{paper_num or 'P1'}"
+            return {
+                "matched": True,
+                "format": "flexible_exam",
+                "code": code,
+                "curriculum": cls.SYLLABUS_NAMES.get(code, code),
+                "year": year,
+                "season": season or 'May/June',
+                "paper_number": paper_num or 'Paper 1',
+                "type": doc_type,
+                "title": f"{code} {season or ''} {year} {paper_num or ''} ({doc_type.upper()})".strip(),
+                "pair_key": pair_key,
+                "is_markscheme": doc_type == 'marking-scheme',
+            }
+
+        # 5. Try Directory Path Context (e.g. 0580/Trigonometry/Bearings/Worksheet.pdf)
+        if len(path_parts) >= 2:
+            dir_context = path_parts[-2]
+            for test_code in cls.SYLLABUS_NAMES.keys():
+                if test_code.lower() in dir_context.lower():
+                    code = test_code
+                    topic = path_parts[-1] if len(path_parts) >= 3 else dir_context
+                    return {
+                        "matched": True,
+                        "format": "topical",
+                        "code": code,
+                        "curriculum": cls.SYLLABUS_NAMES.get(code, code),
+                        "topic": topic.replace('_', ' ').replace('-', ' ').title(),
+                        "type": "topical-worksheet",
+                        "title": f"{code} {topic} Topical Resource",
+                        "is_markscheme": is_ms_kw,
+                    }
+
+        # 6. Try Topical / Chapter format (e.g. 0580_trigonometry_bearings.pdf)
         top_match = cls.TOPICAL_PATTERN.match(name_without_ext)
         if top_match:
             d = top_match.groupdict()
@@ -144,10 +258,10 @@ class DocumentClassifier:
                 "subtopic": subtopic,
                 "type": "topical-worksheet",
                 "title": f"{code} {topic}{f' - {subtopic}' if subtopic else ''} Topical Worksheet",
-                "is_markscheme": False,
+                "is_markscheme": is_ms_kw,
             }
 
-        # 4. Fallback: Unclassified document
+        # 7. Fallback: Unclassified document
         human_title = name_without_ext.replace('_', ' ').replace('-', ' ').title()
         return {
             "matched": False,

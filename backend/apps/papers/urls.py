@@ -18,6 +18,7 @@ from .views import (
     BundleDetailView,
     BundlePapersView,
     BundleFileView,
+    AdminBulkIngestView,
 )
 
 app_name = 'papers'
@@ -35,6 +36,8 @@ urlpatterns = [
     path('papers/<int:paper_id>/download/', PaperDownloadView.as_view(), name='paper-download'),
     path('papers/<int:paper_id>/file/', PaperFileView.as_view(), name='paper-file'),
     path('papers/<int:paper_id>/markscheme/', PaperFileView.as_view(serve_markscheme=True), name='paper-markscheme'),
+
+    path('admin/bulk-ingest/', AdminBulkIngestView.as_view(), name='admin-bulk-ingest'),
 
     path('bundles/', BundleListView.as_view(), name='bundle-list'),
     path('bundles/<int:bundle_id>/', BundleDetailView.as_view(), name='bundle-detail'),

@@ -23,6 +23,7 @@ export interface Paper {
   category_name: string;
   category_slug: string;
   pdf_url: string | null;
+  markscheme_url: string | null;
   thumbnail_url: string | null;
   file_size_mb: number;
   page_count: number | null;

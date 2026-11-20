@@ -16,6 +16,7 @@ import { createRequire } from 'node:module';
 import * as igcse from './igcse.mjs';
 import * as ib from './ib.mjs';
 import * as rest from './myp-alevel.mjs';
+import * as edexcel from './edexcel.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const errors = [];
@@ -24,6 +25,7 @@ const fail = (msg) => errors.push(msg);
 const boards = [
   { id: 'cambridge', name: 'Cambridge International' },
   { id: 'ib', name: 'International Baccalaureate' },
+  { id: 'edexcel', name: 'Pearson Edexcel' },
 ];
 
 // Approximate first day of the next written exam session. Edit these (or the Django
@@ -33,13 +35,14 @@ const sessions = [
   { id: 'nov-2027', name: 'October/November 2027 session', starts: '2027-10-04', approximate: true },
 ];
 
-const syllabuses = [igcse.syllabus, ...ib.syllabuses, ...rest.syllabuses];
+const syllabuses = [igcse.syllabus, ...ib.syllabuses, ...rest.syllabuses, ...edexcel.syllabuses];
 const topics = [
   ...igcse.topics.map((t) => ({ syllabus: 'igcse-0580', ...t })),
   ...ib.topics,
   ...rest.topics,
+  ...edexcel.topics,
 ];
-const rawQuestions = [...igcse.questions, ...ib.questions, ...rest.questions];
+const rawQuestions = [...igcse.questions, ...ib.questions, ...rest.questions, ...edexcel.questions];
 const checklists = rest.checklists;
 
 const topicById = new Map();
