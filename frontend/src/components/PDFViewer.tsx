@@ -9,11 +9,16 @@ import {
   MagnifyingGlassPlusIcon,
   ArrowsPointingOutIcon
 } from '@heroicons/react/24/outline';
+import { ExamStudio } from './ExamStudio';
 
 interface PDFViewerProps {
   pdfUrl?: string;
   markschemeUrl?: string;
   paperTitle?: string;
+  curriculum?: string;
+  paperNumber?: string;
+  season?: string;
+  year?: number;
   currentPage?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
@@ -28,6 +33,10 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   pdfUrl,
   markschemeUrl,
   paperTitle = "Select a paper to view",
+  curriculum = "Cambridge IGCSE / IB DP / Edexcel",
+  paperNumber = "Paper 1",
+  season = "May/June",
+  year = 2024,
   currentPage = 1,
   totalPages = 20,
   onPageChange,
@@ -36,6 +45,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   onShare,
   onFullscreen
 }) => {
+  const [viewType, setViewType] = useState<'studio' | 'pdf'>('studio');
   const [activeTab, setActiveTab] = useState<'question' | 'markscheme'>('question');
   const [zoom, setZoom] = useState(78);
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -96,6 +106,62 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
 
   return (
     <div className="flex flex-col h-full bg-gray-900 text-white">
+      {/* Top Main Mode Switcher: Interactive Studio vs PDF Booklet */}
+      <div className="bg-gray-950 px-3 py-2 border-b border-gray-800 flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center space-x-1.5 bg-gray-900 p-1 rounded-lg border border-gray-800">
+          <button
+            onClick={() => setViewType('studio')}
+            className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition ${
+              viewType === 'studio'
+                ? 'bg-blue-600 text-white shadow'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800'
+            }`}
+          >
+            <span>⚡ Interactive Studio (Split-View)</span>
+            <span className="hidden sm:inline-block text-[10px] bg-blue-500/30 text-blue-200 px-1.5 py-0.5 rounded font-mono">Exam-Mate / Revision Village</span>
+          </button>
+          <button
+            onClick={() => setViewType('pdf')}
+            className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition ${
+              viewType === 'pdf'
+                ? 'bg-emerald-600 text-white shadow'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800'
+            }`}
+          >
+            <span>📄 Official PDF Booklet</span>
+            <span className="hidden sm:inline-block text-[10px] bg-emerald-500/30 text-emerald-200 px-1.5 py-0.5 rounded font-mono">iLovePDF Vector</span>
+          </button>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-2">
+          {onDownload && (
+            <button
+              onClick={() => onDownload(activeTab)}
+              className="text-xs text-gray-300 hover:text-white bg-gray-800 hover:bg-gray-700 px-2.5 py-1.5 rounded-md border border-gray-700 flex items-center gap-1"
+            >
+              <ArrowDownTrayIcon className="w-3.5 h-3.5" />
+              Download
+            </button>
+          )}
+        </div>
+      </div>
+
+      {viewType === 'studio' ? (
+        <div className="flex-1 overflow-auto bg-slate-900">
+          <ExamStudio
+            paperTitle={paperTitle}
+            curriculum={curriculum}
+            paperNumber={paperNumber}
+            season={season}
+            year={year}
+            pdfUrl={pdfUrl}
+            markschemeUrl={markschemeUrl}
+            onDownloadQP={() => onDownload && onDownload('question')}
+            onDownloadMS={() => onDownload && onDownload('markscheme')}
+          />
+        </div>
+      ) : (
+        <>
       {/* Top Toolbar */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between px-3 lg:px-4 py-2 bg-gray-800 border-b border-gray-700 space-y-2 lg:space-y-0">
         <div className="flex items-center space-x-2 lg:space-x-4">
@@ -352,6 +418,8 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
           Download PDF
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 };

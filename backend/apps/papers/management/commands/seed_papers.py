@@ -16,6 +16,7 @@ except ImportError:
 
 from apps.papers.models import Category, Paper, Bundle
 from apps.filters.models import FilterType, FilterOption
+from apps.papers.pdf_engine import ExamPDFEngine
 
 
 class Command(BaseCommand):
@@ -57,53 +58,16 @@ class Command(BaseCommand):
             return opt
 
         def generate_sample_pdf(title, is_markscheme=False, pages=4):
-            doc = fitz.open()
-            for p_num in range(1, pages + 1):
-                page = doc.new_page(width=595, height=842) # A4
-                theme_color = (0.05, 0.45, 0.25) if is_markscheme else (0.1, 0.3, 0.7)
-                
-                # Header Bar
-                page.draw_rect(fitz.Rect(40, 30, 555, 60), color=theme_color, fill=theme_color)
-                header_text = "MathIB Official Mark Scheme & Guidance" if is_markscheme else "MathIB Official Past Examination Paper"
-                page.insert_text((50, 50), header_text, fontsize=12, fontname="helv", color=(1, 1, 1))
-
-                # Paper Title
-                page.insert_text((40, 100), title, fontsize=15, fontname="helv", color=(0.1, 0.1, 0.1))
-                page.draw_line((40, 115), (555, 115), color=(0.8, 0.8, 0.8), width=1)
-
-                if is_markscheme:
-                    page.insert_text((40, 140), "MARK SCHEME NOTES & ABBREVIATIONS:", fontsize=11, fontname="helv", color=theme_color)
-                    page.insert_text((40, 160), "- M1: Method mark awarded for a valid step towards solving the problem.", fontsize=9, fontname="helv", color=(0.2, 0.2, 0.2))
-                    page.insert_text((40, 175), "- A1: Accuracy mark awarded for a correct answer or intermediate value.", fontsize=9, fontname="helv", color=(0.2, 0.2, 0.2))
-                    page.insert_text((40, 190), "- B1: Independent mark awarded without dependence on method.", fontsize=9, fontname="helv", color=(0.2, 0.2, 0.2))
-                    page.insert_text((40, 205), "- R1: Reasoning / proof mark required in IB Analysis & Approaches.", fontsize=9, fontname="helv", color=(0.2, 0.2, 0.2))
-                    
-                    page.draw_line((40, 220), (555, 220), color=(0.85, 0.85, 0.85), width=0.5)
-                    page.insert_text((40, 245), f"Question Solutions (Page {p_num} of {pages})", fontsize=12, fontname="helv", color=(0.1, 0.1, 0.1))
-                    page.insert_text((40, 270), "Q1: Fully simplified fractional conversion: 47/99 [M1 A1]", fontsize=10, fontname="helv", color=(0.2, 0.2, 0.2))
-                    page.insert_text((40, 290), "Q2: Function composition fg(3): g(3)=11, f(11)=28 [M1 A1]", fontsize=10, fontname="helv", color=(0.2, 0.2, 0.2))
-                    page.insert_text((40, 310), "Q3: 3D Pythagoras internal diagonal d = sqrt(4^2 + 5^2 + 7^2) = 9.49 cm [M1 A1]", fontsize=10, fontname="helv", color=(0.2, 0.2, 0.2))
-                    page.insert_text((40, 330), "Q4: Binomial expansion coefficient matching [M1 A1 A1]", fontsize=10, fontname="helv", color=(0.2, 0.2, 0.2))
-                else:
-                    page.insert_text((40, 140), "READ THESE INSTRUCTIONS FIRST", fontsize=11, fontname="helv", color=(0.2, 0.2, 0.2))
-                    page.insert_text((40, 160), "1. Write your name and candidate number in the spaces provided.", fontsize=9, fontname="helv", color=(0.3, 0.3, 0.3))
-                    page.insert_text((40, 175), "2. Answer all questions. You must show all necessary working clearly.", fontsize=9, fontname="helv", color=(0.3, 0.3, 0.3))
-                    page.insert_text((40, 190), "3. Give non-exact numerical answers correct to 3 significant figures.", fontsize=9, fontname="helv", color=(0.3, 0.3, 0.3))
-                    
-                    page.draw_line((40, 210), (555, 210), color=(0.85, 0.85, 0.85), width=0.5)
-                    page.insert_text((40, 235), f"Examination Questions (Page {p_num} of {pages})", fontsize=12, fontname="helv", color=(0.1, 0.1, 0.1))
-                    page.insert_text((40, 260), "Question 1: Convert the recurring decimal 0.4747... into a fraction in its simplest form. [3 marks]", fontsize=10, fontname="helv", color=(0.1, 0.1, 0.1))
-                    page.insert_text((40, 290), "Question 2: Given f(x) = 3x - 5 and g(x) = x^2 + 2, evaluate fg(3) and find f^-1(x). [4 marks]", fontsize=10, fontname="helv", color=(0.1, 0.1, 0.1))
-                    page.insert_text((40, 320), "Question 3: Calculate the 3D space diagonal of a cuboid measuring 4cm x 5cm x 7cm. [4 marks]", fontsize=10, fontname="helv", color=(0.1, 0.1, 0.1))
-                    page.insert_text((40, 350), "Question 4: Find the first 3 terms in ascending powers of x of (2 - 3x)^6. [5 marks]", fontsize=10, fontname="helv", color=(0.1, 0.1, 0.1))
-
-                # Footer
-                page.draw_line((40, 800), (555, 800), color=(0.85, 0.85, 0.85), width=0.5)
-                page.insert_text((40, 815), "MathIB International Mathematics Platform · math-ib.vercel.app", fontsize=8, fontname="helv", color=(0.5, 0.5, 0.5))
-                page.insert_text((490, 815), f"Page {p_num} of {pages}", fontsize=8, fontname="helv", color=(0.5, 0.5, 0.5))
-
-            pdf_bytes = doc.tobytes()
-            # Generate thumbnail from page 1
+            pdf_bytes = ExamPDFEngine.generate_exam_booklet(
+                title=title,
+                board="International Mathematics Archive",
+                code="MathIB-Exam",
+                season="May/June 2024",
+                duration="2 hours",
+                marks=70,
+                is_markscheme=is_markscheme
+            )
+            doc = fitz.open(stream=pdf_bytes, filetype="pdf")
             pix = doc[0].get_pixmap(dpi=150)
             thumb_bytes = pix.tobytes("png")
             doc.close()

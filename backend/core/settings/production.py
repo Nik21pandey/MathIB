@@ -44,14 +44,30 @@ CSRF_TRUSTED_ORIGINS = [
     if o.strip()
 ]
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# Storage configuration (Supports Google Cloud Storage or FileSystem)
+GS_BUCKET_NAME = config('GS_BUCKET_NAME', default='')
+GS_PROJECT_ID = config('GS_PROJECT_ID', default='')
+GS_DEFAULT_ACL = config('GS_DEFAULT_ACL', default='publicRead')
+GS_QUERYSTRING_AUTH = config('GS_QUERYSTRING_AUTH', default=False, cast=bool)
+
+if GS_BUCKET_NAME:
+    STORAGES = {
+        "default": {
+            "BACKEND": "core.storage.GoogleCloudMediaStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
 
 REDIS_URL = config('REDIS_URL', default='')
 if REDIS_URL:

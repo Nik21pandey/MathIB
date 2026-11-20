@@ -432,6 +432,10 @@ const PastPapers: React.FC = () => {
             pdfUrl={selectedPaper?.pdfUrl}
             markschemeUrl={selectedPaper?.markschemeUrl}
             paperTitle={selectedPaper ? `${selectedPaper.curriculum} · ${selectedPaper.paperNumber} (${selectedPaper.season} ${selectedPaper.year})` : undefined}
+            curriculum={selectedPaper?.curriculum}
+            paperNumber={selectedPaper?.paperNumber}
+            season={selectedPaper?.season}
+            year={selectedPaper?.year}
             currentPage={currentPage}
             totalPages={selectedPaper?.totalPages || 20}
             onPageChange={setCurrentPage}

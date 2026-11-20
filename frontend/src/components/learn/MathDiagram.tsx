@@ -268,9 +268,356 @@ export const NormalCurveDiagram: React.FC<NormalCurveProps> = ({
   );
 };
 
+// ============================================================================
+// 3D Cuboid & Space Diagonal Diagram (Pythagoras in 3D)
+// ============================================================================
+export interface Cuboid3DProps {
+  length?: number;
+  width?: number;
+  height?: number;
+  diagonalLabel?: string;
+  widthPx?: number;
+  heightPx?: number;
+  className?: string;
+}
+
+export const Cuboid3DDiagram: React.FC<Cuboid3DProps> = ({
+  length = 4,
+  width = 5,
+  height = 7,
+  diagonalLabel = 'd',
+  widthPx = 340,
+  heightPx = 220,
+  className = '',
+}) => {
+  // Vertices of cuboid
+  // Front face: A(60, 160), B(200, 160), C(200, 60), D(60, 60)
+  // Back face: E(120, 120), F(260, 120), G(260, 20), H(120, 20)
+  return (
+    <div className={`inline-block bg-white p-3 rounded-xl border border-gray-200 shadow-sm print:shadow-none ${className}`}>
+      <div className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2 text-center">
+        3D Cuboid Dimensions: {length}cm × {width}cm × {height}cm
+      </div>
+      <svg width={widthPx} height={heightPx} viewBox="0 0 320 200" className="overflow-visible font-sans">
+        {/* Hidden back edges (dashed) */}
+        <line x1="60" y1="160" x2="120" y2="120" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 3" />
+        <line x1="120" y1="120" x2="260" y2="120" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 3" />
+        <line x1="120" y1="120" x2="120" y2="20" stroke="#94a3b8" strokeWidth="1.5" strokeDasharray="4 3" />
+
+        {/* Base diagonal (dashed) */}
+        <line x1="60" y1="160" x2="260" y2="120" stroke="#3b82f6" strokeWidth="1.5" strokeDasharray="3 3" />
+
+        {/* 3D Internal Space Diagonal (Solid Red/Indigo line) */}
+        <line x1="60" y1="160" x2="260" y2="20" stroke="#ef4444" strokeWidth="2.5" />
+        <text x="160" y="85" fontSize="12" fontWeight="bold" fill="#ef4444" textAnchor="middle">
+          {diagonalLabel} = √(4² + 5² + 7²) = 9.49 cm
+        </text>
+
+        {/* Visible Solid Edges */}
+        {/* Front face */}
+        <polygon points="60,160 200,160 200,60 60,60" fill="#3b82f6" fillOpacity="0.08" stroke="#1e293b" strokeWidth="2" />
+        {/* Top face */}
+        <polygon points="60,60 200,60 260,20 120,20" fill="#3b82f6" fillOpacity="0.14" stroke="#1e293b" strokeWidth="2" />
+        {/* Right face */}
+        <polygon points="200,160 260,120 260,20 200,60" fill="#3b82f6" fillOpacity="0.18" stroke="#1e293b" strokeWidth="2" />
+
+        {/* Vertex Dots */}
+        <circle cx="60" cy="160" r="3.5" fill="#ef4444" />
+        <circle cx="260" cy="20" r="3.5" fill="#ef4444" />
+
+        {/* Dimension Labels */}
+        <text x="130" y="178" fontSize="11" fontWeight="bold" fill="#1e293b" textAnchor="middle">{length} cm (Length)</text>
+        <text x="240" y="150" fontSize="11" fontWeight="bold" fill="#1e293b" textAnchor="start">{width} cm (Width)</text>
+        <text x="268" y="70" fontSize="11" fontWeight="bold" fill="#1e293b" textAnchor="start">{height} cm (Height)</text>
+      </svg>
+    </div>
+  );
+};
+
+// ============================================================================
+// Histogram & Frequency Density Chart
+// ============================================================================
+export interface HistogramChartProps {
+  title?: string;
+  bars?: { label: string; xStart: number; xEnd: number; fd: number; freq: number }[];
+  className?: string;
+}
+
+export const HistogramDiagram: React.FC<HistogramChartProps> = ({
+  title = "Histogram: Frequency Density vs Class Width",
+  bars = [
+    { label: '0 ≤ w < 10', xStart: 0, xEnd: 10, fd: 1.5, freq: 15 },
+    { label: '10 ≤ w < 20', xStart: 10, xEnd: 20, fd: 2.8, freq: 28 },
+    { label: '20 ≤ w < 30', xStart: 20, xEnd: 30, fd: 3.5, freq: 35 },
+    { label: '30 ≤ w < 50', xStart: 30, xEnd: 50, fd: 1.2, freq: 24 },
+  ],
+  className = '',
+}) => {
+  const width = 340;
+  const height = 220;
+  const padL = 45;
+  const padB = 35;
+  const plotW = width - padL - 20;
+  const plotH = height - padB - 30;
+
+  const maxW = 50;
+  const maxFD = 4.0;
+
+  const toX = (val: number) => padL + (val / maxW) * plotW;
+  const toY = (fd: number) => height - padB - (fd / maxFD) * plotH;
+
+  return (
+    <div className={`inline-block bg-white p-3 rounded-xl border border-gray-200 shadow-sm print:shadow-none ${className}`}>
+      {title && <div className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2 text-center">{title}</div>}
+      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="overflow-visible font-sans">
+        {/* Horizontal grid lines */}
+        {[1, 2, 3, 4].map((fd) => (
+          <g key={`grid-${fd}`}>
+            <line x1={padL} y1={toY(fd)} x2={width - 20} y2={toY(fd)} stroke="#f1f5f9" strokeWidth="1" />
+            <text x={padL - 8} y={toY(fd) + 3} fontSize="9" textAnchor="end" fill="#64748b">{fd.toFixed(1)}</text>
+          </g>
+        ))}
+
+        {/* Axes */}
+        <line x1={padL} y1={height - padB} x2={width - 15} y2={height - padB} stroke="#334155" strokeWidth="1.5" />
+        <line x1={padL} y1={height - padB} x2={padL} y2={20} stroke="#334155" strokeWidth="1.5" />
+
+        {/* Axis Labels */}
+        <text x={width / 2} y={height - 8} fontSize="10" fontWeight="bold" textAnchor="middle" fill="#334155">
+          Class Interval (Width)
+        </text>
+        <text transform={`rotate(-90 12, ${height / 2})`} x="12" y={height / 2} fontSize="10" fontWeight="bold" textAnchor="middle" fill="#334155">
+          Frequency Density
+        </text>
+
+        {/* Bars */}
+        {bars.map((b, i) => {
+          const bx = toX(b.xStart);
+          const bw = toX(b.xEnd) - bx;
+          const by = toY(b.fd);
+          const bh = height - padB - by;
+          const isHighlighted = b.fd === 3.5;
+
+          return (
+            <g key={`bar-${i}`}>
+              <rect
+                x={bx}
+                y={by}
+                width={bw}
+                height={bh}
+                fill={isHighlighted ? '#3b82f6' : '#93c5fd'}
+                fillOpacity={isHighlighted ? '0.75' : '0.5'}
+                stroke="#1d4ed8"
+                strokeWidth="1.5"
+              />
+              <text x={bx + bw / 2} y={by + bh / 2} fontSize="9.5" fontWeight="bold" textAnchor="middle" fill={isHighlighted ? '#ffffff' : '#1e3a8a'}>
+                f = {b.freq}
+              </text>
+              <text x={bx} y={height - padB + 14} fontSize="9" textAnchor="middle" fill="#64748b">
+                {b.xStart}
+              </text>
+              {i === bars.length - 1 && (
+                <text x={toX(b.xEnd)} y={height - padB + 14} fontSize="9" textAnchor="middle" fill="#64748b">
+                  {b.xEnd}
+                </text>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+};
+
+// ============================================================================
+// Calculus Curve & Stationary Points Diagram
+// ============================================================================
+export const FunctionGraphDiagram: React.FC<{ title?: string; className?: string }> = ({
+  title = "Curve y = 2x³ - 9x² + 12x + 4 (Stationary Points dy/dx = 0)",
+  className = '',
+}) => {
+  const width = 340;
+  const height = 210;
+  const padL = 40;
+  const padB = 30;
+
+  // Domain x from 0 to 3, Range y from 0 to 14
+  const toX = (x: number) => padL + (x / 3) * (width - padL - 20);
+  const toY = (y: number) => height - padB - (y / 14) * (height - padB - 25);
+
+  const points: [number, number][] = [];
+  for (let i = 0; i <= 60; i++) {
+    const x = 0.2 + (i / 60) * 2.7;
+    const y = 2 * Math.pow(x, 3) - 9 * Math.pow(x, 2) + 12 * x + 4;
+    points.push([toX(x), toY(y)]);
+  }
+
+  const curveD = `M ${points.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' L ')}`;
+
+  return (
+    <div className={`inline-block bg-white p-3 rounded-xl border border-gray-200 shadow-sm print:shadow-none ${className}`}>
+      {title && <div className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2 text-center">{title}</div>}
+      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="overflow-visible font-sans">
+        {/* Axes */}
+        <line x1={padL} y1={height - padB} x2={width - 15} y2={height - padB} stroke="#334155" strokeWidth="1.5" />
+        <line x1={padL} y1={height - padB} x2={padL} y2={15} stroke="#334155" strokeWidth="1.5" />
+
+        <text x={width - 12} y={height - padB + 14} fontSize="10" fontWeight="bold" fill="#334155">x</text>
+        <text x={padL - 12} y={15} fontSize="10" fontWeight="bold" fill="#334155">y</text>
+
+        {/* Ticks */}
+        {[1, 2, 3].map((x) => (
+          <g key={`x-${x}`}>
+            <line x1={toX(x)} y1={height - padB - 3} x2={toX(x)} y2={height - padB + 3} stroke="#475569" />
+            <text x={toX(x)} y={height - padB + 14} fontSize="9" textAnchor="middle" fill="#64748b">{x}</text>
+          </g>
+        ))}
+
+        {/* Curve */}
+        <path d={curveD} fill="none" stroke="#2563eb" strokeWidth="2.5" />
+
+        {/* Maxima Point (x=1, y=9) */}
+        <circle cx={toX(1)} cy={toY(9)} r="4" fill="#ef4444" stroke="#ffffff" strokeWidth="1.5" />
+        <line x1={toX(0.7)} y1={toY(9)} x2={toX(1.3)} y2={toY(9)} stroke="#ef4444" strokeWidth="1" strokeDasharray="2 2" />
+        <text x={toX(1)} y={toY(9) - 8} fontSize="9.5" fontWeight="bold" textAnchor="middle" fill="#ef4444">
+          Local Max (1, 9)
+        </text>
+
+        {/* Minima Point (x=2, y=8) */}
+        <circle cx={toX(2)} cy={toY(8)} r="4" fill="#10b981" stroke="#ffffff" strokeWidth="1.5" />
+        <line x1={toX(1.7)} y1={toY(8)} x2={toX(2.3)} y2={toY(8)} stroke="#10b981" strokeWidth="1" strokeDasharray="2 2" />
+        <text x={toX(2)} y={toY(8) + 16} fontSize="9.5" fontWeight="bold" textAnchor="middle" fill="#10b981">
+          Local Min (2, 8)
+        </text>
+      </svg>
+    </div>
+  );
+};
+
+// ============================================================================
+// Probability Tree Diagram
+// ============================================================================
+export const ProbabilityTreeDiagram: React.FC<{ title?: string; className?: string }> = ({
+  title = "Probability Tree: Green (7) & Yellow (3) Without Replacement",
+  className = '',
+}) => {
+  return (
+    <div className={`inline-block bg-white p-3 rounded-xl border border-gray-200 shadow-sm print:shadow-none ${className}`}>
+      {title && <div className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2 text-center">{title}</div>}
+      <svg width={340} height={200} viewBox="0 0 340 200" className="overflow-visible font-sans">
+        {/* Stage 1 Branches from (30, 100) */}
+        <line x1="30" y1="100" x2="130" y2="50" stroke="#1e293b" strokeWidth="1.5" />
+        <line x1="30" y1="100" x2="130" y2="150" stroke="#1e293b" strokeWidth="1.5" />
+
+        <text x="75" y="65" fontSize="10" fontWeight="bold" fill="#16a34a">7/10 (G)</text>
+        <text x="75" y="140" fontSize="10" fontWeight="bold" fill="#ca8a04">3/10 (Y)</text>
+
+        {/* Nodes after 1st pick */}
+        <circle cx="130" cy="50" r="4" fill="#16a34a" />
+        <circle cx="130" cy="150" r="4" fill="#ca8a04" />
+
+        {/* Stage 2 from G (130, 50) */}
+        <line x1="130" y1="50" x2="230" y2="25" stroke="#16a34a" strokeWidth="1.5" />
+        <line x1="130" y1="50" x2="230" y2="75" stroke="#ca8a04" strokeWidth="1.5" />
+        <text x="175" y="32" fontSize="9.5" fontWeight="bold" fill="#16a34a">6/9 (G)</text>
+        <text x="175" y="70" fontSize="9.5" fontWeight="bold" fill="#ca8a04">3/9 (Y)</text>
+
+        {/* Stage 2 from Y (130, 150) */}
+        <line x1="130" y1="150" x2="230" y2="125" stroke="#16a34a" strokeWidth="1.5" />
+        <line x1="130" y1="150" x2="230" y2="175" stroke="#ca8a04" strokeWidth="1.5" />
+        <text x="175" y="132" fontSize="9.5" fontWeight="bold" fill="#16a34a">7/9 (G)</text>
+        <text x="175" y="170" fontSize="9.5" fontWeight="bold" fill="#ca8a04">2/9 (Y)</text>
+
+        {/* Outcomes & Probabilities on the right */}
+        <text x="245" y="29" fontSize="10" fontWeight="bold" fill="#16a34a">GG = 42/90 (7/15) ★</text>
+        <text x="245" y="79" fontSize="10" fill="#475569">GY = 21/90 (7/30)</text>
+        <text x="245" y="129" fontSize="10" fill="#475569">YG = 21/90 (7/30)</text>
+        <text x="245" y="179" fontSize="10" fill="#ca8a04">YY = 6/90 (1/15)</text>
+      </svg>
+    </div>
+  );
+};
+
+// ============================================================================
+// Formatted Exam Data Table
+// ============================================================================
+export interface ExamTableProps {
+  headers: string[];
+  rows: (string | number)[][];
+  caption?: string;
+  className?: string;
+}
+
+export const ExamDataTable: React.FC<ExamTableProps> = ({
+  headers,
+  rows,
+  caption,
+  className = '',
+}) => {
+  return (
+    <div className={`my-3 overflow-x-auto rounded-lg border border-gray-200 shadow-sm ${className}`}>
+      {caption && <div className="bg-gray-50 px-3 py-1.5 text-xs font-bold text-gray-700 uppercase tracking-wider border-b border-gray-200 text-center">{caption}</div>}
+      <table className="w-full text-center text-xs">
+        <thead className="bg-gray-100 text-gray-800 font-semibold border-b border-gray-200">
+          <tr>
+            {headers.map((h, i) => (
+              <th key={i} className="px-3 py-2 border-r border-gray-200 last:border-r-0">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100 bg-white">
+          {rows.map((row, ri) => (
+            <tr key={ri} className={ri % 2 === 0 ? 'bg-white' : 'bg-gray-50/60'}>
+              {row.map((cell, ci) => (
+                <td key={ci} className="px-3 py-2 border-r border-gray-200 last:border-r-0 text-gray-700 font-medium">
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 /** Automatically renders visual diagrams for syllabus questions that require geometric/statistical figures */
 export function renderQuestionDiagram(questionId: string): React.ReactNode {
   switch (questionId) {
+    case 'gcs2':
+      return (
+        <div className="my-3">
+          <Cuboid3DDiagram length={4} width={5} height={7} diagonalLabel="d" />
+        </div>
+      );
+    case 'edx3':
+      return (
+        <div className="my-3">
+          <HistogramDiagram />
+          <ExamDataTable
+            caption="Recorded Data Table: Class Width & Frequency"
+            headers={['Class Interval (w)', 'Class Width', 'Frequency (f)', 'Frequency Density (FD)']}
+            rows={[
+              ['0 ≤ w < 10', '10', '15', '1.5'],
+              ['10 ≤ w < 20', '10', '28', '2.8'],
+              ['20 ≤ w < 30', '10', '35', '3.5 (Target)'],
+              ['30 ≤ w < 50', '20', '24', '1.2'],
+            ]}
+          />
+        </div>
+      );
+    case 'edx4':
+      return (
+        <div className="my-3">
+          <FunctionGraphDiagram />
+        </div>
+      );
+    case 'gcs3':
+      return (
+        <div className="my-3">
+          <ProbabilityTreeDiagram />
+        </div>
+      );
     case 'vo1':
       return (
         <div className="my-3">
