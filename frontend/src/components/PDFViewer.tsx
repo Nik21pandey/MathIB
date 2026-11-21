@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ChevronLeftIcon, 
   ChevronRightIcon, 
@@ -10,6 +10,7 @@ import {
   ArrowsPointingOutIcon,
   ArrowTopRightOnSquareIcon
 } from '@heroicons/react/24/outline';
+import { PDFCanvasViewer } from './PDFCanvasViewer';
 
 interface PDFViewerProps {
   pdfUrl?: string;
@@ -38,7 +39,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   season = "May/June",
   year = 2024,
   currentPage = 1,
-  totalPages = 20,
+  totalPages = 16,
   onPageChange,
   onDownload,
   onPrint,
@@ -47,6 +48,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'question' | 'markscheme'>('question');
   const [zoom, setZoom] = useState(100);
+  const [docTotalPages, setDocTotalPages] = useState<number>(totalPages || 16);
 
   // Determine active document URL
   const currentUrl = activeTab === 'markscheme' && markschemeUrl ? markschemeUrl : pdfUrl;
@@ -54,6 +56,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   const handleZoomIn = () => setZoom(prev => Math.min(prev + 20, 200));
   const handleZoomOut = () => setZoom(prev => Math.max(prev - 20, 60));
   const handleZoomReset = () => setZoom(100);
+
+  const handleTabSwitch = (tab: 'question' | 'markscheme') => {
+    setActiveTab(tab);
+    onPageChange?.(1);
+  };
 
   const handleDownloadClick = () => {
     if (onDownload) {
@@ -70,13 +77,15 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   };
 
   const handleNextPage = () => {
-    if (currentPage < totalPages && onPageChange) {
+    if (currentPage < docTotalPages && onPageChange) {
       onPageChange(currentPage + 1);
     }
   };
 
+  const effectiveTotalPages = Math.max(docTotalPages, 1);
+
   return (
-    <div className="flex flex-col h-full bg-gray-900 text-white select-none">
+    <div className="flex flex-col h-full bg-gray-950 text-white select-none">
       {/* Top Toolbar */}
       <div className="px-3 lg:px-4 py-2.5 bg-gray-950 border-b border-gray-800 flex flex-wrap items-center justify-between gap-2 flex-shrink-0">
         <div className="flex items-center space-x-2 lg:space-x-4 min-w-0">
@@ -93,7 +102,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
           {/* Question vs Mark Scheme Switcher */}
           <div className="flex items-center bg-gray-900 rounded-lg p-0.5 border border-gray-800 shadow-inner flex-shrink-0">
             <button
-              onClick={() => setActiveTab('question')}
+              onClick={() => handleTabSwitch('question')}
               className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors flex items-center gap-1.5 ${
                 activeTab === 'question'
                   ? 'bg-blue-600 text-white shadow'
@@ -103,7 +112,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               <span>📄 Question Paper</span>
             </button>
             <button
-              onClick={() => markschemeUrl && setActiveTab('markscheme')}
+              onClick={() => markschemeUrl && handleTabSwitch('markscheme')}
               disabled={!markschemeUrl}
               className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors flex items-center gap-1.5 ${
                 activeTab === 'markscheme'
@@ -135,11 +144,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               <ChevronLeftIcon className="h-3.5 w-3.5" />
             </button>
             <span className="font-mono text-gray-300">
-              Page {currentPage} of {totalPages}
+              Page {currentPage} of {effectiveTotalPages}
             </span>
             <button
               onClick={handleNextPage}
-              disabled={currentPage >= totalPages}
+              disabled={currentPage >= effectiveTotalPages}
               className="p-1 rounded hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
               title="Next Page"
             >
@@ -197,25 +206,19 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
         </div>
       </div>
 
-      {/* PDF Content Area */}
-      <div className="flex-1 bg-gray-950/90 overflow-auto p-1 lg:p-3 flex justify-center items-stretch min-h-0">
+      {/* PDF Canvas Viewport Area */}
+      <div className="flex-1 bg-gray-950 flex flex-col min-h-0 overflow-hidden">
         {currentUrl ? (
-          <div 
-            className="w-full h-full flex flex-col bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-800"
-            style={{ 
-              maxWidth: zoom > 100 ? `${zoom}%` : '100%',
-              transition: 'max-width 0.15s ease-out'
-            }}
-          >
+          <div className="flex-1 flex flex-col min-h-0">
             {/* Top Sub-Bar with live doc badge */}
-            <div className="bg-gray-900 text-gray-300 text-xs px-3 py-1.5 flex items-center justify-between border-b border-gray-800 select-none">
+            <div className="bg-gray-900/90 text-gray-300 text-xs px-3 py-1.5 flex items-center justify-between border-b border-gray-800 flex-shrink-0 select-none">
               <div className="flex items-center space-x-2">
                 <span className={`w-2 h-2 rounded-full ${activeTab === 'markscheme' ? 'bg-emerald-400' : 'bg-blue-400'}`} />
                 <span className="font-semibold text-white">
                   {activeTab === 'markscheme' ? 'Official Mark Scheme' : 'Official Examination Paper'}
                 </span>
                 <span className="text-[11px] text-gray-400 font-mono hidden sm:inline">
-                  (Google Cloud Storage CDN)
+                  (Google Cloud Storage CDN • Vector Engine)
                 </span>
               </div>
               <div className="flex items-center space-x-2">
@@ -230,14 +233,17 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               </div>
             </div>
 
-            {/* Direct Vector PDF iframe streaming from Google Cloud Storage */}
-            <iframe
-              key={`${currentUrl}-${activeTab}`}
-              src={`${currentUrl}#toolbar=1&navpanes=0`}
-              className="w-full flex-1 border-0 bg-white"
-              title={`${paperTitle} - ${activeTab}`}
-              style={{ minHeight: '650px', height: '100%' }}
-            />
+            {/* Mozilla PDF.js Canvas Engine */}
+            <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+              <PDFCanvasViewer
+                key={`${currentUrl}-${activeTab}`}
+                url={currentUrl}
+                currentPage={currentPage}
+                zoom={zoom}
+                onTotalPagesLoaded={(total) => setDocTotalPages(total)}
+                onPageChange={onPageChange}
+              />
+            </div>
           </div>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-400">
@@ -253,7 +259,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               </p>
               {activeTab === 'markscheme' && pdfUrl && (
                 <button
-                  onClick={() => setActiveTab('question')}
+                  onClick={() => handleTabSwitch('question')}
                   className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-500 transition"
                 >
                   Return to Question Paper
@@ -268,7 +274,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
       <div className="px-3 lg:px-4 py-2 bg-gray-950 border-t border-gray-800 flex items-center justify-between text-xs text-gray-400 flex-shrink-0">
         <div className="flex items-center space-x-2">
           <button
-            onClick={() => setActiveTab('question')}
+            onClick={() => handleTabSwitch('question')}
             className={`px-2.5 py-1 rounded font-medium transition ${
               activeTab === 'question'
                 ? 'bg-blue-600 text-white'
@@ -278,7 +284,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
             Question Paper
           </button>
           <button
-            onClick={() => markschemeUrl && setActiveTab('markscheme')}
+            onClick={() => markschemeUrl && handleTabSwitch('markscheme')}
             disabled={!markschemeUrl}
             className={`px-2.5 py-1 rounded font-medium transition ${
               activeTab === 'markscheme'
