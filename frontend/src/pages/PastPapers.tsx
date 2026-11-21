@@ -25,84 +25,6 @@ interface Paper {
   markschemeUrl?: string;
 }
 
-const FALLBACK_STARTER_PAPERS: Paper[] = [
-  {
-    id: 101,
-    title: '0580/22 Paper 2 (Extended) Non-Calculator · May/June 2024',
-    curriculum: 'Cambridge IGCSE Mathematics (0580)',
-    subject: 'Mathematics',
-    paperNumber: 'Paper 2',
-    year: 2024,
-    season: 'May/June',
-    zone: 'TZ2',
-    type: 'question',
-    isFavorite: false,
-    totalPages: 16,
-    pdfUrl: '/samples/0580_s24_qp_22.pdf',
-    markschemeUrl: '/samples/0580_s24_ms_22.pdf',
-  },
-  {
-    id: 102,
-    title: '0580/42 Paper 4 (Extended) Calculator · May/June 2024',
-    curriculum: 'Cambridge IGCSE Mathematics (0580)',
-    subject: 'Mathematics',
-    paperNumber: 'Paper 4',
-    year: 2024,
-    season: 'May/June',
-    zone: 'TZ2',
-    type: 'question',
-    isFavorite: false,
-    totalPages: 20,
-    pdfUrl: '/samples/0580_s24_qp_42.pdf',
-    markschemeUrl: '/samples/0580_s24_ms_42.pdf',
-  },
-  {
-    id: 103,
-    title: 'IB DP Math AA HL Paper 1 TZ1 · May 2024',
-    curriculum: 'IB DP Mathematics: Analysis and Approaches HL',
-    subject: 'Mathematics',
-    paperNumber: 'Paper 1',
-    year: 2024,
-    season: 'May',
-    zone: 'TZ1',
-    type: 'question',
-    isFavorite: false,
-    totalPages: 18,
-    pdfUrl: '/samples/ib_aa_hl_m24_qp_1.pdf',
-    markschemeUrl: '/samples/ib_aa_hl_m24_ms_1.pdf',
-  },
-  {
-    id: 104,
-    title: 'Edexcel IGCSE 4MA1 Paper 1H (Higher Tier) · June 2024',
-    curriculum: 'Pearson Edexcel International GCSE Mathematics A (4MA1)',
-    subject: 'Mathematics',
-    paperNumber: 'Paper 1H',
-    year: 2024,
-    season: 'May/June',
-    zone: 'Higher',
-    type: 'question',
-    isFavorite: false,
-    totalPages: 24,
-    pdfUrl: '/samples/edexcel_4ma1_1h_qp.pdf',
-    markschemeUrl: '/samples/edexcel_4ma1_1h_ms.pdf',
-  },
-  {
-    id: 105,
-    title: 'Edexcel GCSE 1MA1 Paper 1 (Non-Calculator) Higher Tier · June 2024',
-    curriculum: 'Pearson Edexcel GCSE Mathematics (1MA1)',
-    subject: 'Mathematics',
-    paperNumber: 'Paper 1',
-    year: 2024,
-    season: 'May/June',
-    zone: 'Higher',
-    type: 'question',
-    isFavorite: false,
-    totalPages: 20,
-    pdfUrl: '/samples/edexcel_1ma1_1h_qp.pdf',
-    markschemeUrl: '/samples/edexcel_1ma1_1h_ms.pdf',
-  },
-];
-
 interface FilterState extends Record<string, string> {
   [key: string]: string;
 }
@@ -238,19 +160,18 @@ const PastPapers: React.FC = () => {
         setTotalCount(response.count);
         setTotalPages(response.total_pages);
       } else {
-        // Fallback to starter library when backend is empty or waking up
-        loadedPapers = FALLBACK_STARTER_PAPERS;
-        setTotalCount(FALLBACK_STARTER_PAPERS.length);
-        setTotalPages(1);
+        loadedPapers = [];
+        setTotalCount(0);
+        setTotalPages(0);
       }
       setPapers(loadedPapers);
-      setSelectedPaper(prev => prev || loadedPapers[0] || null);
+      setSelectedPaper(loadedPapers.length > 0 ? (prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]) : null);
     } catch (error) {
       console.error('Error loading papers:', error);
-      setPapers(FALLBACK_STARTER_PAPERS);
-      setSelectedPaper(prev => prev || FALLBACK_STARTER_PAPERS[0] || null);
-      setTotalCount(FALLBACK_STARTER_PAPERS.length);
-      setTotalPages(1);
+      setPapers([]);
+      setSelectedPaper(null);
+      setTotalCount(0);
+      setTotalPages(0);
     }
     setLoading(false);
   };

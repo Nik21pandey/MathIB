@@ -32,6 +32,7 @@ export interface ExamStudioProps {
   year: number;
   pdfUrl?: string;
   markschemeUrl?: string;
+  questions?: StudioQuestion[];
   onDownloadQP?: () => void;
   onDownloadMS?: () => void;
 }
@@ -66,6 +67,7 @@ export const ExamStudio: React.FC<ExamStudioProps> = ({
   year,
   pdfUrl,
   markschemeUrl,
+  questions = [],
   onDownloadQP,
   onDownloadMS,
 }) => {
@@ -74,215 +76,7 @@ export const ExamStudio: React.FC<ExamStudioProps> = ({
   const [selectedQ, setSelectedQ] = useState<number>(0);
   const [showAllHints, setShowAllHints] = useState<boolean>(true);
 
-  // Dynamic realistic curriculum questions with visual figures and tables
-  const isIB = curriculum.toLowerCase().includes('ib') || curriculum.toLowerCase().includes('international baccalaureate');
-  const isEdexcel = curriculum.toLowerCase().includes('edexcel') || curriculum.toLowerCase().includes('gcse');
-
-  const questions: StudioQuestion[] = isIB ? [
-    {
-      id: 'ib-q1',
-      num: 1,
-      marks: 6,
-      calc: true,
-      topic: 'Topic 3: Geometry & Trigonometry',
-      subtopic: 'Voronoi Diagrams & Perpendicular Bisectors',
-      stem: 'Sites $A(2, 1)$ and $B(6, 5)$ represent two cell phone transmission towers in a city. The Voronoi boundary between $A$ and $B$ is the perpendicular bisector of the line segment $[AB]$.',
-      diagramType: 'voronoi',
-      parts: [
-        { label: 'a', text: 'Find the coordinates of the midpoint of $[AB]$.', marks: 2 },
-        { label: 'b', text: 'Find the gradient of the perpendicular bisector line.', marks: 2 },
-        { label: 'c', text: 'Hence write down the equation of the boundary line in the form $y = mx + c$.', marks: 2 },
-      ],
-      scheme: [
-        { part: '(a)', step: 'Midpoint $M = \\left(\\frac{2+6}{2}, \\frac{1+5}{2}\\right) = (4, 3)$', code: 'M1', codeDesc: 'Method', guidance: 'Award M1 for correct midpoint formula.' },
-        { part: '(a)', step: '$M = (4, 3)$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Exact coordinates required.' },
-        { part: '(b)', step: 'Gradient of $[AB] = \\frac{5 - 1}{6 - 2} = \\frac{4}{4} = 1$', code: 'M1', codeDesc: 'Method', guidance: 'Award M1 for dy/dx or slope formula.' },
-        { part: '(b)', step: 'Perpendicular gradient $m_\\perp = -\\frac{1}{1} = -1$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Award A1 for negative reciprocal property.' },
-        { part: '(c)', step: '$y - 3 = -1(x - 4) \\implies y = -x + 7$', code: 'M1', codeDesc: 'Method', guidance: 'Substitute midpoint (4, 3) into line equation.' },
-        { part: '(c)', step: '$y = -x + 7$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Allow $x + y = 7$ or $x + y - 7 = 0$.' },
-      ],
-      finalAnswer: '(a) (4, 3)   (b) -1   (c) y = -x + 7',
-      examinerTrap: 'Forgetting to take the negative reciprocal when finding the perpendicular bisector gradient.',
-      commonMistake: 'Using one of the site endpoints A or B in the line equation instead of the midpoint M.',
-    },
-    {
-      id: 'ib-q2',
-      num: 2,
-      marks: 6,
-      calc: true,
-      topic: 'Topic 4: Statistics & Probability',
-      subtopic: 'Normal Distribution Modelling',
-      stem: 'The weights of apples in an orchard are normally distributed with a mean of $170\\text{ g}$ and a standard deviation of $6\\text{ g}$, so $X \\sim N(170, 6^2)$.',
-      diagramType: 'normal',
-      parts: [
-        { label: 'a', text: 'Calculate the probability that a randomly chosen apple weighs more than $180\\text{ g}$.', marks: 2 },
-        { label: 'b', text: 'Apples weighing less than $k\\text{ g}$ are rejected. If $10\\%$ of the apples are rejected, find the value of $k$ to 1 decimal place.', marks: 4 },
-      ],
-      scheme: [
-        { part: '(a)', step: '$P(X > 180) = P\\left(Z > \\frac{180 - 170}{6}\\right) = P(Z > 1.667)$', code: 'M1', codeDesc: 'Method', guidance: 'Award M1 for standardizing or GDC normalCdf syntax.' },
-        { part: '(a)', step: '$P(X > 180) = 0.0478$ (or $4.78\\%$)', code: 'A1', codeDesc: 'Accuracy', guidance: 'Accept 0.0477 to 0.0479.' },
-        { part: '(b)', step: '$P(X < k) = 0.10 \\implies z = -1.28155$', code: 'M1', codeDesc: 'Method', guidance: 'Award M1 for finding inverse normal z-score.' },
-        { part: '(b)', step: '$\\frac{k - 170}{6} = -1.28155 \\implies k = 170 - 6(1.28155)$', code: 'M1', codeDesc: 'Method', guidance: 'Award M1 for equating to standardisation equation.' },
-        { part: '(b)', step: '$k = 162.31 \\implies k = 162.3\\text{ g}$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Exact 1 d.p. required. Award R1 for consistent unit notation.' },
-      ],
-      finalAnswer: '(a) 0.0478   (b) k = 162.3 g',
-      examinerTrap: 'Using positive z-score +1.28 instead of negative -1.28 for lower 10% tail.',
-      commonMistake: 'Writing the answer as a percentage rather than grams for part (b).',
-    },
-  ] : isEdexcel ? [
-    {
-      id: 'edx-q1',
-      num: 1,
-      marks: 3,
-      calc: false,
-      topic: 'Strand 1: Numbers & Arithmetic',
-      subtopic: 'Recurring Decimals to Simplified Fractions',
-      stem: 'Show clearly that the recurring decimal $0.\\dot{4}\\dot{7}$ can be written in the form $\\frac{47}{99}$.',
-      parts: [],
-      scheme: [
-        { step: 'Let $x = 0.474747...$', code: 'B1', codeDesc: 'Independent', guidance: 'Sets up algebraic variable with recurring notation expanded.' },
-        { step: '$100x = 47.474747...$', code: 'M1', codeDesc: 'Method', guidance: 'Multiplies by 100 to shift recurring block.' },
-        { step: '$100x - x = 99x = 47 \\implies x = \\frac{47}{99}$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Full conclusion reached with clear subtraction shown.' },
-      ],
-      finalAnswer: 'x = 47/99',
-      examinerTrap: 'Attempting to divide 47 by 99 on calculator rather than showing algebraic proof.',
-      commonMistake: 'Subtracting 10x instead of 100x, failing to eliminate the repeating digits.',
-    },
-    {
-      id: 'edx-q2',
-      num: 2,
-      marks: 4,
-      calc: true,
-      topic: 'Strand 3: Geometry & Trigonometry',
-      subtopic: '3D Pythagoras & Internal Space Diagonals',
-      stem: 'A cuboid has dimensions length $4\\text{ cm}$, width $5\\text{ cm}$, and height $7\\text{ cm}$. Calculate the length of the internal space diagonal $d$, giving your answer correct to 3 significant figures.',
-      diagramType: 'cuboid',
-      parts: [],
-      scheme: [
-        { step: '$d^2 = 4^2 + 5^2 + 7^2$', code: 'M1', codeDesc: 'Method', guidance: 'Award M1 for 3D Pythagoras formula $x^2 + y^2 + z^2$.' },
-        { step: '$d^2 = 16 + 25 + 49 = 90$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Correct evaluation of intermediate sum of squares.' },
-        { step: '$d = \\sqrt{90}$', code: 'M1', codeDesc: 'Method', guidance: 'Square root operation.' },
-        { step: '$d = 9.4868... \\implies d = 9.49\\text{ cm}$ (to 3 s.f.)', code: 'A1', codeDesc: 'Accuracy', guidance: 'Accept $3\\sqrt{10}$. Award 4 marks for 9.49 with no working.' },
-      ],
-      finalAnswer: 'd = 9.49 cm (or 3√10 cm)',
-      examinerTrap: 'Forgetting to take the square root of the final sum 90.',
-      commonMistake: 'Adding the side lengths directly: 4 + 5 + 7 = 16 cm.',
-    },
-    {
-      id: 'edx-q3',
-      num: 3,
-      marks: 4,
-      calc: true,
-      topic: 'Strand 5: Statistics & Probability',
-      subtopic: 'Histograms with Unequal Class Widths',
-      stem: 'The histogram shows information about the weights of 100 parcels. The class interval $20 \\le w < 30$ has a frequency of 35.',
-      diagramType: 'histogram',
-      parts: [
-        { label: 'a', text: 'Calculate the frequency density for the interval $20 \\le w < 30$.', marks: 2 },
-        { label: 'b', text: 'Using the histogram, calculate the frequency for the interval $30 \\le w < 50$ where frequency density is 1.2.', marks: 2 },
-      ],
-      scheme: [
-        { part: '(a)', step: '$\\text{Class Width} = 30 - 20 = 10$', code: 'B1', codeDesc: 'Independent', guidance: 'Correct class width identified.' },
-        { part: '(a)', step: '$\\text{Frequency Density} = \\frac{35}{10} = 3.5$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Exact decimal 3.5.' },
-        { part: '(b)', step: '$\\text{Class Width} = 50 - 30 = 20$', code: 'B1', codeDesc: 'Independent', guidance: 'Correct width 20.' },
-        { part: '(b)', step: '$\\text{Frequency} = \\text{FD} \\times \\text{Width} = 1.2 \\times 20 = 24$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Answer 24.' },
-      ],
-      finalAnswer: '(a) FD = 3.5   (b) Frequency = 24 parcels',
-      examinerTrap: 'Reading the frequency directly from the vertical axis without multiplying by class width.',
-      commonMistake: 'Dividing frequency by total frequency (100) instead of class width.',
-    },
-  ] : [
-    // Standard Cambridge 0580 / 0607 / 0606
-    {
-      id: 'cam-q1',
-      num: 1,
-      marks: 4,
-      calc: false,
-      topic: 'Strand 4: Geometry & Mensuration',
-      subtopic: '3D Space Diagonals & Trigonometry',
-      stem: 'The diagram shows a rectangular cuboid $ABCDEFGH$ with dimensions $AB = 4\\text{ cm}$, $BC = 5\\text{ cm}$ and $CG = 7\\text{ cm}$. Calculate the length of the internal diagonal $AG$.',
-      diagramType: 'cuboid',
-      parts: [],
-      scheme: [
-        { step: 'Base diagonal $AC^2 = 4^2 + 5^2 = 16 + 25 = 41$', code: 'M1', codeDesc: 'Method', guidance: 'Award M1 for 2D base diagonal calculation.' },
-        { step: '$AG^2 = AC^2 + CG^2 = 41 + 7^2 = 41 + 49 = 90$', code: 'M1', codeDesc: 'Method', guidance: 'Award M1 for vertical right triangle application.' },
-        { step: '$AG = \\sqrt{90}$', code: 'M1', codeDesc: 'Method', guidance: 'Correct square root step.' },
-        { step: '$AG = 9.49\\text{ cm}$ (to 3 s.f.)', code: 'A1', codeDesc: 'Accuracy', guidance: 'Accept $3\\sqrt{10}$ or 9.49.' },
-      ],
-      finalAnswer: 'AG = 9.49 cm',
-      examinerTrap: 'Rounding intermediate value AC = 6.40 too early, leading to inaccurate final answer.',
-      commonMistake: 'Confusing the face diagonal AC with the 3D space diagonal AG.',
-    },
-    {
-      id: 'cam-q2',
-      num: 2,
-      marks: 4,
-      calc: true,
-      topic: 'Strand 6: Statistics',
-      subtopic: 'Histograms & Frequency Density Interpretation',
-      stem: 'A logistics centre records the weights of packages. For the interval $20 \\le w < 30$, the frequency is 35. Complete the frequency density calculation and find the missing frequency for $30 \\le w < 50$.',
-      diagramType: 'histogram',
-      parts: [
-        { label: 'a', text: 'Find the frequency density for the $20 \\le w < 30$ bar.', marks: 2 },
-        { label: 'b', text: 'Find the number of packages weighing between $30\\text{ kg}$ and $50\\text{ kg}$.', marks: 2 },
-      ],
-      scheme: [
-        { part: '(a)', step: '$\\text{FD} = \\frac{35}{10} = 3.5$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Award 2 marks for 3.5.' },
-        { part: '(b)', step: '$\\text{Frequency} = \\text{Width} \\times \\text{FD} = 20 \\times 1.2 = 24$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Award 2 marks for 24.' },
-      ],
-      finalAnswer: '(a) 3.5   (b) 24',
-      examinerTrap: 'Plotting frequency on the y-axis instead of frequency density.',
-      commonMistake: 'Forgetting that in histograms, area equals frequency.',
-    },
-    {
-      id: 'cam-q3',
-      num: 3,
-      marks: 6,
-      calc: false,
-      topic: 'Strand 8: Calculus & Coordinate Geometry',
-      subtopic: 'Polynomial Differentiation & Stationary Points',
-      stem: 'A curve has equation $y = 2x^3 - 9x^2 + 12x + 4$.',
-      diagramType: 'calculus',
-      parts: [
-        { label: 'a', text: 'Find $\\frac{dy}{dx}$.', marks: 2 },
-        { label: 'b', text: 'Find the coordinates of the two stationary points and classify their nature.', marks: 4 },
-      ],
-      scheme: [
-        { part: '(a)', step: '$\\frac{dy}{dx} = 6x^2 - 18x + 12$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Award M1 for any two terms correct, A1 for all.' },
-        { part: '(b)', step: 'Sets $6(x^2 - 3x + 2) = 0 \\implies 6(x-1)(x-2) = 0$', code: 'M1', codeDesc: 'Method', guidance: 'Equate to zero and factorise.' },
-        { part: '(b)', step: '$x = 1, x = 2$', code: 'A1', codeDesc: 'Accuracy', guidance: 'Both roots correct.' },
-        { part: '(b)', step: 'At $x=1, y=9 \\implies (1, 9)$ [Local Max]\nAt $x=2, y=8 \\implies (2, 8)$ [Local Min]', code: 'A1', codeDesc: 'Accuracy', guidance: 'Award A1 for coordinates and A1 for nature classification.' },
-      ],
-      finalAnswer: '(a) 6x² - 18x + 12   (b) Max (1, 9), Min (2, 8)',
-      examinerTrap: 'Forgetting to substitute x-values back into original y equation to find coordinates.',
-      commonMistake: 'Differentiating the constant +4 to give 4 instead of 0.',
-    },
-    {
-      id: 'cam-q4',
-      num: 4,
-      marks: 4,
-      calc: false,
-      topic: 'Strand 7: Probability',
-      subtopic: 'Conditional Probability Without Replacement',
-      stem: 'There are 7 green sweets and 3 yellow sweets in a bag. Hannah picks two sweets at random without replacement.',
-      diagramType: 'tree',
-      parts: [
-        { label: 'a', text: 'Complete the probability tree diagram.', marks: 2 },
-        { label: 'b', text: 'Calculate the probability that both sweets are green.', marks: 2 },
-      ],
-      scheme: [
-        { part: '(a)', step: 'First pick: $P(G) = \\frac{7}{10}, P(Y) = \\frac{3}{10}$', code: 'B1', codeDesc: 'Independent', guidance: 'Initial branch probabilities.' },
-        { part: '(a)', step: 'Second pick: $P(G|G) = \\frac{6}{9}, P(Y|G) = \\frac{3}{9}$', code: 'B1', codeDesc: 'Independent', guidance: 'Denominator drops to 9.' },
-        { part: '(b)', step: '$P(G_1 \\cap G_2) = \\frac{7}{10} \\times \\frac{6}{9} = \\frac{42}{90} = \\frac{7}{15}$', code: 'M1', codeDesc: 'Method', guidance: 'Multiply dependent fractions.' },
-        { part: '(b)', step: '$\\frac{7}{15}$ (or $0.467$)', code: 'A1', codeDesc: 'Accuracy', guidance: 'Accept 42/90 or 7/15.' },
-      ],
-      finalAnswer: 'P(Both Green) = 7/15',
-      examinerTrap: 'Keeping denominator as 10 on the second trial (with replacement error).',
-      commonMistake: 'Adding the probabilities instead of multiplying.',
-    },
-  ];
-
-  const currentQ = questions[selectedQ] || questions[0];
+  const currentQ = questions[selectedQ] || null;
 
   const renderVisual = (type?: string) => {
     switch (type) {
@@ -445,6 +239,30 @@ export const ExamStudio: React.FC<ExamStudioProps> = ({
         </div>
       </header>
 
+      {questions.length === 0 || !currentQ ? (
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-slate-900">
+          <div className="w-16 h-16 rounded-2xl bg-blue-900/30 border border-blue-500/30 flex items-center justify-center mb-4 text-blue-400">
+            <FileText className="w-8 h-8" />
+          </div>
+          <h3 className="text-lg font-semibold text-white mb-2">Official Examination Booklet Mode</h3>
+          <p className="text-sm text-slate-400 max-w-md mb-6 leading-relaxed">
+            MathIB presents verified official exam papers and marking schemes in high-definition vector format.
+            Please use the <span className="text-emerald-400 font-semibold">Official PDF Booklet</span> view above to browse the complete official question paper and marking scheme.
+          </p>
+          {pdfUrl && (
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-medium transition inline-flex items-center gap-2"
+            >
+              <Download className="w-4 h-4" />
+              Open Official PDF
+            </a>
+          )}
+        </div>
+      ) : (
+        <>
       {/* Question Selector Tabs */}
       <nav aria-label="Question selector" className="bg-slate-950 px-4 py-2 border-b border-slate-800 flex items-center space-x-2 overflow-x-auto">
         <span className="text-xs font-semibold text-slate-400 mr-2 uppercase tracking-wider">Questions:</span>
@@ -631,6 +449,8 @@ export const ExamStudio: React.FC<ExamStudioProps> = ({
           )}
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 };

@@ -45,7 +45,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   onShare,
   onFullscreen
 }) => {
-  const [viewType, setViewType] = useState<'studio' | 'pdf'>('studio');
+  const [viewType, setViewType] = useState<'studio' | 'pdf'>('pdf');
   const [activeTab, setActiveTab] = useState<'question' | 'markscheme'>('question');
   const [zoom, setZoom] = useState(78);
   const [touchStart, setTouchStart] = useState<number | null>(null);
