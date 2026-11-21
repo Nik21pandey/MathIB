@@ -98,17 +98,69 @@ interface FilterConfig {
   allowMultiple?: boolean;
 }
 
+const DEFAULT_FILTER_CONFIGS: FilterConfig[] = [
+  {
+    key: 'curriculum',
+    label: 'Curriculum',
+    placeholder: 'Select Curriculum',
+    options: [
+      { value: '0607', label: 'Cambridge IGCSE International Mathematics (0607)' },
+      { value: '0580', label: 'Cambridge IGCSE Mathematics (0580)' },
+    ]
+  },
+  {
+    key: 'year',
+    label: 'Year',
+    placeholder: 'Select Year',
+    options: [
+      { value: '2026', label: '2026' },
+      { value: '2025', label: '2025' },
+      { value: '2024', label: '2024' },
+      { value: '2023', label: '2023' },
+      { value: '2022', label: '2022' },
+    ]
+  },
+  {
+    key: 'paper',
+    label: 'Paper',
+    placeholder: 'Select Paper',
+    options: [
+      { value: 'Paper 2', label: 'Paper 2' },
+      { value: 'Paper 4', label: 'Paper 4' },
+      { value: 'Paper 6', label: 'Paper 6' },
+    ]
+  },
+  {
+    key: 'season',
+    label: 'Season',
+    placeholder: 'Select Season',
+    options: [
+      { value: 'Feb/March', label: 'Feb/March' },
+      { value: 'May/June', label: 'May/June' },
+      { value: 'Oct/Nov', label: 'Oct/Nov' },
+    ]
+  }
+];
+
 const PastPapers: React.FC = () => {
-  const [papers, setPapers] = useState<Paper[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
+  const initialOfficialPapers = useMemo(() => {
+    return [...OFFICIAL_PAPERS].sort((a, b) => b.year - a.year || b.title.localeCompare(a.title));
+  }, []);
+
+  const [papers, setPapers] = useState<Paper[]>(initialOfficialPapers);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedPaper, setSelectedPaper] = useState<Paper | null>(() => {
+    return typeof window !== 'undefined' && window.innerWidth >= 1024 && initialOfficialPapers.length > 0
+      ? initialOfficialPapers[0]
+      : null;
+  });
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('year_desc');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [showMobileFilters, setShowMobileFilters] = useState<boolean>(false);
   const [filters, setFilters] = useState<FilterState>({});
-  const [filterConfigs, setFilterConfigs] = useState<FilterConfig[]>([]);
-  const [loadingFilters, setLoadingFilters] = useState<boolean>(true);
+  const [filterConfigs, setFilterConfigs] = useState<FilterConfig[]>(DEFAULT_FILTER_CONFIGS);
+  const [loadingFilters, setLoadingFilters] = useState<boolean>(false);
 
   // Convert API paper to frontend Paper format
   const mapApiPaperToFrontend = (apiPaper: ApiPaper): Paper => {
@@ -180,13 +232,19 @@ const PastPapers: React.FC = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const categorySlug = urlParams.get('category') || undefined;
       
-      const response = await getAllPapers({
+      const fetchPromise = getAllPapers({
         category: categorySlug,
         filter: filterSlugs.length > 0 ? filterSlugs : undefined,
         search: searchQuery || undefined,
         page: 1,
         page_size: 150,
       });
+
+      const timeoutPromise = new Promise<any>((_, reject) =>
+        setTimeout(() => reject(new Error('Backend timeout, using official library')), 3000)
+      );
+
+      const response = await Promise.race([fetchPromise, timeoutPromise]);
       
       let loadedPapers: Paper[] = [];
       if (response.success && response.data && response.data.length > 0) {
