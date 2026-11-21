@@ -57,12 +57,12 @@ class Command(BaseCommand):
                 )
             return opt
 
-        def generate_sample_pdf(title, is_markscheme=False, pages=4):
+        def generate_sample_pdf(title, curriculum="Cambridge IGCSE", code="0580/22", season="May/June 2024", is_markscheme=False):
             pdf_bytes = ExamPDFEngine.generate_exam_booklet(
                 title=title,
-                board="International Mathematics Archive",
-                code="MathIB-Exam",
-                season="May/June 2024",
+                board=curriculum,
+                code=code,
+                season=season,
                 duration="2 hours",
                 marks=70,
                 is_markscheme=is_markscheme
@@ -186,8 +186,20 @@ class Command(BaseCommand):
             )
 
             # Generate high-quality Question Paper & Mark Scheme
-            qp_bytes, thumb_bytes = generate_sample_pdf(clean_title, is_markscheme=False, pages=8)
-            ms_bytes, _ = generate_sample_pdf(clean_title, is_markscheme=True, pages=6)
+            qp_bytes, thumb_bytes = generate_sample_pdf(
+                title=clean_title,
+                curriculum=item.get('curriculum', 'Cambridge IGCSE'),
+                code=item.get('paper', 'Paper 1'),
+                season=item.get('season', 'May/June 2024'),
+                is_markscheme=False
+            )
+            ms_bytes, _ = generate_sample_pdf(
+                title=clean_title,
+                curriculum=item.get('curriculum', 'Cambridge IGCSE'),
+                code=item.get('paper', 'Paper 1'),
+                season=item.get('season', 'May/June 2024'),
+                is_markscheme=True
+            )
 
             paper_obj.pdf_file.save(f"{safe_slug}.pdf", ContentFile(qp_bytes), save=False)
             paper_obj.markscheme_file.save(f"{safe_slug}_ms.pdf", ContentFile(ms_bytes), save=False)

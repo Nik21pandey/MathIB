@@ -19,15 +19,18 @@ class ExamPDFEngine:
     High-fidelity vector PDF generation engine for examination papers and mark schemes.
     Features:
     - Authentic cover pages with candidate name/number boxes and exam barcodes
-    - Vector mathematical diagrams: 3D Cuboids, Calculus Curves, Histograms, Trees
-    - Publication-grade bordered data tables
+    - Exact, publication-grade vector mathematical diagrams with zero overlaps:
+      * 3D Cuboids with dashed hidden edges and red space diagonal
+      * Histograms with frequency density vertical axes and clean styled tables
+      * Calculus polynomial curves with Bézier smoothing, tangents, and extrema
+      * Probability tree diagrams with clean branch fractions and answer lines
     - Structured mark scheme tables with method mark codes (M1, A1, B1, R1)
     """
 
-    PAGE_WIDTH = 595.3  # A4 width in points
-    PAGE_HEIGHT = 841.9 # A4 height in points
-    MARGIN_LEFT = 45.0
-    MARGIN_RIGHT = 550.3
+    PAGE_WIDTH = 595.3   # A4 width in points
+    PAGE_HEIGHT = 841.9  # A4 height in points
+    MARGIN_LEFT = 50.0
+    MARGIN_RIGHT = 545.0
 
     @classmethod
     def generate_exam_booklet(
@@ -62,7 +65,7 @@ class ExamPDFEngine:
         cls._draw_footer(p1, 1, 4)
 
         # -------------------------------------------------------------
-        # PAGE 2: Vector Geometric & Trigonometric Questions
+        # PAGE 2: Vector Geometric & Statistical Questions (Zero Overlap)
         # -------------------------------------------------------------
         p2 = doc.new_page(width=cls.PAGE_WIDTH, height=cls.PAGE_HEIGHT)
         cls._draw_mini_header(p2, code, season, is_markscheme)
@@ -76,7 +79,7 @@ class ExamPDFEngine:
         cls._draw_footer(p2, 2, 4)
 
         # -------------------------------------------------------------
-        # PAGE 3: Vector Calculus, Curves & Probability
+        # PAGE 3: Vector Calculus & Probability Questions (Zero Overlap)
         # -------------------------------------------------------------
         p3 = doc.new_page(width=cls.PAGE_WIDTH, height=cls.PAGE_HEIGHT)
         cls._draw_mini_header(p3, code, season, is_markscheme)
@@ -90,7 +93,7 @@ class ExamPDFEngine:
         cls._draw_footer(p3, 3, 4)
 
         # -------------------------------------------------------------
-        # PAGE 4: Formulae Sheet / Blank Working Page
+        # PAGE 4: Formulae Sheet / Marking Threshold Benchmarks
         # -------------------------------------------------------------
         p4 = doc.new_page(width=cls.PAGE_WIDTH, height=cls.PAGE_HEIGHT)
         cls._draw_mini_header(p4, code, season, is_markscheme)
@@ -98,83 +101,111 @@ class ExamPDFEngine:
         if not is_markscheme:
             cls._draw_formula_sheet(p4)
         else:
-            cls._draw_grade_boundaries_table(p4)
+            cls._draw_grade_boundaries(p4)
 
         cls._draw_footer(p4, 4, 4)
 
-        pdf_bytes = doc.tobytes()
+        pdf_bytes = doc.tobytes(deflate=True)
         doc.close()
         return pdf_bytes
 
     # =========================================================================
-    # Header & Cover Page Elements
+    # Header & Cover Drawing Primitives
     # =========================================================================
     @classmethod
     def _draw_header(cls, page, board: str, code: str, season: str, is_ms: bool):
+        # Top banner line
         shape = page.new_shape()
-        color = (0.05, 0.45, 0.25) if is_ms else (0.12, 0.28, 0.54)
-        shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, 35, cls.MARGIN_RIGHT, 65))
+        shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, 35, cls.MARGIN_RIGHT, 38))
+        color = (0.05, 0.45, 0.25) if is_ms else (0.08, 0.25, 0.55)
         shape.finish(color=color, fill=color)
         shape.commit()
 
-        tag = "OFFICIAL MARK SCHEME & GRADING CRITERIA" if is_ms else "OFFICIAL EXAMINATION PAPER"
-        page.insert_text((cls.MARGIN_LEFT + 12, 53), f"MathIB  |  {board.upper()}  |  {tag}", fontsize=11, fontname="helv", color=(1, 1, 1))
+        # Board name
+        page.insert_text(
+            (cls.MARGIN_LEFT, 55),
+            board.upper(),
+            fontsize=12,
+            fontname="helv",
+            color=(0.1, 0.1, 0.1),
+        )
 
-    @classmethod
-    def _draw_mini_header(cls, page, code: str, season: str, is_ms: bool):
-        tag = "Mark Scheme" if is_ms else "Question Paper"
-        page.insert_text((cls.MARGIN_LEFT, 45), f"MathIB  ·  {code}  ·  {season}  ·  {tag}", fontsize=9, fontname="helv", color=(0.4, 0.4, 0.4))
-        shape = page.new_shape()
-        shape.draw_line((cls.MARGIN_LEFT, 52), (cls.MARGIN_RIGHT, 52))
-        shape.finish(color=(0.8, 0.8, 0.8), width=0.8)
-        shape.commit()
+        sub_label = "MARK SCHEME — OFFICIAL PUBLICATION" if is_ms else "International General Certificate & Diploma Examination"
+        page.insert_text(
+            (cls.MARGIN_LEFT, 68),
+            sub_label,
+            fontsize=9.5,
+            fontname="helv",
+            color=(0.4, 0.4, 0.4),
+        )
 
     @classmethod
     def _draw_title_block(cls, page, title: str, duration: str, marks: int, is_ms: bool):
-        shape = page.new_shape()
-        shape.draw_line((cls.MARGIN_LEFT, 78), (cls.MARGIN_RIGHT, 78))
-        shape.finish(color=(0.12, 0.28, 0.54), width=2)
-        shape.commit()
+        y = 100
+        # Subject Title
+        page.insert_text(
+            (cls.MARGIN_LEFT, y),
+            "MATHEMATICS",
+            fontsize=15,
+            fontname="helv",
+            color=(0.08, 0.25, 0.55) if not is_ms else (0.05, 0.45, 0.25),
+        )
+        page.insert_text(
+            (cls.MARGIN_LEFT, y + 16),
+            title,
+            fontsize=11.5,
+            fontname="helv",
+            color=(0.15, 0.15, 0.15),
+        )
 
-        page.insert_text((cls.MARGIN_LEFT, 102), title, fontsize=15, fontname="helv", color=(0.08, 0.12, 0.2))
-        sub = f"Published Maximum Score: {marks} Marks  ·  Time Allowed: {duration}" if not is_ms else f"Standardised Marking Guide  ·  Maximum Mark: {marks}"
-        page.insert_text((cls.MARGIN_LEFT, 118), sub, fontsize=10, fontname="helv", color=(0.3, 0.35, 0.45))
+        if not is_ms:
+            page.insert_text(
+                (cls.MARGIN_RIGHT - 130, y),
+                f"Time: {duration}",
+                fontsize=10,
+                fontname="helv",
+                color=(0.3, 0.3, 0.3),
+            )
+            page.insert_text(
+                (cls.MARGIN_RIGHT - 130, y + 16),
+                f"Maximum Mark: {marks}",
+                fontsize=10,
+                fontname="helv",
+                color=(0.3, 0.3, 0.3),
+            )
 
     @classmethod
     def _draw_candidate_box(cls, page):
         y = 145
         shape = page.new_shape()
-        # Outer box
-        shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, y, cls.MARGIN_RIGHT, y + 80))
+        shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, y, cls.MARGIN_RIGHT, y + 105))
+        shape.draw_line((cls.MARGIN_LEFT, y + 52), (cls.MARGIN_RIGHT, y + 52))
+        shape.draw_line((cls.MARGIN_LEFT + 250, y + 52), (cls.MARGIN_LEFT + 250, y + 105))
         shape.finish(color=(0.3, 0.3, 0.3), width=1)
-        # Inner dividers
-        shape.draw_line((cls.MARGIN_LEFT, y + 40), (cls.MARGIN_RIGHT, y + 40))
-        shape.draw_line((350, y), (350, y + 40))
-        shape.draw_line((450, y), (450, y + 40))
-        shape.finish(color=(0.5, 0.5, 0.5), width=0.8)
         shape.commit()
 
-        page.insert_text((cls.MARGIN_LEFT + 8, y + 16), "Candidate Name:", fontsize=9, fontname="helv", color=(0.3, 0.3, 0.3))
-        page.insert_text((358, y + 16), "Centre Number:", fontsize=9, fontname="helv", color=(0.3, 0.3, 0.3))
-        page.insert_text((458, y + 16), "Candidate Number:", fontsize=9, fontname="helv", color=(0.3, 0.3, 0.3))
-        page.insert_text((cls.MARGIN_LEFT + 8, y + 58), "Signature: ____________________________________   Date: ________________________", fontsize=9, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((cls.MARGIN_LEFT + 10, y + 20), "CANDIDATE NAME", fontsize=8.5, fontname="helv", color=(0.4, 0.4, 0.4))
+        page.insert_text((cls.MARGIN_LEFT + 10, y + 72), "CENTRE NUMBER", fontsize=8.5, fontname="helv", color=(0.4, 0.4, 0.4))
+        page.insert_text((cls.MARGIN_LEFT + 260, y + 72), "CANDIDATE NUMBER", fontsize=8.5, fontname="helv", color=(0.4, 0.4, 0.4))
 
     @classmethod
     def _draw_instructions_box(cls, page):
-        y = 250
-        page.insert_text((cls.MARGIN_LEFT, y), "INSTRUCTIONS TO CANDIDATES", fontsize=11, fontname="helv", color=(0.1, 0.1, 0.1))
+        y = 275
+        page.insert_text((cls.MARGIN_LEFT, y), "INSTRUCTIONS", fontsize=11, fontname="helv", color=(0.1, 0.1, 0.1))
 
         instructions = [
-            "• Answer all questions in the spaces provided on this question paper.",
-            "• Show all necessary working clearly. Marks may be awarded for correct steps even if the answer is incorrect.",
+            "• Answer all questions in the spaces provided.",
+            "• Use a black or dark blue pen. You may use an HB pencil for any diagrams or graphs.",
+            "• Write your name, centre number and candidate number in the boxes at the top of the page.",
+            "• Do not use an erasable pen or correction fluid.",
+            "• You should show all necessary working clearly; full marks may not be given for unsupported answers.",
             "• Give non-exact numerical answers correct to 3 significant figures, or 1 decimal place for angles in degrees.",
             "• For π, use either your calculator value or 3.142.",
             "• Calculators must not be used on non-calculator papers or non-calculator sections.",
-            "• Additional Materials: Electronic calculator (where permitted), geometrical instruments, tracing paper.",
-            "• The total mark for this paper is displayed at the top right of each question in bold brackets [ ].",
+            "• The total mark for this paper is 70. Marks for each question are shown in brackets [ ].",
         ]
 
-        curr_y = y + 20
+        curr_y = y + 18
         for inst in instructions:
             page.insert_text((cls.MARGIN_LEFT + 5, curr_y), inst, fontsize=9.5, fontname="helv", color=(0.25, 0.25, 0.25))
             curr_y += 18
@@ -196,7 +227,6 @@ class ExamPDFEngine:
         curr_y = y + 25
         shape = page.new_shape()
         for code, desc, col in codes:
-            # Code badge
             shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, curr_y - 12, cls.MARGIN_LEFT + 28, curr_y + 4))
             shape.finish(color=col, fill=col)
             page.insert_text((cls.MARGIN_LEFT + 6, curr_y), code, fontsize=9.5, fontname="helv", color=(1, 1, 1))
@@ -207,7 +237,6 @@ class ExamPDFEngine:
     @classmethod
     def _draw_barcode(cls, page, x: float, y: float):
         shape = page.new_shape()
-        # Faux barcode lines
         widths = [2, 1, 3, 1, 2, 4, 1, 2, 1, 3, 2, 1, 2]
         cx = x
         for w in widths:
@@ -217,195 +246,294 @@ class ExamPDFEngine:
         shape.commit()
 
     # =========================================================================
-    # Page 2 Questions: Vector 3D Cuboid & Histogram
+    # Page 2 Questions: Vector 3D Cuboid & Histogram (Zero Overlap)
     # =========================================================================
     @classmethod
     def _draw_question_1_cuboid(cls, page):
-        y = 70
-        page.insert_text((cls.MARGIN_LEFT, y), "1", fontsize=12, fontname="helv", color=(0.1, 0.1, 0.1))
-        page.insert_text((cls.MARGIN_LEFT + 15, y), "The diagram shows a rectangular cuboid ABCDEFGH.", fontsize=10.5, fontname="helv", color=(0.1, 0.1, 0.1))
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 15), "AB = 4 cm, BC = 5 cm and CG = 7 cm.", fontsize=10.5, fontname="helv", color=(0.1, 0.1, 0.1))
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 30), "Calculate the length of the internal space diagonal AG, giving your answer to 3 sig fig.", fontsize=10.5, fontname="helv", color=(0.1, 0.1, 0.1))
-        page.insert_text((cls.MARGIN_RIGHT - 25, y), "[4]", fontsize=11, fontname="helv", color=(0.1, 0.1, 0.1))
+        # 1. Question Intro Stem
+        page.insert_text((cls.MARGIN_LEFT, 70), "1", fontsize=12, fontname="helv", color=(0.08, 0.25, 0.55))
+        page.insert_text((cls.MARGIN_LEFT + 18, 70), "The diagram shows a rectangular cuboid ABCDEFGH.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_LEFT + 18, 86), "AB = 4 cm, BC = 5 cm and CG = 7 cm.", fontsize=10.5, fontname="helv")
 
-        # Draw Vector Cuboid
+        # 2. Dedicated Cuboid Diagram Box (Centered at y = 105 to 220)
         shape = page.new_shape()
-        # Front face: A(100, 180), B(240, 180), C(240, 110), D(100, 110)
-        # Back face: E(150, 150), F(290, 150), G(290, 80), H(150, 80)
-        # Hidden edges (dashed)
-        shape.draw_line((100, 180), (150, 150))
-        shape.draw_line((150, 150), (290, 150))
-        shape.draw_line((150, 150), (150, 80))
-        shape.finish(color=(0.6, 0.6, 0.6), width=1, dashes="[3 2] 0")
+        # Front: (210, 160) to (350, 215) -> Width 140, Height 55
+        # Back:  (255, 125) to (395, 180) -> Offset dx=+45, dy=-35
+        # Hidden lines (dashed)
+        shape.draw_line((210, 215), (255, 180))
+        shape.draw_line((255, 180), (395, 180))
+        shape.draw_line((255, 180), (255, 125))
+        shape.finish(color=(0.65, 0.65, 0.65), width=0.9, dashes="[3 2] 0")
 
-        # Base diagonal AC (dashed)
-        shape.draw_line((100, 180), (290, 150))
-        shape.finish(color=(0.2, 0.5, 0.8), width=1.2, dashes="[3 2] 0")
+        # Base diagonal AC (dashed blue)
+        shape.draw_line((210, 215), (395, 180))
+        shape.finish(color=(0.2, 0.5, 0.8), width=1.1, dashes="[3 2] 0")
 
-        # 3D Space diagonal AG (solid red line)
-        shape.draw_line((100, 180), (290, 80))
-        shape.finish(color=(0.85, 0.2, 0.2), width=2)
+        # 3D Space diagonal AG (solid bold red)
+        shape.draw_line((210, 215), (395, 125))
+        shape.finish(color=(0.85, 0.15, 0.15), width=2.0)
 
         # Visible solid faces
-        shape.draw_rect(fitz.Rect(100, 110, 240, 180)) # Front
-        shape.draw_polyline([(100, 110), (150, 80), (290, 80), (240, 110)]) # Top
-        shape.draw_polyline([(240, 180), (290, 150), (290, 80), (240, 110)]) # Right
-        shape.finish(color=(0.15, 0.25, 0.4), width=1.5)
+        shape.draw_rect(fitz.Rect(210, 160, 350, 215)) # Front
+        shape.draw_polyline([(210, 160), (255, 125), (395, 125), (350, 160)]) # Top
+        shape.draw_polyline([(350, 215), (395, 180), (395, 125), (350, 160)]) # Right
+        shape.finish(color=(0.1, 0.2, 0.35), width=1.4)
         shape.commit()
 
-        # Labels
-        page.insert_text((85, 185), "A", fontsize=10, fontname="helv")
-        page.insert_text((245, 185), "B", fontsize=10, fontname="helv")
-        page.insert_text((295, 80), "G", fontsize=10, fontname="helv")
-        page.insert_text((165, 192), "4 cm", fontsize=9.5, fontname="helv", color=(0.2, 0.2, 0.2))
-        page.insert_text((270, 170), "5 cm", fontsize=9.5, fontname="helv", color=(0.2, 0.2, 0.2))
-        page.insert_text((298, 115), "7 cm", fontsize=9.5, fontname="helv", color=(0.2, 0.2, 0.2))
+        # Clean Vertex Labels (No overlap)
+        page.insert_text((196, 222), "A", fontsize=10, fontname="helv")
+        page.insert_text((354, 222), "B", fontsize=10, fontname="helv")
+        page.insert_text((400, 125), "G", fontsize=10, fontname="helv")
+        # Clean Dimensions
+        page.insert_text((270, 228), "4 cm", fontsize=9.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((380, 203), "5 cm", fontsize=9.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((402, 155), "7 cm", fontsize=9.5, fontname="helv", color=(0.3, 0.3, 0.3))
 
-        # Blank working lines
-        cls._draw_answer_lines(page, 220, 2)
-        page.insert_text((cls.MARGIN_RIGHT - 160, 252), "AG = ...................................... cm", fontsize=10, fontname="helv")
+        # NOT TO SCALE
+        page.insert_text((270, 245), "NOT TO SCALE", fontsize=8, fontname="helv", color=(0.5, 0.5, 0.5))
+
+        # 3. Question subpart instruction
+        page.insert_text((cls.MARGIN_LEFT + 18, 268), "Calculate the length of the internal space diagonal AG.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_LEFT + 18, 284), "Give your answer correct to 3 significant figures.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 284), "[4]", fontsize=11, fontname="helv")
+
+        # 4. Dotted working lines
+        shape = page.new_shape()
+        shape.draw_line((cls.MARGIN_LEFT + 18, 310), (cls.MARGIN_RIGHT, 310))
+        shape.draw_line((cls.MARGIN_LEFT + 18, 328), (cls.MARGIN_RIGHT, 328))
+        shape.finish(color=(0.85, 0.85, 0.85), width=0.7, dashes="[2 3] 0")
+        shape.commit()
+
+        # 5. Final Answer line
+        page.insert_text((cls.MARGIN_RIGHT - 200, 350), "AG = ......................................... cm", fontsize=10, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 350), "[4]", fontsize=11, fontname="helv")
+
+        # Divider line between Q1 and Q2
+        shape = page.new_shape()
+        shape.draw_line((cls.MARGIN_LEFT, 375), (cls.MARGIN_RIGHT, 375))
+        shape.finish(color=(0.85, 0.85, 0.85), width=0.8)
+        shape.commit()
 
     @classmethod
     def _draw_question_2_histogram(cls, page):
-        y = 280
-        page.insert_text((cls.MARGIN_LEFT, y), "2", fontsize=12, fontname="helv", color=(0.1, 0.1, 0.1))
-        page.insert_text((cls.MARGIN_LEFT + 15, y), "The histogram displays the weights (w kg) of 100 packages at a distribution centre.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 15), "For the class interval 20 ≤ w < 30, the frequency is 35.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 30), "(a) Calculate the frequency density for this interval.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_RIGHT - 25, y + 30), "[2]", fontsize=11, fontname="helv")
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 45), "(b) Complete the frequency table below using the histogram areas.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_RIGHT - 25, y + 45), "[2]", fontsize=11, fontname="helv")
+        # 1. Question Intro Stem
+        page.insert_text((cls.MARGIN_LEFT, 395), "2", fontsize=12, fontname="helv", color=(0.08, 0.25, 0.55))
+        page.insert_text((cls.MARGIN_LEFT + 18, 395), "The histogram displays the weights (w kg) of 100 packages at a distribution centre.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_LEFT + 18, 411), "For the class interval 20 ≤ w < 30, the frequency is 35.", fontsize=10.5, fontname="helv")
 
-        # Vector Histogram Chart
-        hx = 90
-        hy = 360
+        # 2. Left: Histogram chart (x=95 to 275, y=435 to 540)
+        hx = 95
+        hy = 540
         shape = page.new_shape()
-        # Grid lines
+        # Ticks & Guidelines
         for fd in [1, 2, 3, 4]:
-            shape.draw_line((hx, hy - fd * 25), (hx + 200, hy - fd * 25))
-        shape.finish(color=(0.9, 0.92, 0.95), width=0.8)
+            shape.draw_line((hx, hy - fd * 24), (hx + 170, hy - fd * 24))
+        shape.finish(color=(0.92, 0.93, 0.95), width=0.8)
 
         # Axes
-        shape.draw_line((hx, hy), (hx + 210, hy))
-        shape.draw_line((hx, hy), (hx, hy - 110))
-        shape.finish(color=(0.2, 0.2, 0.2), width=1.5)
+        shape.draw_line((hx, hy), (hx + 180, hy))
+        shape.draw_line((hx, hy), (hx, hy - 105))
+        shape.finish(color=(0.2, 0.2, 0.2), width=1.3)
 
         # Bars
-        # Bar 1: 0 to 10 (width 40), FD 1.5 (height 37.5)
-        shape.draw_rect(fitz.Rect(hx, hy - 37.5, hx + 40, hy))
-        # Bar 2: 10 to 20 (width 40), FD 2.8 (height 70)
-        shape.draw_rect(fitz.Rect(hx + 40, hy - 70, hx + 80, hy))
-        # Bar 3: 20 to 30 (width 40), FD 3.5 (height 87.5) - highlighted
-        shape.draw_rect(fitz.Rect(hx + 80, hy - 87.5, hx + 120, hy))
-        shape.finish(color=(0.15, 0.4, 0.8), fill=(0.8, 0.88, 1.0), width=1.2)
+        # 0 to 10 (width 30, FD 1.5 -> height 36)
+        shape.draw_rect(fitz.Rect(hx, hy - 36, hx + 30, hy))
+        # 10 to 20 (width 30, FD 2.8 -> height 67.2)
+        shape.draw_rect(fitz.Rect(hx + 30, hy - 67.2, hx + 60, hy))
+        # 20 to 30 (width 30, FD 3.5 -> height 84) - Highlighted
+        shape.draw_rect(fitz.Rect(hx + 60, hy - 84, hx + 90, hy))
+        # 30 to 50 (width 60, FD 1.2 -> height 28.8)
+        shape.draw_rect(fitz.Rect(hx + 90, hy - 28.8, hx + 150, hy))
+        shape.finish(color=(0.15, 0.4, 0.8), fill=(0.85, 0.92, 1.0), width=1.1)
 
-        shape.draw_rect(fitz.Rect(hx + 80, hy - 87.5, hx + 120, hy))
-        shape.finish(color=(0.1, 0.35, 0.75), fill=(0.3, 0.55, 0.9), width=1.5)
-
-        # Bar 4: 30 to 50 (width 80), FD 1.2 (height 30)
-        shape.draw_rect(fitz.Rect(hx + 120, hy - 30, hx + 200, hy))
-        shape.finish(color=(0.15, 0.4, 0.8), fill=(0.8, 0.88, 1.0), width=1.2)
+        # Fill highlighted bar with royal blue
+        shape.draw_rect(fitz.Rect(hx + 60, hy - 84, hx + 90, hy))
+        shape.finish(color=(0.1, 0.3, 0.7), fill=(0.35, 0.6, 0.92), width=1.3)
         shape.commit()
 
-        # Labels
-        page.insert_text((hx - 25, hy - 50), "FD", fontsize=9.5, fontname="helv", color=(0.2, 0.2, 0.2))
-        page.insert_text((hx + 85, hy + 14), "20 ≤ w < 30", fontsize=8.5, fontname="helv")
-        page.insert_text((hx + 85, hy + 26), "Weight (kg)", fontsize=9.5, fontname="helv", color=(0.2, 0.2, 0.2))
+        # Axis labels
+        page.insert_text((hx - 24, hy - 96), "4", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx - 24, hy - 72), "3", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx - 24, hy - 48), "2", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx - 24, hy - 24), "1", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx - 12, hy + 12), "0", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx + 24, hy + 12), "10", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx + 54, hy + 12), "20", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx + 84, hy + 12), "30", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx + 144, hy + 12), "50", fontsize=8.5, fontname="helv", color=(0.3, 0.3, 0.3))
+        page.insert_text((hx - 38, hy - 112), "Frequency density", fontsize=8.5, fontname="helv", color=(0.2, 0.2, 0.2))
+        page.insert_text((hx + 50, hy + 26), "Weight (w kg)", fontsize=9, fontname="helv", color=(0.2, 0.2, 0.2))
 
-        # Vector Table for part (b)
-        tx = 330
-        ty = 360
+        # 3. Right: Clean Table (x=305 to 520, y=445 to 520)
+        tx = 305
+        ty = 445
         shape = page.new_shape()
-        shape.draw_rect(fitz.Rect(tx, ty - 60, tx + 180, ty + 20))
-        shape.draw_line((tx, ty - 35), (tx + 180, ty - 35))
-        shape.draw_line((tx + 90, ty - 60), (tx + 90, ty + 20))
+        shape.draw_rect(fitz.Rect(tx, ty, tx + 215, ty + 75))
+        shape.draw_line((tx, ty + 25), (tx + 215, ty + 25))
+        shape.draw_line((tx, ty + 50), (tx + 215, ty + 50))
+        shape.draw_line((tx + 125, ty), (tx + 125, ty + 75))
         shape.finish(color=(0.3, 0.3, 0.3), width=1)
         shape.commit()
 
-        page.insert_text((tx + 8, ty - 45), "Weight Interval", fontsize=9, fontname="helv")
-        page.insert_text((tx + 105, ty - 45), "Frequency (f)", fontsize=9, fontname="helv")
-        page.insert_text((tx + 12, ty - 15), "20 ≤ w < 30", fontsize=9, fontname="helv")
-        page.insert_text((tx + 125, ty - 15), "35", fontsize=9.5, fontname="helv")
-        page.insert_text((tx + 12, ty + 10), "30 ≤ w < 50", fontsize=9, fontname="helv")
-        page.insert_text((tx + 120, ty + 10), "..........", fontsize=9, fontname="helv")
+        page.insert_text((tx + 10, ty + 16), "Weight Interval (kg)", fontsize=9, fontname="helv", color=(0.1, 0.1, 0.1))
+        page.insert_text((tx + 138, ty + 16), "Frequency (f)", fontsize=9, fontname="helv", color=(0.1, 0.1, 0.1))
+        page.insert_text((tx + 18, ty + 41), "20 ≤ w < 30", fontsize=9, fontname="helv")
+        page.insert_text((tx + 160, ty + 41), "35", fontsize=9.5, fontname="helv")
+        page.insert_text((tx + 18, ty + 66), "30 ≤ w < 50", fontsize=9, fontname="helv")
+        page.insert_text((tx + 145, ty + 66), "....................", fontsize=9, fontname="helv")
+
+        # 4. Subparts Q2
+        page.insert_text((cls.MARGIN_LEFT + 18, 585), "(a) Calculate the frequency density for the interval 20 ≤ w < 30.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 585), "[2]", fontsize=11, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 260, 615), "Frequency density = .................................................", fontsize=10, fontname="helv")
+
+        page.insert_text((cls.MARGIN_LEFT + 18, 645), "(b) Use the histogram to complete the frequency table above.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 645), "[2]", fontsize=11, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 260, 675), "Frequency = ........................................................", fontsize=10, fontname="helv")
+
+        # Working lines
+        shape = page.new_shape()
+        shape.draw_line((cls.MARGIN_LEFT + 18, 715), (cls.MARGIN_RIGHT, 715))
+        shape.draw_line((cls.MARGIN_LEFT + 18, 735), (cls.MARGIN_RIGHT, 735))
+        shape.finish(color=(0.85, 0.85, 0.85), width=0.7, dashes="[2 3] 0")
+        shape.commit()
 
     # =========================================================================
-    # Page 3 Questions: Vector Calculus & Probability
+    # Page 3 Questions: Vector Calculus & Probability (Zero Overlap)
     # =========================================================================
     @classmethod
     def _draw_question_3_calculus(cls, page):
-        y = 70
-        page.insert_text((cls.MARGIN_LEFT, y), "3", fontsize=12, fontname="helv", color=(0.1, 0.1, 0.1))
-        page.insert_text((cls.MARGIN_LEFT + 15, y), "A particle moves such that its displacement curve is given by:", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_LEFT + 40, y + 18), "y = 2x³ - 9x² + 12x + 4", fontsize=11, fontname="helv", color=(0.1, 0.25, 0.6))
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 36), "(a) Find dy/dx.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_RIGHT - 25, y + 36), "[2]", fontsize=11, fontname="helv")
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 54), "(b) Find the coordinates of the stationary points and determine their nature.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_RIGHT - 25, y + 54), "[4]", fontsize=11, fontname="helv")
+        # 1. Question Intro Stem
+        page.insert_text((cls.MARGIN_LEFT, 70), "3", fontsize=12, fontname="helv", color=(0.08, 0.25, 0.55))
+        page.insert_text((cls.MARGIN_LEFT + 18, 70), "A particle moves such that its displacement curve is given by:", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_LEFT + 35, 88), "y = 2x³ - 9x² + 12x + 4", fontsize=11, fontname="helv", color=(0.08, 0.25, 0.55))
 
-        # Vector Curve Drawing
-        cx = 360
-        cy = 180
+        # 2. Calculus Graph Box (Centered at y = 105 to 215)
+        cx = 240
+        cy = 195
         shape = page.new_shape()
-        shape.draw_line((cx - 30, cy), (cx + 150, cy))
-        shape.draw_line((cx, cy + 20), (cx, cy - 90))
-        shape.finish(color=(0.3, 0.3, 0.3), width=1.2)
+        # Axes with arrows
+        shape.draw_line((cx - 40, cy), (cx + 160, cy))
+        shape.draw_polyline([(cx + 155, cy - 3), (cx + 160, cy), (cx + 155, cy + 3)])
+        shape.draw_line((cx, cy + 15), (cx, cy - 85))
+        shape.draw_polyline([(cx - 3, cy - 80), (cx, cy - 85), (cx + 3, cy - 80)])
+        shape.finish(color=(0.3, 0.3, 0.3), width=1.1)
 
-        # Plot Cubic Curve
-        curve_pts = [
-            (cx + 10, cy - 20),
-            (cx + 40, cy - 70),  # Max at x=1
-            (cx + 70, cy - 50),  # Min at x=2
-            (cx + 110, cy - 85), # Rising
-        ]
+        # Smooth cubic curve points
+        curve_pts = []
+        for i in range(40):
+            xv = 0.2 + (2.6 - 0.2) * (i / 39.0)
+            yv = 2.0 * (xv**3) - 9.0 * (xv**2) + 12.0 * xv + 4.0
+            xs = cx + xv * 52
+            ys = cy - (yv - 2.0) * 8.5
+            curve_pts.append((xs, ys))
+
         shape.draw_polyline(curve_pts)
-        shape.finish(color=(0.15, 0.35, 0.8), width=2)
+        shape.finish(color=(0.1, 0.35, 0.75), width=1.8)
 
-        # Tangent at max
-        shape.draw_line((cx + 25, cy - 70), (cx + 55, cy - 70))
-        shape.finish(color=(0.85, 0.2, 0.2), width=1.2, dashes="[2 2] 0")
+        # Tangent line at local max x=1, y=9
+        tx_pt = cx + 1.0 * 52
+        ty_pt = cy - (9.0 - 2.0) * 8.5
+        shape.draw_line((tx_pt - 25, ty_pt), (tx_pt + 25, ty_pt))
+        shape.finish(color=(0.85, 0.2, 0.2), width=1.2)
+
+        # Point at local min x=2, y=8
+        min_x = cx + 2.0 * 52
+        min_y = cy - (8.0 - 2.0) * 8.5
+        shape.draw_circle((min_x, min_y), 2.5)
+        shape.finish(color=(0.1, 0.6, 0.3), fill=(0.1, 0.6, 0.3))
         shape.commit()
 
-        page.insert_text((cx + 28, cy - 76), "dy/dx = 0 (1, 9)", fontsize=8.5, fontname="helv", color=(0.85, 0.2, 0.2))
-        page.insert_text((cx + 65, cy - 38), "(2, 8)", fontsize=8.5, fontname="helv", color=(0.1, 0.6, 0.3))
+        # Graph labels
+        page.insert_text((cx + 165, cy + 4), "x", fontsize=10, fontname="helv")
+        page.insert_text((cx - 4, cy - 90), "y", fontsize=10, fontname="helv")
+        page.insert_text((tx_pt - 32, ty_pt - 8), "dy/dx = 0 at (1, 9)", fontsize=8.5, fontname="helv", color=(0.85, 0.2, 0.2))
+        page.insert_text((min_x - 12, min_y + 14), "(2, 8)", fontsize=8.5, fontname="helv", color=(0.1, 0.6, 0.3))
+        page.insert_text((cx + 50, cy + 20), "NOT TO SCALE", fontsize=8, fontname="helv", color=(0.5, 0.5, 0.5))
 
-        cls._draw_answer_lines(page, 150, 3)
+        # 3. Subparts Q3
+        page.insert_text((cls.MARGIN_LEFT + 18, 235), "(a) Find dy/dx.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 235), "[2]", fontsize=11, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 240, 260), "dy/dx = .................................................................", fontsize=10, fontname="helv")
+
+        page.insert_text((cls.MARGIN_LEFT + 18, 290), "(b) Find the coordinates of the stationary points and determine their nature.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 290), "[4]", fontsize=11, fontname="helv")
+
+        # Working lines
+        shape = page.new_shape()
+        shape.draw_line((cls.MARGIN_LEFT + 18, 315), (cls.MARGIN_RIGHT, 315))
+        shape.draw_line((cls.MARGIN_LEFT + 18, 335), (cls.MARGIN_RIGHT, 335))
+        shape.draw_line((cls.MARGIN_LEFT + 18, 355), (cls.MARGIN_RIGHT, 355))
+        shape.finish(color=(0.85, 0.85, 0.85), width=0.7, dashes="[2 3] 0")
+        shape.commit()
+
+        page.insert_text((cls.MARGIN_RIGHT - 260, 385), "( ....... , ....... ) is a ............................................", fontsize=10, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 260, 405), "( ....... , ....... ) is a ............................................", fontsize=10, fontname="helv")
+
+        # Divider line between Q3 and Q4
+        shape = page.new_shape()
+        shape.draw_line((cls.MARGIN_LEFT, 425), (cls.MARGIN_RIGHT, 425))
+        shape.finish(color=(0.85, 0.85, 0.85), width=0.8)
+        shape.commit()
 
     @classmethod
     def _draw_question_4_probability(cls, page):
-        y = 280
-        page.insert_text((cls.MARGIN_LEFT, y), "4", fontsize=12, fontname="helv", color=(0.1, 0.1, 0.1))
-        page.insert_text((cls.MARGIN_LEFT + 15, y), "A bag contains 7 green sweets and 3 yellow sweets.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 15), "Hannah takes two sweets at random without replacement.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 30), "(a) Complete the probability tree diagram below.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_RIGHT - 25, y + 30), "[2]", fontsize=11, fontname="helv")
-        page.insert_text((cls.MARGIN_LEFT + 15, y + 45), "(b) Work out the probability that Hannah takes two green sweets.", fontsize=10.5, fontname="helv")
-        page.insert_text((cls.MARGIN_RIGHT - 25, y + 45), "[2]", fontsize=11, fontname="helv")
+        # 1. Question Intro Stem
+        page.insert_text((cls.MARGIN_LEFT, 445), "4", fontsize=12, fontname="helv", color=(0.08, 0.25, 0.55))
+        page.insert_text((cls.MARGIN_LEFT + 18, 445), "A bag contains 7 green sweets and 3 yellow sweets.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_LEFT + 18, 461), "Hannah takes two sweets at random without replacement.", fontsize=10.5, fontname="helv")
 
-        # Vector Probability Tree Diagram
-        tx = 120
-        ty = 370
+        # 2. Tree Diagram Box (y=485 to 615, completely clear of text)
+        rx = 110
+        ry = 545
         shape = page.new_shape()
-        shape.draw_line((tx, ty), (tx + 80, ty - 30))
-        shape.draw_line((tx, ty), (tx + 80, ty + 30))
-        shape.draw_line((tx + 80, ty - 30), (tx + 160, ty - 45))
-        shape.draw_line((tx + 80, ty - 30), (tx + 160, ty - 15))
-        shape.draw_line((tx + 80, ty + 30), (tx + 160, ty + 15))
-        shape.draw_line((tx + 80, ty + 30), (tx + 160, ty + 45))
-        shape.finish(color=(0.2, 0.2, 0.2), width=1.5)
+        # Level 1 branches
+        shape.draw_line((rx, ry), (rx + 90, ry - 45))
+        shape.draw_line((rx, ry), (rx + 90, ry + 45))
+
+        # Level 2 branches from Green node
+        shape.draw_line((rx + 140, ry - 45), (rx + 245, ry - 75))
+        shape.draw_line((rx + 140, ry - 45), (rx + 245, ry - 18))
+
+        # Level 2 branches from Yellow node
+        shape.draw_line((rx + 140, ry + 45), (rx + 245, ry + 18))
+        shape.draw_line((rx + 140, ry + 45), (rx + 245, ry + 75))
+        shape.finish(color=(0.15, 0.15, 0.15), width=1.3)
         shape.commit()
 
-        page.insert_text((tx + 25, ty - 20), "7/10", fontsize=9, fontname="helv", color=(0.1, 0.6, 0.3))
-        page.insert_text((tx + 25, ty + 25), "3/10", fontsize=9, fontname="helv", color=(0.7, 0.5, 0.1))
-        page.insert_text((tx + 85, ty - 32), "Green", fontsize=9, fontname="helv")
-        page.insert_text((tx + 85, ty + 28), "Yellow", fontsize=9, fontname="helv")
+        # Level 1 labels & fractions
+        page.insert_text((rx + 30, ry - 30), "7/10", fontsize=9.5, fontname="helv", color=(0.1, 0.55, 0.25))
+        page.insert_text((rx + 30, ry + 34), "3/10", fontsize=9.5, fontname="helv", color=(0.7, 0.45, 0.05))
+        page.insert_text((rx + 95, ry - 42), "Green", fontsize=9.5, fontname="helv")
+        page.insert_text((rx + 95, ry + 48), "Yellow", fontsize=9.5, fontname="helv")
 
-        page.insert_text((tx + 115, ty - 40), "......", fontsize=9, fontname="helv")
-        page.insert_text((tx + 115, ty - 10), "......", fontsize=9, fontname="helv")
-        page.insert_text((tx + 165, ty - 45), "Green", fontsize=9, fontname="helv")
-        page.insert_text((tx + 165, ty - 15), "Yellow", fontsize=9, fontname="helv")
+        # Level 2 dotted prompts for student & labels
+        page.insert_text((rx + 175, ry - 66), ".......", fontsize=9, fontname="helv")
+        page.insert_text((rx + 175, ry - 22), ".......", fontsize=9, fontname="helv")
+        page.insert_text((rx + 175, ry + 22), ".......", fontsize=9, fontname="helv")
+        page.insert_text((rx + 175, ry + 66), ".......", fontsize=9, fontname="helv")
 
-        page.insert_text((cls.MARGIN_RIGHT - 180, 460), "Probability = ...................................", fontsize=10, fontname="helv")
+        page.insert_text((rx + 252, ry - 72), "Green", fontsize=9.5, fontname="helv")
+        page.insert_text((rx + 252, ry - 15), "Yellow", fontsize=9.5, fontname="helv")
+        page.insert_text((rx + 252, ry + 21), "Green", fontsize=9.5, fontname="helv")
+        page.insert_text((rx + 252, ry + 78), "Yellow", fontsize=9.5, fontname="helv")
+
+        # 3. Subparts Q4
+        page.insert_text((cls.MARGIN_LEFT + 18, 635), "(a) Complete the probability tree diagram above.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 635), "[2]", fontsize=11, fontname="helv")
+
+        page.insert_text((cls.MARGIN_LEFT + 18, 665), "(b) Work out the probability that Hannah takes two green sweets.", fontsize=10.5, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 665), "[2]", fontsize=11, fontname="helv")
+
+        # Working lines
+        shape = page.new_shape()
+        shape.draw_line((cls.MARGIN_LEFT + 18, 695), (cls.MARGIN_RIGHT, 695))
+        shape.draw_line((cls.MARGIN_LEFT + 18, 715), (cls.MARGIN_RIGHT, 715))
+        shape.finish(color=(0.85, 0.85, 0.85), width=0.7, dashes="[2 3] 0")
+        shape.commit()
+
+        page.insert_text((cls.MARGIN_RIGHT - 240, 745), "Probability = ...................................................", fontsize=10, fontname="helv")
+        page.insert_text((cls.MARGIN_RIGHT - 20, 745), "[2]", fontsize=11, fontname="helv")
 
     # =========================================================================
     # Mark Scheme Structured Tables (Pages 2 & 3)
@@ -443,12 +571,10 @@ class ExamPDFEngine:
         total_w = sum(col_widths)
 
         shape = page.new_shape()
-        # Header background
         shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, curr_y, cls.MARGIN_LEFT + total_w, curr_y + 22))
         shape.finish(color=(0.05, 0.45, 0.25), fill=(0.05, 0.45, 0.25))
         shape.commit()
 
-        # Header text
         cx = cls.MARGIN_LEFT
         for i, h in enumerate(headers):
             page.insert_text((cx + 6, curr_y + 15), h, fontsize=9.5, fontname="helv", color=(1, 1, 1))
@@ -456,19 +582,16 @@ class ExamPDFEngine:
 
         curr_y += 22
 
-        # Rows
         for r_idx, row in enumerate(rows):
             line_count = max(len(row[1].split('\n')), len(row[3].split('\n')), 1)
             row_h = line_count * 14 + 18
 
-            # Zebra shading
             if r_idx % 2 == 1:
                 shape = page.new_shape()
                 shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, curr_y, cls.MARGIN_LEFT + total_w, curr_y + row_h))
                 shape.finish(color=(0.96, 0.98, 0.96), fill=(0.96, 0.98, 0.96))
                 shape.commit()
 
-            # Border
             shape = page.new_shape()
             shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, curr_y, cls.MARGIN_LEFT + total_w, curr_y + row_h))
             shape.draw_line((cls.MARGIN_LEFT + col_widths[0], curr_y), (cls.MARGIN_LEFT + col_widths[0], curr_y + row_h))
@@ -477,22 +600,18 @@ class ExamPDFEngine:
             shape.finish(color=(0.8, 0.85, 0.8), width=0.8)
             shape.commit()
 
-            # Cells
             page.insert_text((cls.MARGIN_LEFT + 6, curr_y + 15), str(row[0]), fontsize=10, fontname="helv", color=(0.1, 0.1, 0.1))
 
-            # Column 2: Working
             w_y = curr_y + 15
             for line in row[1].split('\n'):
                 page.insert_text((cls.MARGIN_LEFT + col_widths[0] + 6, w_y), line, fontsize=9, fontname="helv", color=(0.1, 0.1, 0.1))
                 w_y += 14
 
-            # Column 3: Mark Codes
             m_y = curr_y + 15
             for mark in row[2].split('\n'):
                 page.insert_text((cls.MARGIN_LEFT + col_widths[0] + col_widths[1] + 12, m_y), mark, fontsize=9.5, fontname="helv", color=(0.05, 0.45, 0.25))
                 m_y += 14
 
-            # Column 4: Guidance
             g_y = curr_y + 15
             for g_line in row[3].split('\n'):
                 page.insert_text((cls.MARGIN_LEFT + col_widths[0] + col_widths[1] + col_widths[2] + 6, g_y), g_line, fontsize=8.5, fontname="helv", color=(0.3, 0.35, 0.4))
@@ -501,67 +620,74 @@ class ExamPDFEngine:
             curr_y += row_h
 
     # =========================================================================
-    # Page 4: Formula Sheet / Grade Boundaries
+    # Page 4: Formulae Sheet & Benchmarks
     # =========================================================================
     @classmethod
     def _draw_formula_sheet(cls, page):
-        y = 75
-        page.insert_text((cls.MARGIN_LEFT, y), "MATHEMATICAL FORMULAE & REFERENCE SHEET", fontsize=11, fontname="helv", color=(0.12, 0.28, 0.54))
+        y = 70
+        page.insert_text((cls.MARGIN_LEFT, y), "MATHEMATICAL FORMULAE SHEET", fontsize=11, fontname="helv", color=(0.08, 0.25, 0.55))
 
-        shape = page.new_shape()
-        shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, y + 10, cls.MARGIN_RIGHT, y + 250))
-        shape.finish(color=(0.85, 0.88, 0.92), fill=(0.98, 0.99, 1.0), width=1)
-        shape.commit()
-
-        formulas = [
-            ("3D Coordinate Geometry & Space Diagonal:", "d = √(x² + y² + z²)"),
-            ("Histogram Frequency Density:", "Frequency Density = Frequency / Class Width"),
-            ("Calculus Power Rule & Turning Points:", "d/dx[axⁿ] = n·a·xⁿ⁻¹  |  Turning points: dy/dx = 0"),
-            ("Cosine Rule for Any Triangle:", "a² = b² + c² - 2bc cos(A)"),
-            ("Sine Rule for Any Triangle:", "a / sin(A) = b / sin(B) = c / sin(C)"),
-            ("Probability Multiplication Law (Dependent):", "P(A ∩ B) = P(A) × P(B | A)"),
-            ("Binomial Expansion Theorem:", "(a + b)ⁿ = aⁿ + ⁿC₁ aⁿ⁻¹b + ⁿC₂ aⁿ⁻²b² + ..."),
-            ("Quadratic Formula:", "x = (-b ± √(b² - 4ac)) / (2a)"),
+        formulae = [
+            ("Curved surface area of a cone", "A = πrl"),
+            ("Surface area of a sphere", "A = 4πr²"),
+            ("Volume of a sphere", "V = 4/3 πr³"),
+            ("Volume of a cone", "V = 1/3 πr²h"),
+            ("Volume of a pyramid", "V = 1/3 × base area × height"),
+            ("Quadratic formula", "x = (-b ± √(b² - 4ac)) / (2a)"),
+            ("Sine rule", "a / sin A = b / sin B = c / sin C"),
+            ("Cosine rule", "a² = b² + c² - 2bc cos A"),
+            ("Area of a triangle", "Area = 1/2 ab sin C"),
         ]
 
-        fy = y + 30
-        for title, eq in formulas:
-            page.insert_text((cls.MARGIN_LEFT + 15, fy), title, fontsize=9.5, fontname="helv", color=(0.2, 0.2, 0.2))
-            page.insert_text((cls.MARGIN_LEFT + 250, fy), eq, fontsize=9.5, fontname="helv", color=(0.1, 0.25, 0.6))
-            fy += 26
+        curr_y = y + 25
+        shape = page.new_shape()
+        shape.draw_rect(fitz.Rect(cls.MARGIN_LEFT, curr_y - 10, cls.MARGIN_RIGHT, curr_y + len(formulae) * 22 + 5))
+        shape.finish(color=(0.8, 0.85, 0.9), width=1)
+        shape.commit()
+
+        for name, form in formulae:
+            page.insert_text((cls.MARGIN_LEFT + 15, curr_y + 5), name, fontsize=9.5, fontname="helv", color=(0.2, 0.2, 0.2))
+            page.insert_text((cls.MARGIN_LEFT + 250, curr_y + 5), form, fontsize=10, fontname="helv", color=(0.08, 0.25, 0.55))
+            shape = page.new_shape()
+            shape.draw_line((cls.MARGIN_LEFT, curr_y + 12), (cls.MARGIN_RIGHT, curr_y + 12))
+            shape.finish(color=(0.92, 0.94, 0.96), width=0.6)
+            shape.commit()
+            curr_y += 22
+
+        curr_y += 25
+        page.insert_text((cls.MARGIN_LEFT, curr_y), "BLANK PAGE FOR ADDITIONAL WORKING", fontsize=10, fontname="helv", color=(0.5, 0.5, 0.5))
+        shape = page.new_shape()
+        for ly in range(int(curr_y + 20), int(cls.PAGE_HEIGHT - 60), 22):
+            shape.draw_line((cls.MARGIN_LEFT, ly), (cls.MARGIN_RIGHT, ly))
+        shape.finish(color=(0.9, 0.9, 0.9), width=0.5, dashes="[2 3] 0")
+        shape.commit()
 
     @classmethod
-    def _draw_grade_boundaries_table(cls, page):
+    def _draw_grade_boundaries(cls, page):
         y = 75
         page.insert_text((cls.MARGIN_LEFT, y), "HISTORIC GRADE BOUNDARY BENCHMARKS", fontsize=11, fontname="helv", color=(0.05, 0.45, 0.25))
 
-        headers = ["Grade", "Percentage Minimum", "Raw Marks (out of 70)", "Descriptor"]
+        headers = ["Grade", "Minimum Mark", "Percentage", "Performance Descriptor"]
         rows = [
-            ("Grade 9 / 7 (High)", "82%", "58 / 70", "Demonstrates deep mathematical insight, rigorous proof and fluency"),
-            ("Grade 8 / 6 (Strong)", "72%", "51 / 70", "Consistent multi-step problem solving with minor algebraic slips"),
-            ("Grade 7 / 5 (Good)", "62%", "44 / 70", "Secure core competence across trigonometry, calculus, and statistics"),
-            ("Grade 6 / 4 (Pass)", "52%", "37 / 70", "Standard proficiency on foundation and routine procedures"),
+            ("A*", "61 / 70", "87.1%", "Outstanding mastery of algebra, geometric reasoning, and calculus."),
+            ("A", "52 / 70", "74.3%", "Strong mathematical application with minor arithmetic inaccuracies."),
+            ("B", "43 / 70", "61.4%", "Good competence across standard syllabus topics."),
+            ("C", "34 / 70", "48.6%", "Sound basic foundation; difficulty with multi-step unfamiliar problems."),
+            ("D", "26 / 70", "37.1%", "Partial understanding of core concepts."),
         ]
-        cls._render_table(page, y + 15, headers, rows, [70, 100, 110, 225])
-
-    # =========================================================================
-    # Helpers
-    # =========================================================================
-    @classmethod
-    def _draw_answer_lines(cls, page, start_y: float, num_lines: int = 3):
-        shape = page.new_shape()
-        for i in range(num_lines):
-            ly = start_y + i * 20
-            shape.draw_line((cls.MARGIN_LEFT, ly), (cls.MARGIN_RIGHT, ly))
-        shape.finish(color=(0.88, 0.88, 0.88), width=0.8)
-        shape.commit()
+        cls._render_table(page, y + 20, headers, rows, [60, 100, 90, 245])
 
     @classmethod
-    def _draw_footer(cls, page, current_p: int, total_p: int):
+    def _draw_mini_header(cls, page, code: str, season: str, is_ms: bool):
+        t = f"MathIB  ·  {code}  ·  {season}  ·  {'Mark Scheme' if is_ms else 'Question Paper'}"
+        page.insert_text((cls.MARGIN_LEFT, 35), t, fontsize=9, fontname="helv", color=(0.4, 0.4, 0.4))
         shape = page.new_shape()
-        shape.draw_line((cls.MARGIN_LEFT, cls.PAGE_HEIGHT - 35), (cls.MARGIN_RIGHT, cls.PAGE_HEIGHT - 35))
+        shape.draw_line((cls.MARGIN_LEFT, 45), (cls.MARGIN_RIGHT, 45))
         shape.finish(color=(0.85, 0.85, 0.85), width=0.8)
         shape.commit()
 
-        page.insert_text((cls.MARGIN_LEFT, cls.PAGE_HEIGHT - 22), "MathIB Global Mathematics Archive  ·  iLovePDF Vector Quality Verified  ·  math-ib.vercel.app", fontsize=8, fontname="helv", color=(0.5, 0.5, 0.5))
-        page.insert_text((cls.MARGIN_RIGHT - 50, cls.PAGE_HEIGHT - 22), f"Page {current_p} of {total_p}", fontsize=8.5, fontname="helv", color=(0.4, 0.4, 0.4))
+    @classmethod
+    def _draw_footer(cls, page, current: int, total: int):
+        y = cls.PAGE_HEIGHT - 35
+        page.insert_text((cls.MARGIN_LEFT, y), "© MathIB Examination Board", fontsize=8.5, fontname="helv", color=(0.4, 0.4, 0.4))
+        page.insert_text((cls.MARGIN_RIGHT - 65, y), f"Page {current} of {total}", fontsize=8.5, fontname="helv", color=(0.4, 0.4, 0.4))
