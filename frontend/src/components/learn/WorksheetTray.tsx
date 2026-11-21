@@ -12,7 +12,11 @@ const WorksheetTray: React.FC = () => {
   const location = useLocation();
 
   if (ids.length === 0 || !index) return null;
-  if (location.pathname.startsWith('/worksheet')) return null;
+  if (
+    location.pathname.startsWith('/worksheet') ||
+    location.pathname.startsWith('/papers') ||
+    location.pathname.startsWith('/past-papers')
+  ) return null;
 
   const marks = ids.reduce((s, id) => s + (index.question(id)?.marks ?? 0), 0);
   return (

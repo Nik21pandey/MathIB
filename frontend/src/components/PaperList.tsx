@@ -15,6 +15,7 @@ interface Paper {
   isFavorite: boolean;
   type: 'question' | 'marking-scheme' | 'examiner-report';
   markschemeUrl?: string;
+  pdfUrl?: string;
 }
 
 interface PaperListProps {
@@ -24,6 +25,8 @@ interface PaperListProps {
   onPaperSelect: (paper: Paper) => void;
   onToggleFavorite: (paperId: number) => void;
   onDownload?: (paper: Paper) => void;
+  sortBy?: string;
+  onSortChange?: (sort: string) => void;
 }
 
 const PaperList: React.FC<PaperListProps> = ({
@@ -32,12 +35,14 @@ const PaperList: React.FC<PaperListProps> = ({
   selectedPaper,
   onPaperSelect,
   onToggleFavorite,
-  onDownload
+  onDownload,
+  sortBy = 'year_desc',
+  onSortChange
 }) => {
   const getRowClassName = (paper: Paper) => {
-    const baseClasses = "flex items-start lg:items-center px-3 lg:px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors duration-150";
+    const baseClasses = "flex items-start px-3 lg:px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors duration-150";
     return selectedPaper?.id === paper.id 
-      ? `${baseClasses} bg-blue-50 border-l-4 border-blue-600`
+      ? `${baseClasses} bg-blue-50/80 border-l-4 border-blue-600`
       : baseClasses;
   };
 
@@ -70,33 +75,35 @@ const PaperList: React.FC<PaperListProps> = ({
   }
 
   return (
-    <div className="flex-1 bg-white">
-      {/* Header */}
-      <div className="p-3 lg:p-4 border-b border-gray-200 bg-gray-50">
-        <div className="flex flex-col space-y-2 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+    <div className="flex-1 flex flex-col h-full bg-white min-h-0">
+      {/* Header with Sort and Count */}
+      <div className="p-3 lg:p-4 border-b border-gray-200 bg-gray-50 flex-shrink-0">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
           <div className="flex items-center space-x-2">
-            <span className="text-sm font-medium text-gray-900">Sort by:</span>
-            <select className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>Ascending</option>
-              <option>Descending</option>
-              <option>Year (Latest)</option>
-              <option>Year (Oldest)</option>
+            <span className="text-xs font-semibold text-gray-700 uppercase tracking-wider">Sort:</span>
+            <select 
+              value={sortBy}
+              onChange={(e) => onSortChange?.(e.target.value)}
+              className="text-xs font-medium border border-gray-300 rounded-md px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white shadow-sm"
+            >
+              <option value="year_desc">Year (Latest First)</option>
+              <option value="year_asc">Year (Oldest First)</option>
+              <option value="title_asc">Title (A to Z)</option>
+              <option value="title_desc">Title (Z to A)</option>
             </select>
           </div>
-          <div className="flex items-center space-x-4 text-sm text-gray-600">
-            <span>1 - 25</span>
-            <span className="hidden lg:inline">|</span>
-            <span>{papers.length} papers</span>
+          <div className="text-xs text-gray-600 font-medium">
+            <span className="font-bold text-gray-900">{papers.length}</span> official exam papers
           </div>
         </div>
       </div>
 
       {/* Papers List */}
-      <div className="overflow-y-auto h-full">
+      <div className="overflow-y-auto flex-1 divide-y divide-gray-100 min-h-0">
         {papers.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-64 text-gray-500">
-            <p className="text-lg mb-2">No papers found</p>
-            <p className="text-sm">Try adjusting your filters</p>
+          <div className="flex flex-col items-center justify-center p-8 text-gray-500">
+            <p className="text-base font-semibold text-gray-800 mb-1">No papers found</p>
+            <p className="text-xs text-gray-500">Try adjusting your syllabus, year, or search filters above.</p>
           </div>
         ) : (
           papers.map((paper) => (
@@ -106,21 +113,22 @@ const PaperList: React.FC<PaperListProps> = ({
               onClick={() => onPaperSelect(paper)}
             >
               <div className="flex-1 min-w-0">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                  <h3 className="text-sm font-semibold text-gray-900 truncate" title={paper.title}>
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="text-sm font-semibold text-gray-900 leading-snug" title={paper.title}>
                     {paper.title || formatPaperCode(paper)}
                   </h3>
-                  <div className="flex items-center space-x-2 mt-2 lg:mt-0 lg:ml-4">
+                  <div className="flex items-center space-x-1 flex-shrink-0">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         onToggleFavorite(paper.id);
                       }}
-                      className={`p-1 rounded ${
+                      className={`p-1 rounded hover:bg-gray-100 transition ${
                         paper.isFavorite 
-                          ? 'text-red-600 hover:text-red-700' 
-                          : 'text-gray-400 hover:text-red-600'
+                          ? 'text-red-600' 
+                          : 'text-gray-400 hover:text-red-500'
                       }`}
+                      title={paper.isFavorite ? "Remove from Favorites" : "Add to Favorites"}
                     >
                       {paper.isFavorite ? (
                         <HeartSolidIcon className="h-4 w-4" />
@@ -135,8 +143,8 @@ const PaperList: React.FC<PaperListProps> = ({
                           e.stopPropagation();
                           onDownload(paper);
                         }}
-                        className="p-1 rounded text-gray-400 hover:text-blue-600"
-                        title="Download PDF"
+                        className="p-1 rounded text-gray-400 hover:text-blue-600 hover:bg-gray-100 transition"
+                        title="Download Question Paper"
                       >
                         <ArrowDownTrayIcon className="h-4 w-4" />
                       </button>
@@ -144,38 +152,32 @@ const PaperList: React.FC<PaperListProps> = ({
                   </div>
                 </div>
                 
-                <div className="mt-1 flex flex-wrap items-center gap-1 lg:gap-4 text-xs text-gray-500">
-                  <span className="font-medium text-blue-600">{paper.curriculum || paper.subject}</span>
-                  <span className="hidden lg:inline">•</span>
-                  <span>{paper.year}</span>
-                  <span className="hidden lg:inline">•</span>
+                <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[11px] text-gray-500">
+                  <span className="font-semibold text-blue-600">{paper.curriculum || paper.subject}</span>
+                  <span>•</span>
+                  <span className="font-medium text-gray-700">{paper.year}</span>
+                  <span>•</span>
                   <span>{paper.season}</span>
                   {paper.zone && (
                     <>
-                      <span className="hidden lg:inline">•</span>
+                      <span>•</span>
                       <span>{paper.zone}</span>
-                    </>
-                  )}
-                  {paper.duration && (
-                    <>
-                      <span className="hidden lg:inline">•</span>
-                      <span>{paper.duration} min</span>
                     </>
                   )}
                 </div>
 
-                {/* Paper Type Badges */}
+                {/* Badges: QP and MS */}
                 <div className="mt-2 flex items-center space-x-1.5">
-                  <span className="px-2 py-0.5 text-[11px] rounded-full bg-blue-100 text-blue-800 font-medium">
+                  <span className="px-2 py-0.5 text-[10px] font-bold tracking-wide rounded bg-blue-100 text-blue-800">
                     QP
                   </span>
                   {paper.markschemeUrl ? (
-                    <span className="px-2 py-0.5 text-[11px] rounded-full bg-emerald-100 text-emerald-800 font-medium flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span className="px-2 py-0.5 text-[10px] font-bold tracking-wide rounded bg-emerald-100 text-emerald-800 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
                       MS Included
                     </span>
                   ) : (
-                    <span className="px-2 py-0.5 text-[11px] rounded-full bg-gray-100 text-gray-500">
+                    <span className="px-2 py-0.5 text-[10px] font-medium rounded bg-gray-100 text-gray-500">
                       QP Only
                     </span>
                   )}

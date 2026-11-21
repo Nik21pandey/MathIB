@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
 import FilterBar from '../components/FilterBar';
 import PaperList from '../components/PaperList';
 import PDFViewer from '../components/PDFViewer';
 import { getAllFilterTypes, mapFiltersForFrontend } from '../utils/filtersApi';
-import { getAllPapers, getPaperById, downloadPaper, type Paper as ApiPaper, type PaperDetail } from '../utils/papersApi';
+import { getAllPapers, downloadPaper, type Paper as ApiPaper } from '../utils/papersApi';
 import { toggleFavorite, checkMultipleFavorites } from '../utils/favoritesApi';
 import officialPapersData from '../data/official_papers.json';
 
@@ -57,6 +56,10 @@ const OFFICIAL_PAPERS: Paper[] = (officialPapersData as OfficialPaperItem[]).map
   markschemeUrl: p.markschemeUrl,
 }));
 
+interface FilterState extends Record<string, string> {
+  [key: string]: string;
+}
+
 const filterOfficialPapers = (all: Paper[], filters: FilterState, query: string): Paper[] => {
   return all.filter(p => {
     if (query) {
@@ -80,10 +83,6 @@ const filterOfficialPapers = (all: Paper[], filters: FilterState, query: string)
   });
 };
 
-interface FilterState extends Record<string, string> {
-  [key: string]: string;
-}
-
 interface FilterOption {
   value: string;
   label: string;
@@ -104,13 +103,12 @@ const PastPapers: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('year_desc');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [showMobileFilters, setShowMobileFilters] = useState<boolean>(false);
   const [filters, setFilters] = useState<FilterState>({});
   const [filterConfigs, setFilterConfigs] = useState<FilterConfig[]>([]);
   const [loadingFilters, setLoadingFilters] = useState<boolean>(true);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [totalCount, setTotalCount] = useState<number>(0);
 
   // Convert API paper to frontend Paper format
   const mapApiPaperToFrontend = (apiPaper: ApiPaper): Paper => {
@@ -150,7 +148,6 @@ const PastPapers: React.FC = () => {
         const configs = mapFiltersForFrontend(filterTypes);
         setFilterConfigs(configs);
         
-        // Initialize filter state with empty values
         const initialFilters: FilterState = {};
         configs.forEach(config => {
           initialFilters[config.key] = '';
@@ -166,9 +163,6 @@ const PastPapers: React.FC = () => {
     loadFilters();
   }, []);
 
-  // Filter configurations for the filter bar
-  // Removed hardcoded filterConfigs - now loaded from backend
-
   useEffect(() => {
     loadPapers();
   }, [filters]);
@@ -176,15 +170,13 @@ const PastPapers: React.FC = () => {
   const loadPapers = async (): Promise<void> => {
     setLoading(true);
     try {
-      // Build filter slugs from selected filter values
       const filterSlugs: string[] = [];
       Object.entries(filters).forEach(([, value]) => {
         if (value) {
-          filterSlugs.push(value); // value is the slug
+          filterSlugs.push(value);
         }
       });
       
-      // Get URL params for category
       const urlParams = new URLSearchParams(window.location.search);
       const categorySlug = urlParams.get('category') || undefined;
       
@@ -193,14 +185,13 @@ const PastPapers: React.FC = () => {
         filter: filterSlugs.length > 0 ? filterSlugs : undefined,
         search: searchQuery || undefined,
         page: 1,
-        page_size: 50,
+        page_size: 150,
       });
       
       let loadedPapers: Paper[] = [];
       if (response.success && response.data && response.data.length > 0) {
         const mappedPapers = response.data.map(mapApiPaperToFrontend);
         
-        // Check favorite status for all papers
         const paperIds = mappedPapers.map(p => p.id);
         try {
           const favoriteMap = await checkMultipleFavorites(paperIds);
@@ -212,23 +203,23 @@ const PastPapers: React.FC = () => {
           console.error('Error loading favorite status:', error);
           loadedPapers = mappedPapers;
         }
-        setTotalCount(response.count);
-        setTotalPages(response.total_pages);
       } else {
-        // Fallback to verified official library stored in Google Cloud Storage
         loadedPapers = filterOfficialPapers(OFFICIAL_PAPERS, filters, searchQuery);
-        setTotalCount(loadedPapers.length);
-        setTotalPages(Math.ceil(loadedPapers.length / 50) || 1);
       }
+
       setPapers(loadedPapers);
-      setSelectedPaper(loadedPapers.length > 0 ? (prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]) : null);
+
+      // On desktop, auto-select first paper if none selected
+      if (window.innerWidth >= 1024 && loadedPapers.length > 0) {
+        setSelectedPaper(prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]);
+      }
     } catch (error) {
       console.error('Error loading papers from API, using official GCS library:', error);
       const loadedPapers = filterOfficialPapers(OFFICIAL_PAPERS, filters, searchQuery);
       setPapers(loadedPapers);
-      setSelectedPaper(loadedPapers.length > 0 ? (prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]) : null);
-      setTotalCount(loadedPapers.length);
-      setTotalPages(Math.ceil(loadedPapers.length / 50) || 1);
+      if (window.innerWidth >= 1024 && loadedPapers.length > 0) {
+        setSelectedPaper(prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]);
+      }
     }
     setLoading(false);
   };
@@ -253,11 +244,9 @@ const PastPapers: React.FC = () => {
   const handleToggleFavorite = async (paperId: number): Promise<void> => {
     try {
       const result = await toggleFavorite(paperId);
-      // Update local state to reflect the change
       setPapers(prev => prev.map(p => 
         p.id === paperId ? { ...p, isFavorite: result.is_favorited } : p
       ));
-      // Update selected paper if it's the one being toggled
       if (selectedPaper && selectedPaper.id === paperId) {
         setSelectedPaper({ ...selectedPaper, isFavorite: result.is_favorited });
       }
@@ -272,8 +261,11 @@ const PastPapers: React.FC = () => {
         window.open(paper.markschemeUrl, '_blank');
         return;
       }
+      if (paper.pdfUrl) {
+        window.open(paper.pdfUrl, '_blank');
+        return;
+      }
       await downloadPaper(paper.id);
-      console.log('Paper download initiated:', paper.title);
     } catch (error) {
       console.error('Error downloading paper:', error);
       const fallback = type === 'markscheme' ? paper.markschemeUrl : paper.pdfUrl;
@@ -282,29 +274,52 @@ const PastPapers: React.FC = () => {
   };
 
   const handlePrint = (): void => {
-    console.log('Printing PDF');
-    // Implement print logic
+    window.print();
   };
 
   const handleShare = (): void => {
-    console.log('Sharing PDF');
-    // Implement share logic
+    if (navigator.share && selectedPaper) {
+      navigator.share({
+        title: selectedPaper.title,
+        url: window.location.href,
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Paper link copied to clipboard!');
+    }
   };
 
   const handleSearch = (query: string): void => {
     setSearchQuery(query);
-    // Implement search logic
   };
 
+  // Sort papers based on current sortBy state
+  const sortedPapers = useMemo(() => {
+    const list = [...papers];
+    if (sortBy === 'year_desc') {
+      return list.sort((a, b) => b.year - a.year || b.title.localeCompare(a.title));
+    }
+    if (sortBy === 'year_asc') {
+      return list.sort((a, b) => a.year - b.year || a.title.localeCompare(b.title));
+    }
+    if (sortBy === 'title_asc') {
+      return list.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    if (sortBy === 'title_desc') {
+      return list.sort((a, b) => b.title.localeCompare(a.title));
+    }
+    return list;
+  }, [papers, sortBy]);
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Filter Bar - Hidden on mobile, shown on tablet+ */}
-      <div className="hidden md:block">
+    <div className="h-[calc(100vh-64px)] flex flex-col bg-gray-50 overflow-hidden">
+      {/* Filter Bar */}
+      <div className="hidden md:block flex-shrink-0">
         {loadingFilters ? (
-          <div className="bg-white border-b border-gray-200 p-4">
+          <div className="bg-white border-b border-gray-200 p-3">
             <div className="flex items-center justify-center space-x-2">
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-              <span className="text-gray-600">Loading filters...</span>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+              <span className="text-xs text-gray-600">Loading filters...</span>
             </div>
           </div>
         ) : (
@@ -320,27 +335,26 @@ const PastPapers: React.FC = () => {
       </div>
 
       {/* Mobile Filter Toggle */}
-      <div className="md:hidden bg-white border-b border-gray-200 p-4">
+      <div className="md:hidden bg-white border-b border-gray-200 p-3 flex-shrink-0">
         <button
           onClick={() => setShowMobileFilters(!showMobileFilters)}
-          className="w-full flex items-center justify-between px-4 py-2 bg-blue-50 text-blue-700 rounded-lg border border-blue-200"
+          className="w-full flex items-center justify-between px-3 py-2 bg-blue-50 text-blue-700 rounded-lg border border-blue-200 text-xs font-semibold"
         >
-          <span className="font-medium">Filters</span>
-          <svg className={`w-5 h-5 transition-transform ${showMobileFilters ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span>Search & Filter Papers</span>
+          <svg className={`w-4 h-4 transition-transform ${showMobileFilters ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </button>
         
-        {/* Mobile Filter Panel */}
         {showMobileFilters && !loadingFilters && (
-          <div className="mt-4 space-y-3">
+          <div className="mt-3 space-y-2">
             <div className="grid grid-cols-2 gap-2">
               {filterConfigs.map((config) => (
                 <select
                   key={config.key}
                   value={filters[config.key] || ''}
                   onChange={(e) => handleFilterChange(config.key, e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-2 py-1.5 border border-gray-300 rounded text-xs focus:ring-1 focus:ring-blue-500"
                 >
                   <option value="">{config.placeholder}</option>
                   {config.options.map((option) => (
@@ -354,73 +368,83 @@ const PastPapers: React.FC = () => {
             <div className="flex items-center space-x-2">
               <input
                 type="text"
-                placeholder="Search papers..."
+                placeholder="Search by code or title..."
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="flex-1 px-3 py-1.5 border border-gray-300 rounded text-xs focus:ring-1 focus:ring-blue-500"
               />
               <button
                 onClick={clearFilters}
-                className="px-4 py-2 text-blue-600 bg-blue-50 rounded-lg text-sm font-medium border border-blue-200"
+                className="px-3 py-1.5 text-blue-600 bg-blue-50 rounded text-xs font-semibold border border-blue-200"
               >
                 Clear
               </button>
             </div>
           </div>
         )}
-        
-        {showMobileFilters && loadingFilters && (
-          <div className="mt-4 flex items-center justify-center py-4">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
-            <span className="ml-2 text-gray-600">Loading filters...</span>
-          </div>
-        )}
       </div>
 
-      {/* Main Content - Papers and PDF Viewer */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        {/* Paper List */}
-        <div className="flex-1 lg:max-w-md">
+      {/* Main Content - Independent Split Panes */}
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden min-h-0">
+        {/* Paper List Column */}
+        <div className={`flex-1 lg:max-w-md lg:border-r lg:border-gray-200 bg-white flex flex-col min-h-0 ${selectedPaper ? 'hidden lg:flex' : 'flex'}`}>
           <PaperList
-            papers={papers}
+            papers={sortedPapers}
             loading={loading}
             selectedPaper={selectedPaper}
             onPaperSelect={handlePaperSelect}
             onToggleFavorite={handleToggleFavorite}
             onDownload={handleDownload}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
           />
         </div>
 
-        {/* PDF Viewer - Hidden on mobile unless paper selected */}
-        <div className={`lg:flex-1 lg:min-w-[400px] ${selectedPaper ? 'block' : 'hidden lg:block'}`}>
-          {selectedPaper && (
-            <div className="lg:hidden bg-white border-b border-gray-200 p-4">
-              <button
-                onClick={() => setSelectedPaper(null)}
-                className="flex items-center text-blue-600 font-medium"
-              >
-                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Back to Papers
-              </button>
+        {/* PDF Viewer Column */}
+        <div className={`flex-1 h-full min-h-0 flex flex-col ${selectedPaper ? 'flex' : 'hidden lg:flex'}`}>
+          {selectedPaper ? (
+            <>
+              {/* Mobile Back Button Bar */}
+              <div className="lg:hidden bg-gray-950 border-b border-gray-800 px-3 py-2 flex items-center justify-between flex-shrink-0">
+                <button
+                  onClick={() => setSelectedPaper(null)}
+                  className="flex items-center text-blue-400 hover:text-white font-semibold text-xs px-2.5 py-1 rounded bg-gray-900 border border-gray-700 transition"
+                >
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Back to Papers
+                </button>
+                <span className="text-xs text-gray-300 font-mono truncate max-w-[200px]">
+                  {selectedPaper.title || `${selectedPaper.paperNumber} (${selectedPaper.year})`}
+                </span>
+              </div>
+
+              <PDFViewer
+                pdfUrl={selectedPaper.pdfUrl}
+                markschemeUrl={selectedPaper.markschemeUrl}
+                paperTitle={selectedPaper.title || `${selectedPaper.curriculum} · ${selectedPaper.paperNumber} (${selectedPaper.season} ${selectedPaper.year})`}
+                curriculum={selectedPaper.curriculum}
+                paperNumber={selectedPaper.paperNumber}
+                season={selectedPaper.season}
+                year={selectedPaper.year}
+                currentPage={currentPage}
+                totalPages={selectedPaper.totalPages || 20}
+                onPageChange={setCurrentPage}
+                onDownload={(type) => handleDownload(selectedPaper, type)}
+                onPrint={handlePrint}
+                onShare={handleShare}
+              />
+            </>
+          ) : (
+            <div className="hidden lg:flex flex-1 items-center justify-center bg-gray-950 text-gray-400">
+              <div className="text-center p-8 max-w-sm">
+                <div className="text-5xl mb-3">📄</div>
+                <h3 className="text-base font-semibold text-white mb-1">Select an Exam Paper</h3>
+                <p className="text-xs text-gray-400">Choose any official question paper from the list on the left to preview the authentic booklet and mark scheme.</p>
+              </div>
             </div>
           )}
-          <PDFViewer
-            pdfUrl={selectedPaper?.pdfUrl}
-            markschemeUrl={selectedPaper?.markschemeUrl}
-            paperTitle={selectedPaper ? `${selectedPaper.curriculum} · ${selectedPaper.paperNumber} (${selectedPaper.season} ${selectedPaper.year})` : undefined}
-            curriculum={selectedPaper?.curriculum}
-            paperNumber={selectedPaper?.paperNumber}
-            season={selectedPaper?.season}
-            year={selectedPaper?.year}
-            currentPage={currentPage}
-            totalPages={selectedPaper?.totalPages || 20}
-            onPageChange={setCurrentPage}
-            onDownload={(type) => selectedPaper && handleDownload(selectedPaper, type)}
-            onPrint={handlePrint}
-            onShare={handleShare}
-          />
         </div>
       </div>
     </div>

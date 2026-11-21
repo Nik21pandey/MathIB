@@ -7,9 +7,9 @@ import {
   ShareIcon,
   MagnifyingGlassMinusIcon,
   MagnifyingGlassPlusIcon,
-  ArrowsPointingOutIcon
+  ArrowsPointingOutIcon,
+  ArrowTopRightOnSquareIcon
 } from '@heroicons/react/24/outline';
-import { ExamStudio } from './ExamStudio';
 
 interface PDFViewerProps {
   pdfUrl?: string;
@@ -33,7 +33,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   pdfUrl,
   markschemeUrl,
   paperTitle = "Select a paper to view",
-  curriculum = "Cambridge IGCSE / IB DP / Edexcel",
+  curriculum = "Cambridge IGCSE",
   paperNumber = "Paper 1",
   season = "May/June",
   year = 2024,
@@ -45,20 +45,15 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   onShare,
   onFullscreen
 }) => {
-  const [viewType, setViewType] = useState<'studio' | 'pdf'>('pdf');
   const [activeTab, setActiveTab] = useState<'question' | 'markscheme'>('question');
-  const [zoom, setZoom] = useState(78);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [zoom, setZoom] = useState(100);
 
   // Determine active document URL
   const currentUrl = activeTab === 'markscheme' && markschemeUrl ? markschemeUrl : pdfUrl;
 
-  // Minimum swipe distance (in px)
-  const minSwipeDistance = 50;
-
-  const handleZoomIn = () => setZoom(prev => Math.min(prev + 25, 200));
-  const handleZoomOut = () => setZoom(prev => Math.max(prev - 25, 25));
+  const handleZoomIn = () => setZoom(prev => Math.min(prev + 20, 200));
+  const handleZoomOut = () => setZoom(prev => Math.max(prev - 20, 60));
+  const handleZoomReset = () => setZoom(100);
 
   const handleDownloadClick = () => {
     if (onDownload) {
@@ -80,116 +75,42 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
     }
   };
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe) {
-      handleNextPage();
-    }
-    if (isRightSwipe) {
-      handlePreviousPage();
-    }
-  };
-
   return (
-    <div className="flex flex-col h-full bg-gray-900 text-white">
-      {/* Top Main Mode Switcher: Interactive Studio vs PDF Booklet */}
-      <div className="bg-gray-950 px-3 py-2 border-b border-gray-800 flex items-center justify-between flex-shrink-0">
-        <div className="flex items-center space-x-1.5 bg-gray-900 p-1 rounded-lg border border-gray-800">
-          <button
-            onClick={() => setViewType('studio')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition ${
-              viewType === 'studio'
-                ? 'bg-blue-600 text-white shadow'
-                : 'text-gray-400 hover:text-white hover:bg-gray-800'
-            }`}
-          >
-            <span>⚡ Interactive Studio (Split-View)</span>
-            <span className="hidden sm:inline-block text-[10px] bg-blue-500/30 text-blue-200 px-1.5 py-0.5 rounded font-mono">Exam-Mate / Revision Village</span>
-          </button>
-          <button
-            onClick={() => setViewType('pdf')}
-            className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition ${
-              viewType === 'pdf'
-                ? 'bg-emerald-600 text-white shadow'
-                : 'text-gray-400 hover:text-white hover:bg-gray-800'
-            }`}
-          >
-            <span>📄 Official PDF Booklet</span>
-            <span className="hidden sm:inline-block text-[10px] bg-emerald-500/30 text-emerald-200 px-1.5 py-0.5 rounded font-mono">iLovePDF Vector</span>
-          </button>
-        </div>
-
-        <div className="hidden sm:flex items-center gap-2">
-          {onDownload && (
-            <button
-              onClick={() => onDownload(activeTab)}
-              className="text-xs text-gray-300 hover:text-white bg-gray-800 hover:bg-gray-700 px-2.5 py-1.5 rounded-md border border-gray-700 flex items-center gap-1"
-            >
-              <ArrowDownTrayIcon className="w-3.5 h-3.5" />
-              Download
-            </button>
-          )}
-        </div>
-      </div>
-
-      {viewType === 'studio' ? (
-        <div className="flex-1 overflow-auto bg-slate-900">
-          <ExamStudio
-            paperTitle={paperTitle}
-            curriculum={curriculum}
-            paperNumber={paperNumber}
-            season={season}
-            year={year}
-            pdfUrl={pdfUrl}
-            markschemeUrl={markschemeUrl}
-            onDownloadQP={() => onDownload && onDownload('question')}
-            onDownloadMS={() => onDownload && onDownload('markscheme')}
-          />
-        </div>
-      ) : (
-        <>
+    <div className="flex flex-col h-full bg-gray-900 text-white select-none">
       {/* Top Toolbar */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between px-3 lg:px-4 py-2 bg-gray-800 border-b border-gray-700 space-y-2 lg:space-y-0">
-        <div className="flex items-center space-x-2 lg:space-x-4">
-          <div className="flex items-center space-x-2">
-            <span className="text-xs lg:text-sm font-medium truncate max-w-[200px] lg:max-w-xs">{paperTitle}</span>
+      <div className="px-3 lg:px-4 py-2.5 bg-gray-950 border-b border-gray-800 flex flex-wrap items-center justify-between gap-2 flex-shrink-0">
+        <div className="flex items-center space-x-2 lg:space-x-4 min-w-0">
+          {/* Document Title */}
+          <div className="min-w-0">
+            <h2 className="text-xs lg:text-sm font-semibold text-white truncate max-w-[200px] sm:max-w-xs lg:max-w-md" title={paperTitle}>
+              {paperTitle}
+            </h2>
+            <div className="text-[11px] text-gray-400 truncate hidden sm:block">
+              {curriculum} • {paperNumber} • {season} {year}
+            </div>
           </div>
 
           {/* Question vs Mark Scheme Switcher */}
-          <div className="flex items-center bg-gray-900 rounded-lg p-0.5 border border-gray-700 shadow-inner">
+          <div className="flex items-center bg-gray-900 rounded-lg p-0.5 border border-gray-800 shadow-inner flex-shrink-0">
             <button
               onClick={() => setActiveTab('question')}
-              className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors flex items-center gap-1.5 ${
                 activeTab === 'question'
                   ? 'bg-blue-600 text-white shadow'
                   : 'text-gray-300 hover:text-white hover:bg-gray-800'
               }`}
             >
-              📄 Question Paper
+              <span>📄 Question Paper</span>
             </button>
             <button
               onClick={() => markschemeUrl && setActiveTab('markscheme')}
               disabled={!markschemeUrl}
-              className={`px-2.5 py-1 text-xs font-semibold rounded-md transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors flex items-center gap-1.5 ${
                 activeTab === 'markscheme'
                   ? 'bg-emerald-600 text-white shadow'
                   : markschemeUrl
                   ? 'text-gray-300 hover:text-white hover:bg-gray-800'
-                  : 'text-gray-500 cursor-not-allowed opacity-60'
+                  : 'text-gray-600 cursor-not-allowed opacity-50'
               }`}
               title={markschemeUrl ? "Switch to Official Mark Scheme" : "Mark scheme not available for this paper"}
             >
@@ -201,162 +122,136 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-between lg:justify-end space-x-2 lg:space-x-4">
-          {/* Page Navigation */}
-          <div className="flex items-center space-x-1 lg:space-x-2">
+        {/* Action Controls */}
+        <div className="flex items-center space-x-1.5 lg:space-x-3 flex-shrink-0">
+          {/* Page Jump */}
+          <div className="flex items-center space-x-1 text-xs bg-gray-900 border border-gray-800 rounded-lg px-2 py-1">
             <button
               onClick={handlePreviousPage}
               disabled={currentPage <= 1}
-              className="p-1 lg:p-1 rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Previous"
+              className="p-1 rounded hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
+              title="Previous Page"
             >
-              <ChevronLeftIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+              <ChevronLeftIcon className="h-3.5 w-3.5" />
             </button>
-            
-            <div className="flex items-center space-x-1 text-xs lg:text-sm">
-              <input
-                type="number"
-                value={currentPage}
-                onChange={(e) => onPageChange?.(parseInt(e.target.value) || 1)}
-                className="w-8 lg:w-12 px-1 py-1 text-center bg-gray-700 border border-gray-600 rounded text-white text-xs"
-                min="1"
-                max={totalPages}
-              />
-              <span>/ {totalPages}</span>
-            </div>
-            
+            <span className="font-mono text-gray-300">
+              Page {currentPage} of {totalPages}
+            </span>
             <button
               onClick={handleNextPage}
               disabled={currentPage >= totalPages}
-              className="p-1 lg:p-1 rounded hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Next"
+              className="p-1 rounded hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
+              title="Next Page"
             >
-              <ChevronRightIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+              <ChevronRightIcon className="h-3.5 w-3.5" />
             </button>
           </div>
 
-          {/* Zoom Controls - Hidden on mobile */}
-          <div className="hidden lg:flex items-center space-x-1">
+          {/* Zoom Controls */}
+          <div className="hidden sm:flex items-center space-x-1 bg-gray-900 border border-gray-800 rounded-lg px-1.5 py-0.5 text-xs">
             <button
               onClick={handleZoomOut}
-              className="p-1 rounded hover:bg-gray-700"
+              className="p-1 rounded hover:bg-gray-800 text-gray-300"
               title="Zoom Out"
             >
-              <MagnifyingGlassMinusIcon className="h-5 w-5" />
+              <MagnifyingGlassMinusIcon className="h-3.5 w-3.5" />
             </button>
-            <span className="text-sm w-12 text-center">{zoom}%</span>
+            <button
+              onClick={handleZoomReset}
+              className="px-1.5 text-gray-300 font-mono hover:text-white"
+              title="Reset Zoom"
+            >
+              {zoom}%
+            </button>
             <button
               onClick={handleZoomIn}
-              className="p-1 rounded hover:bg-gray-700"
+              className="p-1 rounded hover:bg-gray-800 text-gray-300"
               title="Zoom In"
             >
-              <MagnifyingGlassPlusIcon className="h-5 w-5" />
+              <MagnifyingGlassPlusIcon className="h-3.5 w-3.5" />
             </button>
           </div>
 
-          {/* Mobile Action Buttons - Simplified */}
-          <div className="flex items-center space-x-1 lg:hidden">
-            <button
-              onClick={handleDownloadClick}
-              className="p-2 rounded hover:bg-gray-700 bg-blue-600"
-              title="Download"
+          {/* Direct Cloud Links & Downloads */}
+          {currentUrl && (
+            <a
+              href={currentUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:flex items-center gap-1 text-xs text-blue-300 hover:text-white bg-blue-950/80 hover:bg-blue-900 px-2.5 py-1.5 rounded-lg border border-blue-500/30 transition"
+              title="Open full vector PDF in a new tab"
             >
-              <ArrowDownTrayIcon className="h-4 w-4" />
-            </button>
-            <button
-              onClick={onShare}
-              className="p-2 rounded hover:bg-gray-700"
-              title="Share"
-            >
-              <ShareIcon className="h-4 w-4" />
-            </button>
-          </div>
+              <ArrowTopRightOnSquareIcon className="h-3.5 w-3.5" />
+              <span>Full PDF</span>
+            </a>
+          )}
 
-          {/* Desktop Action Buttons */}
-          <div className="hidden lg:flex items-center space-x-1 border-l border-gray-700 pl-2">
-            <button
-              onClick={onShare}
-              className="p-1 rounded hover:bg-gray-700"
-              title="Share"
-            >
-              <ShareIcon className="h-5 w-5" />
-            </button>
-            <button
-              onClick={handleDownloadClick}
-              className="p-1 rounded hover:bg-gray-700 text-blue-400 hover:text-blue-300"
-              title={`Download ${activeTab === 'markscheme' ? 'Mark Scheme' : 'Question Paper'}`}
-            >
-              <ArrowDownTrayIcon className="h-5 w-5" />
-            </button>
-            <button
-              onClick={onPrint}
-              className="p-1 rounded hover:bg-gray-700"
-              title="Print"
-            >
-              <PrinterIcon className="h-5 w-5" />
-            </button>
-            <button
-              onClick={onFullscreen}
-              className="p-1 rounded hover:bg-gray-700"
-              title="Fullscreen"
-            >
-              <ArrowsPointingOutIcon className="h-5 w-5" />
-            </button>
-          </div>
+          <button
+            onClick={handleDownloadClick}
+            className="flex items-center gap-1 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 px-3 py-1.5 rounded-lg shadow transition"
+            title={`Download ${activeTab === 'markscheme' ? 'Mark Scheme' : 'Question Paper'}`}
+          >
+            <ArrowDownTrayIcon className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Download</span>
+          </button>
         </div>
       </div>
 
       {/* PDF Content Area */}
-      <div 
-        className="flex-1 bg-gray-600 overflow-auto"
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
+      <div className="flex-1 bg-gray-950/90 overflow-auto p-1 lg:p-3 flex justify-center items-stretch min-h-0">
         {currentUrl ? (
-          <div className="flex justify-center p-2 lg:p-4 h-full">
-            <div 
-              className="bg-white shadow-2xl rounded-lg overflow-hidden w-full max-w-full lg:max-w-4xl h-full flex flex-col"
-              style={{ 
-                width: `min(100%, ${zoom}%)`,
-              }}
-            >
-              <div className="bg-gray-800 text-gray-200 text-xs px-3 py-1 flex items-center justify-between border-b border-gray-700">
-                <span className="font-semibold flex items-center gap-1.5">
-                  <span className={`w-2 h-2 rounded-full ${activeTab === 'markscheme' ? 'bg-emerald-400' : 'bg-blue-400'}`} />
-                  {activeTab === 'markscheme' ? 'Official Mark Scheme & Grading Criteria' : 'Official Question Paper'}
+          <div 
+            className="w-full h-full flex flex-col bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-800"
+            style={{ 
+              maxWidth: zoom > 100 ? `${zoom}%` : '100%',
+              transition: 'max-width 0.15s ease-out'
+            }}
+          >
+            {/* Top Sub-Bar with live doc badge */}
+            <div className="bg-gray-900 text-gray-300 text-xs px-3 py-1.5 flex items-center justify-between border-b border-gray-800 select-none">
+              <div className="flex items-center space-x-2">
+                <span className={`w-2 h-2 rounded-full ${activeTab === 'markscheme' ? 'bg-emerald-400' : 'bg-blue-400'}`} />
+                <span className="font-semibold text-white">
+                  {activeTab === 'markscheme' ? 'Official Mark Scheme' : 'Official Examination Paper'}
                 </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-400 hidden sm:inline">{activeTab === 'markscheme' ? 'Answers & Method Marks' : 'Exam Questions'}</span>
-                  {currentUrl && (
-                    <a
-                      href={currentUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[11px] text-blue-300 hover:text-white bg-blue-900/60 hover:bg-blue-800 px-2 py-0.5 rounded border border-blue-500/30 flex items-center gap-1 transition"
-                      title="Open PDF directly in full window"
-                    >
-                      <span>↗ Open PDF</span>
-                    </a>
-                  )}
-                </div>
+                <span className="text-[11px] text-gray-400 font-mono hidden sm:inline">
+                  (Google Cloud Storage CDN)
+                </span>
               </div>
-              {/* PDF Embed */}
+              <div className="flex items-center space-x-2">
+                <a
+                  href={currentUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] text-blue-400 hover:text-blue-300 underline font-mono flex items-center gap-1"
+                >
+                  Direct GCS Link ↗
+                </a>
+              </div>
+            </div>
+
+            {/* Embed / Object Viewer with iframe fallback */}
+            <object
+              data={`${currentUrl}#page=${currentPage}&toolbar=1&navpanes=0`}
+              type="application/pdf"
+              className="w-full flex-1 border-0"
+              style={{ minHeight: '600px', height: '100%' }}
+            >
               <iframe
                 src={currentUrl}
-                className="w-full flex-1"
+                className="w-full flex-1 border-0"
                 title={`${paperTitle} - ${activeTab}`}
-                style={{ minHeight: '650px', height: '100%' }}
+                style={{ minHeight: '600px', height: '100%' }}
               />
-            </div>
+            </object>
           </div>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-400">
-            <div className="text-center p-6 bg-gray-800/80 rounded-xl border border-gray-700 max-w-md">
+            <div className="text-center p-8 bg-gray-900 rounded-xl border border-gray-800 max-w-md">
               <div className="text-6xl mb-4">📄</div>
-              <p className="text-lg font-semibold text-white">
-                {activeTab === 'markscheme' ? 'Mark Scheme Not Attached' : 'Select a paper from the list to view'}
-              </p>
+              <h3 className="text-lg font-semibold text-white">
+                {activeTab === 'markscheme' ? 'Mark Scheme Not Attached' : 'Select an Exam Paper'}
+              </h3>
               <p className="text-sm mt-2 text-gray-400">
                 {activeTab === 'markscheme'
                   ? 'The official mark scheme has not yet been paired for this session.'
@@ -365,7 +260,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               {activeTab === 'markscheme' && pdfUrl && (
                 <button
                   onClick={() => setActiveTab('question')}
-                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-500 transition"
+                  className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-500 transition"
                 >
                   Return to Question Paper
                 </button>
@@ -375,64 +270,64 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
         )}
       </div>
 
-      {/* Bottom Action Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between px-3 lg:px-4 py-2 bg-gray-800 border-t border-gray-700 space-y-2 lg:space-y-0">
-        <div className="flex items-center justify-center lg:justify-start space-x-2 text-sm">
+      {/* Bottom Status / Tab Bar */}
+      <div className="px-3 lg:px-4 py-2 bg-gray-950 border-t border-gray-800 flex items-center justify-between text-xs text-gray-400 flex-shrink-0">
+        <div className="flex items-center space-x-2">
           <button
             onClick={() => setActiveTab('question')}
-            className={`flex items-center space-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold transition ${
+            className={`px-2.5 py-1 rounded font-medium transition ${
               activeTab === 'question'
-                ? 'bg-blue-600 text-white shadow'
-                : 'text-gray-300 hover:text-white hover:bg-gray-700'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800'
             }`}
           >
-            <span>Question Paper</span>
+            Question Paper
           </button>
           <button
             onClick={() => markschemeUrl && setActiveTab('markscheme')}
             disabled={!markschemeUrl}
-            className={`flex items-center space-x-1.5 py-1 px-3 rounded-lg text-xs font-semibold transition ${
+            className={`px-2.5 py-1 rounded font-medium transition ${
               activeTab === 'markscheme'
-                ? 'bg-emerald-600 text-white shadow'
+                ? 'bg-emerald-600 text-white'
                 : markschemeUrl
-                ? 'text-gray-300 hover:text-white hover:bg-gray-700'
-                : 'text-gray-500 cursor-not-allowed opacity-50'
+                ? 'text-gray-400 hover:text-white hover:bg-gray-800'
+                : 'text-gray-600 cursor-not-allowed opacity-50'
             }`}
           >
-            <span>Mark Scheme</span>
-            {markschemeUrl ? (
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded-full font-mono">Available</span>
-            ) : (
-              <span className="text-[10px] bg-gray-700 text-gray-400 px-1.5 py-0.5 rounded-full font-mono">N/A</span>
-            )}
+            Mark Scheme {markschemeUrl ? '✓' : '(Not Available)'}
           </button>
         </div>
-        
-        {/* Mobile zoom controls */}
-        <div className="flex lg:hidden items-center justify-center space-x-4">
-          <button
-            onClick={handleZoomOut}
-            className="p-2 rounded hover:bg-gray-700 bg-gray-700"
-            title="Zoom Out"
-          >
-            <MagnifyingGlassMinusIcon className="h-4 w-4" />
-          </button>
-          <span className="text-sm w-12 text-center">{zoom}%</span>
-          <button
-            onClick={handleZoomIn}
-            className="p-2 rounded hover:bg-gray-700 bg-gray-700"
-            title="Zoom In"
-          >
-            <MagnifyingGlassPlusIcon className="h-4 w-4" />
-          </button>
-        </div>
-        
-        <div className="text-xs text-gray-400 text-center lg:text-right">
-          Download PDF
+
+        <div className="flex items-center space-x-3">
+          {onShare && (
+            <button
+              onClick={onShare}
+              className="p-1 rounded hover:bg-gray-800 text-gray-400 hover:text-white"
+              title="Share Paper"
+            >
+              <ShareIcon className="h-4 w-4" />
+            </button>
+          )}
+          {onPrint && (
+            <button
+              onClick={onPrint}
+              className="p-1 rounded hover:bg-gray-800 text-gray-400 hover:text-white"
+              title="Print Document"
+            >
+              <PrinterIcon className="h-4 w-4" />
+            </button>
+          )}
+          {onFullscreen && (
+            <button
+              onClick={onFullscreen}
+              className="p-1 rounded hover:bg-gray-800 text-gray-400 hover:text-white"
+              title="Fullscreen Mode"
+            >
+              <ArrowsPointingOutIcon className="h-4 w-4" />
+            </button>
+          )}
         </div>
       </div>
-        </>
-      )}
     </div>
   );
 };
