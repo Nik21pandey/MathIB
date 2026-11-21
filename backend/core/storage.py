@@ -61,7 +61,8 @@ class GoogleCloudMediaStorage(GoogleCloudStorage):
     """
     location = 'media'
     file_overwrite = False
-    default_acl = getattr(settings, 'GS_DEFAULT_ACL', 'publicRead')
+    default_acl = None
+    querystring_auth = False
 
     def __init__(self, *args, **kwargs):
         creds = get_gcs_credentials()

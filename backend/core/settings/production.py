@@ -47,7 +47,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Storage configuration (Supports Google Cloud Storage or FileSystem)
 GS_BUCKET_NAME = config('GS_BUCKET_NAME', default='')
 GS_PROJECT_ID = config('GS_PROJECT_ID', default='')
-GS_DEFAULT_ACL = config('GS_DEFAULT_ACL', default='publicRead')
+GS_DEFAULT_ACL = config('GS_DEFAULT_ACL', default=None)
 GS_QUERYSTRING_AUTH = config('GS_QUERYSTRING_AUTH', default=False, cast=bool)
 
 if GS_BUCKET_NAME:

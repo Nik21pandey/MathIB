@@ -6,6 +6,7 @@ import PDFViewer from '../components/PDFViewer';
 import { getAllFilterTypes, mapFiltersForFrontend } from '../utils/filtersApi';
 import { getAllPapers, getPaperById, downloadPaper, type Paper as ApiPaper, type PaperDetail } from '../utils/papersApi';
 import { toggleFavorite, checkMultipleFavorites } from '../utils/favoritesApi';
+import officialPapersData from '../data/official_papers.json';
 
 // TypeScript interfaces
 interface Paper {
@@ -24,6 +25,60 @@ interface Paper {
   pdfUrl?: string;
   markschemeUrl?: string;
 }
+
+interface OfficialPaperItem {
+  id: number;
+  title: string;
+  curriculum: string;
+  subject?: string;
+  paperNumber: string;
+  year: number;
+  season: string;
+  zone?: string;
+  totalPages?: number;
+  pdfUrl?: string;
+  markschemeUrl?: string;
+  thumbnailUrl?: string;
+}
+
+const OFFICIAL_PAPERS: Paper[] = (officialPapersData as OfficialPaperItem[]).map((p, idx) => ({
+  id: p.id || 1000 + idx,
+  title: p.title,
+  curriculum: p.curriculum,
+  subject: p.subject || 'Mathematics',
+  paperNumber: p.paperNumber,
+  year: p.year,
+  season: p.season,
+  zone: p.zone,
+  type: 'question' as const,
+  isFavorite: false,
+  totalPages: p.totalPages || 16,
+  pdfUrl: p.pdfUrl,
+  markschemeUrl: p.markschemeUrl,
+}));
+
+const filterOfficialPapers = (all: Paper[], filters: FilterState, query: string): Paper[] => {
+  return all.filter(p => {
+    if (query) {
+      const q = query.toLowerCase();
+      if (!p.title.toLowerCase().includes(q) && !p.curriculum.toLowerCase().includes(q)) return false;
+    }
+    for (const [key, val] of Object.entries(filters)) {
+      if (!val) continue;
+      const v = val.toLowerCase();
+      if (key === 'curriculum') {
+        if (!p.curriculum.toLowerCase().includes(v) && !p.title.toLowerCase().includes(v)) return false;
+      } else if (key === 'year') {
+        if (String(p.year) !== val) return false;
+      } else if (key === 'season') {
+        if (!p.season.toLowerCase().includes(v)) return false;
+      } else if (key === 'paper') {
+        if (!p.paperNumber.toLowerCase().includes(v)) return false;
+      }
+    }
+    return true;
+  });
+};
 
 interface FilterState extends Record<string, string> {
   [key: string]: string;
@@ -160,18 +215,20 @@ const PastPapers: React.FC = () => {
         setTotalCount(response.count);
         setTotalPages(response.total_pages);
       } else {
-        loadedPapers = [];
-        setTotalCount(0);
-        setTotalPages(0);
+        // Fallback to verified official library stored in Google Cloud Storage
+        loadedPapers = filterOfficialPapers(OFFICIAL_PAPERS, filters, searchQuery);
+        setTotalCount(loadedPapers.length);
+        setTotalPages(Math.ceil(loadedPapers.length / 50) || 1);
       }
       setPapers(loadedPapers);
       setSelectedPaper(loadedPapers.length > 0 ? (prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]) : null);
     } catch (error) {
-      console.error('Error loading papers:', error);
-      setPapers([]);
-      setSelectedPaper(null);
-      setTotalCount(0);
-      setTotalPages(0);
+      console.error('Error loading papers from API, using official GCS library:', error);
+      const loadedPapers = filterOfficialPapers(OFFICIAL_PAPERS, filters, searchQuery);
+      setPapers(loadedPapers);
+      setSelectedPaper(loadedPapers.length > 0 ? (prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]) : null);
+      setTotalCount(loadedPapers.length);
+      setTotalPages(Math.ceil(loadedPapers.length / 50) || 1);
     }
     setLoading(false);
   };
