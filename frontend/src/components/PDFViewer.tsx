@@ -230,20 +230,14 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
               </div>
             </div>
 
-            {/* Embed / Object Viewer with iframe fallback */}
-            <object
-              data={`${currentUrl}#page=${currentPage}&toolbar=1&navpanes=0`}
-              type="application/pdf"
-              className="w-full flex-1 border-0"
-              style={{ minHeight: '600px', height: '100%' }}
-            >
-              <iframe
-                src={currentUrl}
-                className="w-full flex-1 border-0"
-                title={`${paperTitle} - ${activeTab}`}
-                style={{ minHeight: '600px', height: '100%' }}
-              />
-            </object>
+            {/* Direct Vector PDF iframe streaming from Google Cloud Storage */}
+            <iframe
+              key={`${currentUrl}-${activeTab}`}
+              src={`${currentUrl}#toolbar=1&navpanes=0`}
+              className="w-full flex-1 border-0 bg-white"
+              title={`${paperTitle} - ${activeTab}`}
+              style={{ minHeight: '650px', height: '100%' }}
+            />
           </div>
         ) : (
           <div className="flex items-center justify-center h-full text-gray-400">
