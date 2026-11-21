@@ -321,12 +321,22 @@ class PaperFileView(APIView):
                 'price': str(getattr(paper, 'price', '0.00'))
             }, status=status.HTTP_402_PAYMENT_REQUIRED)
 
+        # For free papers stored in Google Cloud Storage, redirect directly to GCS CDN
+        file_name = str(target_field.name)
+        if file_name.startswith('papers/') or file_name.startswith('markschemes/') or file_name.startswith('media/'):
+            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
+            from django.http import HttpResponseRedirect
+            return HttpResponseRedirect(f"https://storage.googleapis.com/mathib-vault-us/{clean_path}")
+
         try:
             pdf_bytes = read_file_field_bytes(target_field)
             filename = getattr(target_field, 'name', 'paper.pdf').split('/')[-1]
             is_paid = paper.is_premium or not paper.is_free
             return _build_pdf_response(pdf_bytes, filename, request, is_paid, user)
         except Exception:
+            if file_name:
+                from django.http import HttpResponseRedirect
+                return HttpResponseRedirect(f"https://storage.googleapis.com/mathib-vault-us/{file_name}")
             raise Http404('File not found')
 
 

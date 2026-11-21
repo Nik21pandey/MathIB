@@ -107,8 +107,8 @@ const PaperList: React.FC<PaperListProps> = ({
             >
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-                  <h3 className="text-sm font-medium text-gray-900 truncate">
-                    {formatPaperCode(paper)}
+                  <h3 className="text-sm font-semibold text-gray-900 truncate" title={paper.title}>
+                    {paper.title || formatPaperCode(paper)}
                   </h3>
                   <div className="flex items-center space-x-2 mt-2 lg:mt-0 lg:ml-4">
                     <button
@@ -145,7 +145,7 @@ const PaperList: React.FC<PaperListProps> = ({
                 </div>
                 
                 <div className="mt-1 flex flex-wrap items-center gap-1 lg:gap-4 text-xs text-gray-500">
-                  <span>{paper.subject}</span>
+                  <span className="font-medium text-blue-600">{paper.curriculum || paper.subject}</span>
                   <span className="hidden lg:inline">•</span>
                   <span>{paper.year}</span>
                   <span className="hidden lg:inline">•</span>

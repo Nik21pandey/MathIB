@@ -113,6 +113,16 @@ class PaperListSerializer(serializers.ModelSerializer):
     def get_pdf_url(self, obj):
         if not obj.pdf_file:
             return None
+        file_name = str(obj.pdf_file.name)
+        if file_name.startswith('papers/') or file_name.startswith('media/papers/'):
+            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
+            return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
+        try:
+            url = obj.pdf_file.url
+            if url.startswith('http'):
+                return url
+        except Exception:
+            pass
         file_path = reverse('papers:paper-file', kwargs={'paper_id': obj.id})
         request = self.context.get('request')
         return request.build_absolute_uri(file_path) if request else file_path
@@ -120,6 +130,16 @@ class PaperListSerializer(serializers.ModelSerializer):
     def get_markscheme_url(self, obj):
         if not obj.markscheme_file:
             return None
+        file_name = str(obj.markscheme_file.name)
+        if file_name.startswith('markschemes/') or file_name.startswith('media/markschemes/'):
+            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
+            return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
+        try:
+            url = obj.markscheme_file.url
+            if url.startswith('http'):
+                return url
+        except Exception:
+            pass
         file_path = reverse('papers:paper-markscheme', kwargs={'paper_id': obj.id})
         request = self.context.get('request')
         return request.build_absolute_uri(file_path) if request else file_path
@@ -127,6 +147,16 @@ class PaperListSerializer(serializers.ModelSerializer):
     def get_thumbnail_url(self, obj):
         if not obj.thumbnail:
             return None
+        file_name = str(obj.thumbnail.name)
+        if file_name.startswith('thumbnails/') or file_name.startswith('media/thumbnails/'):
+            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
+            return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
+        try:
+            url = obj.thumbnail.url
+            if url.startswith('http'):
+                return url
+        except Exception:
+            pass
         request = self.context.get('request')
         return request.build_absolute_uri(obj.thumbnail.url) if request else obj.thumbnail.url
 
@@ -151,6 +181,16 @@ class PaperDetailSerializer(serializers.ModelSerializer):
     def get_pdf_url(self, obj):
         if not obj.pdf_file:
             return None
+        file_name = str(obj.pdf_file.name)
+        if file_name.startswith('papers/') or file_name.startswith('media/papers/'):
+            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
+            return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
+        try:
+            url = obj.pdf_file.url
+            if url.startswith('http'):
+                return url
+        except Exception:
+            pass
         file_path = reverse('papers:paper-file', kwargs={'paper_id': obj.id})
         request = self.context.get('request')
         return request.build_absolute_uri(file_path) if request else file_path
@@ -158,6 +198,16 @@ class PaperDetailSerializer(serializers.ModelSerializer):
     def get_markscheme_url(self, obj):
         if not obj.markscheme_file:
             return None
+        file_name = str(obj.markscheme_file.name)
+        if file_name.startswith('markschemes/') or file_name.startswith('media/markschemes/'):
+            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
+            return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
+        try:
+            url = obj.markscheme_file.url
+            if url.startswith('http'):
+                return url
+        except Exception:
+            pass
         file_path = reverse('papers:paper-markscheme', kwargs={'paper_id': obj.id})
         request = self.context.get('request')
         return request.build_absolute_uri(file_path) if request else file_path
@@ -165,6 +215,16 @@ class PaperDetailSerializer(serializers.ModelSerializer):
     def get_thumbnail_url(self, obj):
         if not obj.thumbnail:
             return None
+        file_name = str(obj.thumbnail.name)
+        if file_name.startswith('thumbnails/') or file_name.startswith('media/thumbnails/'):
+            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
+            return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
+        try:
+            url = obj.thumbnail.url
+            if url.startswith('http'):
+                return url
+        except Exception:
+            pass
         request = self.context.get('request')
         return request.build_absolute_uri(obj.thumbnail.url) if request else obj.thumbnail.url
 

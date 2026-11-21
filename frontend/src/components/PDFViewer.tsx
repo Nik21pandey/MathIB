@@ -326,14 +326,27 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
                   <span className={`w-2 h-2 rounded-full ${activeTab === 'markscheme' ? 'bg-emerald-400' : 'bg-blue-400'}`} />
                   {activeTab === 'markscheme' ? 'Official Mark Scheme & Grading Criteria' : 'Official Question Paper'}
                 </span>
-                <span className="text-gray-400">{activeTab === 'markscheme' ? 'Answers & Method Marks' : 'Exam Questions'}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-400 hidden sm:inline">{activeTab === 'markscheme' ? 'Answers & Method Marks' : 'Exam Questions'}</span>
+                  {currentUrl && (
+                    <a
+                      href={currentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] text-blue-300 hover:text-white bg-blue-900/60 hover:bg-blue-800 px-2 py-0.5 rounded border border-blue-500/30 flex items-center gap-1 transition"
+                      title="Open PDF directly in full window"
+                    >
+                      <span>↗ Open PDF</span>
+                    </a>
+                  )}
+                </div>
               </div>
               {/* PDF Embed */}
               <iframe
                 src={currentUrl}
                 className="w-full flex-1"
                 title={`${paperTitle} - ${activeTab}`}
-                style={{ minHeight: '600px' }}
+                style={{ minHeight: '650px', height: '100%' }}
               />
             </div>
           </div>

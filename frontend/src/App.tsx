@@ -131,6 +131,7 @@ function AppContent() {
 
               {/* Catalog & Past Papers: public browsing */}
               <Route path="/papers" element={<PastPapers />} />
+              <Route path="/past-papers" element={<PastPapers />} />
               <Route path="/papers/:id" element={<PaperDetail />} />
               <Route path="/bundles" element={<Bundles />} />
               <Route path="/bundles/:id" element={<BundleDetail />} />
