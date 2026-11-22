@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Terminal,
-  Search,
   Filter,
-  FileText,
-  Sparkles,
   ArrowRight,
-  BookOpen,
-  Download,
   Eye,
-  Layers,
   X,
   CornerDownLeft,
   Command,
-  Zap,
+  Sparkles,
 } from 'lucide-react';
 
 interface TerminalAction {
@@ -26,7 +19,7 @@ interface TerminalAction {
   run: () => void;
 }
 
-interface SpiderwebTerminalProps {
+export interface MathIBCommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
   onApplyFilter: (key: string, value: string) => void;
@@ -39,14 +32,12 @@ interface SpiderwebTerminalProps {
   totalPapersCount: number;
 }
 
-export const SpiderwebTerminal: React.FC<SpiderwebTerminalProps> = ({
+export const MathIBCommandPalette: React.FC<MathIBCommandPaletteProps> = ({
   isOpen,
   onClose,
   onApplyFilter,
   onClearFilters,
-  onSelectPaperByQuery,
   onToggleMarkScheme,
-  onPageChange,
   onDownloadCurrent,
   activeFiltersCount,
   totalPapersCount,
@@ -82,7 +73,7 @@ export const SpiderwebTerminal: React.FC<SpiderwebTerminalProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  // Predefined terminal command actions
+  // Predefined command actions
   const allActions: TerminalAction[] = [
     // Filters - Papers
     {
@@ -347,19 +338,21 @@ export const SpiderwebTerminal: React.FC<SpiderwebTerminalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in">
+      <div className="fixed inset-0" onClick={onClose} />
+
       <div
-        className="w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col text-slate-100"
+        className="w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col text-slate-100 relative z-10"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Terminal Header */}
+        {/* Header */}
         <div className="flex items-center justify-between px-4 py-2.5 bg-slate-950 border-b border-slate-800 text-xs text-slate-400">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
             <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80"></span>
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
             <span className="ml-2 font-mono font-bold text-slate-300 flex items-center gap-1.5">
-              <Zap className="w-3.5 h-3.5 text-blue-400" />
-              Spiderweb Power Terminal
+              <Command className="w-3.5 h-3.5 text-blue-400" />
+              MathIB Command Palette
             </span>
           </div>
           <div className="flex items-center gap-3">
@@ -398,7 +391,7 @@ export const SpiderwebTerminal: React.FC<SpiderwebTerminalProps> = ({
         <div ref={listRef} className="max-h-80 overflow-y-auto divide-y divide-slate-800/60 p-1.5">
           {filteredActions.length === 0 ? (
             <div className="py-8 px-4 text-center text-xs text-slate-400">
-              No terminal commands match &quot;{query}&quot;. Try typing <code className="text-blue-400">p4</code>, <code className="text-blue-400">0580</code>, <code className="text-blue-400">2026</code>, or <code className="text-blue-400">ms</code>.
+              No commands match &quot;{query}&quot;. Try typing <code className="text-blue-400">p4</code>, <code className="text-blue-400">0580</code>, <code className="text-blue-400">2026</code>, or <code className="text-blue-400">ms</code>.
             </div>
           ) : (
             filteredActions.map((action, idx) => {
@@ -464,7 +457,7 @@ export const SpiderwebTerminal: React.FC<SpiderwebTerminalProps> = ({
           )}
         </div>
 
-        {/* Terminal Footer with Shortcut Hints */}
+        {/* Footer with Shortcut Hints */}
         <div className="flex items-center justify-between px-4 py-2 bg-slate-950 border-t border-slate-800 text-[11px] text-slate-400 font-mono">
           <div className="flex items-center gap-3">
             <span>
@@ -479,7 +472,7 @@ export const SpiderwebTerminal: React.FC<SpiderwebTerminalProps> = ({
             </span>
           </div>
           <div className="text-slate-500">
-            Powered by MathIB Spiderweb
+            Powered by MathIB Engine
           </div>
         </div>
       </div>
@@ -487,4 +480,4 @@ export const SpiderwebTerminal: React.FC<SpiderwebTerminalProps> = ({
   );
 };
 
-export default SpiderwebTerminal;
+export default MathIBCommandPalette;

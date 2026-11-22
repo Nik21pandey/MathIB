@@ -132,15 +132,15 @@ const FilterBar: React.FC<FilterBarProps> = ({
           )}
 
           <div className="flex items-center space-x-2">
-            {/* Spiderweb Terminal Launcher */}
+            {/* MathIB Command Palette Launcher */}
             {onOpenTerminal && (
               <button
                 onClick={onOpenTerminal}
                 className="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-mono font-semibold rounded-lg transition-all shadow-xs flex items-center gap-1.5 flex-shrink-0"
-                title="Launch Spiderweb Study Terminal (Ctrl+K)"
+                title="Launch MathIB Command Palette (Ctrl+K)"
               >
                 <CommandLineIcon className="h-3.5 w-3.5 text-blue-400" />
-                <span className="hidden sm:inline">Terminal</span>
+                <span className="hidden sm:inline">Commands</span>
                 <kbd className="hidden md:inline px-1 py-0.2 bg-slate-800 border border-slate-700 text-[9px] rounded text-slate-300">
                   Ctrl+K
                 </kbd>
@@ -160,7 +160,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
         </div>
       </div>
 
-      {/* Spiderweb Quick Matrix: One-Click Chips Row */}
+      {/* MathIB Quick Matrix: One-Click Chips Row */}
       <div className="px-4 py-2 bg-slate-50/60 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2 text-xs">
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mr-1">

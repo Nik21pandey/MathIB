@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import FilterBar from '../components/FilterBar';
 import PaperList from '../components/PaperList';
 import PDFViewer from '../components/PDFViewer';
-import SpiderwebTerminal from '../components/SpiderwebTerminal';
+import MathIBCommandPalette from '../components/MathIBCommandPalette';
 import { getAllFilterTypes, mapFiltersForFrontend } from '../utils/filtersApi';
 import { getAllPapers, downloadPaper, type Paper as ApiPaper } from '../utils/papersApi';
 import { toggleFavorite, checkMultipleFavorites } from '../utils/favoritesApi';
@@ -592,8 +592,8 @@ const PastPapers: React.FC = () => {
         </div>
       </div>
 
-      {/* Spiderweb Study Terminal Command Palette */}
-      <SpiderwebTerminal
+      {/* MathIB Command Palette */}
+      <MathIBCommandPalette
         isOpen={terminalOpen}
         onClose={() => setTerminalOpen(false)}
         onApplyFilter={handleFilterChange}
