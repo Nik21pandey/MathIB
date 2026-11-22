@@ -126,7 +126,7 @@ export const mapFiltersForFrontend = (filterTypes: FilterType[]) => {
         .filter(opt => opt.is_active)
         .sort((a, b) => a.display_order - b.display_order)
         .map(opt => ({
-          value: opt.id.toString(), // Use ID for filter value
+          value: opt.slug, // Use slug for consistent filter querying
           label: opt.name,
           code: opt.code,
         })),

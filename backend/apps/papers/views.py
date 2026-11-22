@@ -195,8 +195,17 @@ class PaperListView(APIView):
         if category_slug:
             papers = papers.filter(category__slug=category_slug)
 
-        for filter_slug in request.query_params.getlist('filter'):
-            papers = papers.filter(filters__slug=filter_slug)
+        for filter_val in request.query_params.getlist('filter'):
+            if not filter_val:
+                continue
+            if filter_val.isdigit():
+                papers = papers.filter(Q(filters__id=int(filter_val)) | Q(filters__slug=filter_val))
+            else:
+                papers = papers.filter(
+                    Q(filters__slug=filter_val) |
+                    Q(filters__code__iexact=filter_val) |
+                    Q(filters__name__icontains=filter_val)
+                )
 
         search = request.query_params.get('search')
         if search:

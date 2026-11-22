@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import FilterBar from '../components/FilterBar';
 import PaperList from '../components/PaperList';
 import PDFViewer from '../components/PDFViewer';
+import SpiderwebTerminal from '../components/SpiderwebTerminal';
 import { getAllFilterTypes, mapFiltersForFrontend } from '../utils/filtersApi';
 import { getAllPapers, downloadPaper, type Paper as ApiPaper } from '../utils/papersApi';
 import { toggleFavorite, checkMultipleFavorites } from '../utils/favoritesApi';
@@ -62,21 +63,83 @@ interface FilterState extends Record<string, string> {
 
 const filterOfficialPapers = (all: Paper[], filters: FilterState, query: string): Paper[] => {
   return all.filter(p => {
-    if (query) {
-      const q = query.toLowerCase();
-      if (!p.title.toLowerCase().includes(q) && !p.curriculum.toLowerCase().includes(q)) return false;
+    if (query && query.trim()) {
+      const q = query.toLowerCase().trim();
+      const matchTitle = p.title.toLowerCase().includes(q);
+      const matchCurriculum = p.curriculum.toLowerCase().includes(q);
+      const matchPaper = p.paperNumber.toLowerCase().includes(q);
+      const matchYear = String(p.year).includes(q);
+      const matchSeason = p.season.toLowerCase().includes(q);
+      if (!matchTitle && !matchCurriculum && !matchPaper && !matchYear && !matchSeason) {
+        return false;
+      }
     }
+
     for (const [key, val] of Object.entries(filters)) {
       if (!val) continue;
-      const v = val.toLowerCase();
-      if (key === 'curriculum') {
-        if (!p.curriculum.toLowerCase().includes(v) && !p.title.toLowerCase().includes(v)) return false;
+      const v = val.toLowerCase().trim();
+
+      if (key === 'paper') {
+        const pNum = p.paperNumber.toLowerCase();
+        if (v.includes('paper-2') || v === '39' || v.includes('paper 2') || v === 'p2') {
+          if (!pNum.includes('paper 2')) return false;
+        } else if (v.includes('paper-4') || v === '43' || v.includes('paper 4') || v === 'p4') {
+          if (!pNum.includes('paper 4')) return false;
+        } else if (v.includes('paper-6') || v === '64' || v.includes('paper 6') || v === 'p6') {
+          if (!pNum.includes('paper 6')) return false;
+        } else if (v.includes('paper-1') || v === '48' || v.includes('paper 1')) {
+          if (!pNum.includes('paper 1')) return false;
+        } else if (v.includes('paper-3') || v === '50' || v.includes('paper 3')) {
+          if (!pNum.includes('paper 3')) return false;
+        } else {
+          if (!pNum.includes(v)) return false;
+        }
+      } else if (key === 'curriculum') {
+        const cur = p.curriculum.toLowerCase();
+        const tit = p.title.toLowerCase();
+        if (v.includes('0607') || v.includes('international') || v === '46') {
+          if (!cur.includes('0607') && !tit.includes('0607')) return false;
+        } else if (v.includes('0580') || v === '38') {
+          if (!cur.includes('0580') && !tit.includes('0580')) return false;
+        } else {
+          if (!cur.includes(v) && !tit.includes(v)) return false;
+        }
       } else if (key === 'year') {
-        if (String(p.year) !== val) return false;
+        const yearMap: Record<string, string> = {
+          '41': '2026',
+          '19': '2025',
+          '20': '2024',
+          '21': '2023',
+          '22': '2022',
+        };
+        const targetYear = yearMap[v] || v;
+        if (String(p.year) !== targetYear) return false;
       } else if (key === 'season') {
-        if (!p.season.toLowerCase().includes(v)) return false;
-      } else if (key === 'paper') {
-        if (!p.paperNumber.toLowerCase().includes(v)) return false;
+        const s = p.season.toLowerCase();
+        if (v.includes('feb') || v.includes('march') || v === '42' || v === '31') {
+          if (!s.includes('feb') && !s.includes('march')) return false;
+        } else if (v.includes('may') || v.includes('june') || v === '29' || v === '52') {
+          if (!s.includes('may') && !s.includes('june')) return false;
+        } else if (v.includes('oct') || v.includes('nov') || v === '44' || v === '30') {
+          if (!s.includes('oct') && !s.includes('nov')) return false;
+        } else {
+          if (!s.includes(v)) return false;
+        }
+      } else if (key === 'zone') {
+        const z = (p.zone || '').toLowerCase();
+        const tit = p.title.toLowerCase();
+        if (v.includes('variant-1') || v.includes('variant 1') || v === '63') {
+          if (!z.includes('variant 1') && !tit.includes('variant 1') && !tit.includes('21') && !tit.includes('41') && !tit.includes('61')) return false;
+        } else if (v.includes('variant-2') || v.includes('variant 2') || v === '61') {
+          if (!z.includes('variant 2') && !tit.includes('variant 2') && !tit.includes('22') && !tit.includes('42') && !tit.includes('62')) return false;
+        } else if (v.includes('variant-3') || v.includes('variant 3') || v === '62') {
+          if (!z.includes('variant 3') && !tit.includes('variant 3') && !tit.includes('23') && !tit.includes('43') && !tit.includes('63')) return false;
+        }
+      } else if (key === 'subject') {
+        // All loaded official papers belong to Mathematics
+        if (!v.includes('math') && v !== '9' && v !== '40') {
+          return false;
+        }
       }
     }
     return true;
@@ -161,6 +224,7 @@ const PastPapers: React.FC = () => {
   const [filters, setFilters] = useState<FilterState>({});
   const [filterConfigs, setFilterConfigs] = useState<FilterConfig[]>(DEFAULT_FILTER_CONFIGS);
   const [loadingFilters, setLoadingFilters] = useState<boolean>(false);
+  const [terminalOpen, setTerminalOpen] = useState<boolean>(false);
 
   // Convert API paper to frontend Paper format
   const mapApiPaperToFrontend = (apiPaper: ApiPaper): Paper => {
@@ -294,6 +358,11 @@ const PastPapers: React.FC = () => {
     setFilters(clearedFilters);
   };
 
+  const handleClearAll = (): void => {
+    clearFilters();
+    setSearchQuery('');
+  };
+
   const handlePaperSelect = (paper: Paper): void => {
     setSelectedPaper(paper);
     setCurrentPage(1);
@@ -398,9 +467,12 @@ const PastPapers: React.FC = () => {
             filters={filters}
             filterConfigs={filterConfigs}
             onFilterChange={handleFilterChange}
-            onClearFilters={clearFilters}
+            onRemoveFilter={(k) => handleFilterChange(k, '')}
+            onClearFilters={handleClearAll}
             onSearch={handleSearch}
             searchQuery={searchQuery}
+            onOpenTerminal={() => setTerminalOpen(true)}
+            totalResultsCount={sortedPapers.length}
           />
         )}
       </div>
@@ -466,6 +538,7 @@ const PastPapers: React.FC = () => {
             onPaperSelect={handlePaperSelect}
             onToggleFavorite={handleToggleFavorite}
             onDownload={handleDownload}
+            onClearFilters={handleClearAll}
             sortBy={sortBy}
             onSortChange={setSortBy}
           />
@@ -518,6 +591,26 @@ const PastPapers: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Spiderweb Study Terminal Command Palette */}
+      <SpiderwebTerminal
+        isOpen={terminalOpen}
+        onClose={() => setTerminalOpen(false)}
+        onApplyFilter={handleFilterChange}
+        onClearFilters={handleClearAll}
+        onToggleMarkScheme={(_active) => {
+          // Find mark scheme button in DOM and trigger
+          const msBtn = document.querySelector('button[title*="Mark Scheme"]') as HTMLButtonElement;
+          msBtn?.click();
+        }}
+        onDownloadCurrent={(type) => {
+          if (selectedPaper) {
+            handleDownload(selectedPaper, type === 'ms' ? 'markscheme' : 'question');
+          }
+        }}
+        activeFiltersCount={Object.values(filters).filter(v => v).length + (searchQuery ? 1 : 0)}
+        totalPapersCount={papers.length}
+      />
     </div>
   );
 };
