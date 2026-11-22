@@ -113,8 +113,15 @@ def build_catalog():
 
 def get_catalog():
     catalog = cache.get(CATALOG_CACHE_KEY)
-    if catalog is None:
+    if catalog is None or not catalog.get('questions'):
         catalog = build_catalog()
+        if not catalog.get('questions'):
+            from django.core.management import call_command
+            try:
+                call_command('seed_learn')
+                catalog = build_catalog()
+            except Exception as e:
+                pass
         cache.set(CATALOG_CACHE_KEY, catalog, CATALOG_CACHE_SECONDS)
     return catalog
 
