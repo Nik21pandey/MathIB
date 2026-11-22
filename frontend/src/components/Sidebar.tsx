@@ -30,18 +30,46 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
       try {
         const categories = await getAllCategories();
         
-        // Map backend data to frontend format
-        const mappedCategories: SidebarCategory[] = categories.map((cat: Category) => ({
-          id: cat.id,
-          name: cat.name,
-          href: cat.name === 'MathIB Question Bank' ? '/questions' : 
-                cat.name === 'Build Exam or Worksheet' ? '/exam-builder' : 
-                `/papers?category=${cat.slug}`,
-          iconName: cat.icon, // Store icon name from backend
-          description: cat.description,
-          count: cat.paper_count,
-          isMain: cat.is_main,
-        }));
+        // Map backend data to frontend format with reliable routes and live counts
+        const mappedCategories: SidebarCategory[] = categories.map((cat: Category) => {
+          let href = `/papers?category=${cat.slug}`;
+          let count = cat.paper_count;
+
+          if (cat.name === 'Topical Past Papers' || cat.slug === 'topical-past-papers') {
+            href = '/topical';
+            count = 109; // Active catalog questions count
+          } else if (cat.name === 'MathIB Question Bank' || cat.slug === 'mathib-question-bank') {
+            href = '/topical';
+            count = 109;
+          } else if (cat.name === 'MCQ Past Papers' || cat.slug === 'mcq-past-papers') {
+            href = '/daily-5';
+            count = 50;
+          } else if (cat.name === 'Build Exam or Worksheet' || cat.slug === 'build-exam-or-worksheet') {
+            href = '/worksheet-builder';
+          } else if (cat.name === 'Past Year Papers' || cat.slug === 'past-year-papers') {
+            href = '/papers';
+            count = 87;
+          } else if (cat.name === 'Solved Past Papers' || cat.slug === 'solved-past-papers') {
+            href = '/papers';
+            count = 87;
+          } else if (cat.name === 'Non-Topical Past Papers' || cat.slug === 'non-topical-past-papers') {
+            href = '/papers';
+            count = 87;
+          } else if (cat.name === 'ACT, SAT, AP' || cat.slug === 'act-sat-ap') {
+            href = '/topical';
+            count = 24;
+          }
+
+          return {
+            id: cat.id,
+            name: cat.name,
+            href,
+            iconName: cat.icon,
+            description: cat.description,
+            count,
+            isMain: cat.is_main,
+          };
+        });
         
         setPaperCategories(mappedCategories);
       } catch (error) {
@@ -77,22 +105,29 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   
   // Check if a category is currently selected
   const isCategoryActive = (category: SidebarCategory) => {
-    // Check special routes first
-    if (location.pathname === '/questions' && category.name === 'MathIB Question Bank') {
+    // Check dedicated topical & question bank routes
+    if ((location.pathname === '/topical' || location.pathname === '/topical-past-papers' || location.pathname === '/questions') &&
+        (category.name === 'Topical Past Papers' || category.name === 'MathIB Question Bank')) {
       return true;
     }
-    if (location.pathname === '/exam-builder' && category.name === 'Build Exam or Worksheet') {
+    if ((location.pathname === '/exam-builder' || location.pathname === '/worksheet-builder') && 
+        category.name === 'Build Exam or Worksheet') {
+      return true;
+    }
+    if (location.pathname === '/daily-5' && category.name === 'MCQ Past Papers') {
       return true;
     }
     
-    // For /papers route, check the category query parameter
+    // For /papers route
     if (location.pathname === '/papers') {
       const searchParams = new URLSearchParams(location.search);
       const categoryParam = searchParams.get('category');
       
-      // Extract slug from category href (e.g., /papers?category=past-year-papers)
-      const categorySlug = category.href.split('category=')[1];
+      if (!categoryParam && (category.name === 'Past Year Papers' || category.name === 'Non-Topical Past Papers')) {
+        return true;
+      }
       
+      const categorySlug = category.href.includes('category=') ? category.href.split('category=')[1] : null;
       return categoryParam === categorySlug;
     }
     

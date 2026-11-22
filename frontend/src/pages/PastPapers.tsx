@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import FilterBar from '../components/FilterBar';
 import PaperList from '../components/PaperList';
 import PDFViewer from '../components/PDFViewer';
@@ -61,48 +62,67 @@ interface FilterState extends Record<string, string> {
   [key: string]: string;
 }
 
+const cleanStr = (s: string) => (s || '').toLowerCase().replace(/[-_\/\s()]/g, '');
+
 const filterOfficialPapers = (all: Paper[], filters: FilterState, query: string): Paper[] => {
   return all.filter(p => {
     if (query && query.trim()) {
       const q = query.toLowerCase().trim();
-      const matchTitle = p.title.toLowerCase().includes(q);
-      const matchCurriculum = p.curriculum.toLowerCase().includes(q);
-      const matchPaper = p.paperNumber.toLowerCase().includes(q);
-      const matchYear = String(p.year).includes(q);
-      const matchSeason = p.season.toLowerCase().includes(q);
-      if (!matchTitle && !matchCurriculum && !matchPaper && !matchYear && !matchSeason) {
-        return false;
-      }
+      const qClean = cleanStr(q);
+      const tit = p.title.toLowerCase();
+      const titClean = cleanStr(tit);
+      const cur = p.curriculum.toLowerCase();
+      const curClean = cleanStr(cur);
+      const pNum = p.paperNumber.toLowerCase();
+      const pNumClean = cleanStr(pNum);
+      const yr = String(p.year);
+      const sea = p.season.toLowerCase();
+      const seaClean = cleanStr(sea);
+
+      const match = tit.includes(q) || titClean.includes(qClean) ||
+                    cur.includes(q) || curClean.includes(qClean) ||
+                    pNum.includes(q) || pNumClean.includes(qClean) ||
+                    yr.includes(q) || sea.includes(q) || seaClean.includes(qClean);
+      if (!match) return false;
     }
 
     for (const [key, val] of Object.entries(filters)) {
       if (!val) continue;
       const v = val.toLowerCase().trim();
+      const vClean = cleanStr(v);
 
       if (key === 'paper') {
         const pNum = p.paperNumber.toLowerCase();
-        if (v.includes('paper-2') || v === '39' || v.includes('paper 2') || v === 'p2') {
-          if (!pNum.includes('paper 2')) return false;
-        } else if (v.includes('paper-4') || v === '43' || v.includes('paper 4') || v === 'p4') {
-          if (!pNum.includes('paper 4')) return false;
-        } else if (v.includes('paper-6') || v === '64' || v.includes('paper 6') || v === 'p6') {
-          if (!pNum.includes('paper 6')) return false;
-        } else if (v.includes('paper-1') || v === '48' || v.includes('paper 1')) {
-          if (!pNum.includes('paper 1')) return false;
-        } else if (v.includes('paper-3') || v === '50' || v.includes('paper 3')) {
-          if (!pNum.includes('paper 3')) return false;
+        const pNumClean = cleanStr(pNum);
+        if (vClean.includes('paper2') || vClean === 'p2' || vClean === '39' || vClean.includes('core')) {
+          if (!pNumClean.includes('paper2')) return false;
+        } else if (vClean.includes('paper4') || vClean === 'p4' || vClean === '43' || vClean.includes('calculator')) {
+          if (!pNumClean.includes('paper4')) return false;
+        } else if (vClean.includes('paper6') || vClean === 'p6' || vClean === '64' || vClean.includes('investigation')) {
+          if (!pNumClean.includes('paper6')) return false;
+        } else if (vClean.includes('paper1') || vClean === 'p1' || vClean === '48') {
+          if (!pNumClean.includes('paper1')) return false;
+        } else if (vClean.includes('paper3') || vClean === 'p3' || vClean === '50') {
+          if (!pNumClean.includes('paper3')) return false;
         } else {
-          if (!pNum.includes(v)) return false;
+          if (!pNumClean.includes(vClean) && !pNum.includes(v)) return false;
         }
       } else if (key === 'curriculum') {
         const cur = p.curriculum.toLowerCase();
+        const curClean = cleanStr(cur);
         const tit = p.title.toLowerCase();
-        if (v.includes('0607') || v.includes('international') || v === '46') {
-          if (!cur.includes('0607') && !tit.includes('0607')) return false;
-        } else if (v.includes('0580') || v === '38') {
-          if (!cur.includes('0580') && !tit.includes('0580')) return false;
+        const titClean = cleanStr(tit);
+
+        if (vClean.includes('0607') || vClean.includes('international') || vClean === '46') {
+          if (!curClean.includes('0607') && !titClean.includes('0607')) return false;
+        } else if (vClean.includes('0580') || vClean === '38') {
+          if (!curClean.includes('0580') && !titClean.includes('0580')) return false;
+        } else if (vClean.includes('cambridgeigcse') || vClean === 'cieigcse') {
+          if (!curClean.includes('igcse')) return false;
+        } else if (vClean.includes('ib') || vClean.includes('aslevel') || vClean.includes('alevel')) {
+          if (!curClean.includes(vClean) && !titClean.includes(vClean)) return false;
         } else {
-          if (!cur.includes(v) && !tit.includes(v)) return false;
+          if (!curClean.includes(vClean) && !titClean.includes(vClean) && !cur.includes(v) && !tit.includes(v)) return false;
         }
       } else if (key === 'year') {
         const yearMap: Record<string, string> = {
@@ -112,32 +132,36 @@ const filterOfficialPapers = (all: Paper[], filters: FilterState, query: string)
           '21': '2023',
           '22': '2022',
         };
-        const targetYear = yearMap[v] || v;
-        if (String(p.year) !== targetYear) return false;
+        const targetYear = yearMap[vClean] || yearMap[v] || v;
+        if (String(p.year) !== targetYear && !String(p.year).includes(targetYear)) return false;
       } else if (key === 'season') {
         const s = p.season.toLowerCase();
-        if (v.includes('feb') || v.includes('march') || v === '42' || v === '31') {
-          if (!s.includes('feb') && !s.includes('march')) return false;
-        } else if (v.includes('may') || v.includes('june') || v === '29' || v === '52') {
-          if (!s.includes('may') && !s.includes('june')) return false;
-        } else if (v.includes('oct') || v.includes('nov') || v === '44' || v === '30') {
-          if (!s.includes('oct') && !s.includes('nov')) return false;
+        const sClean = cleanStr(s);
+        if (vClean.includes('feb') || vClean.includes('march') || vClean === '42' || vClean === '31') {
+          if (!sClean.includes('feb') && !sClean.includes('march')) return false;
+        } else if (vClean.includes('may') || vClean.includes('june') || vClean === '29' || vClean === '52') {
+          if (!sClean.includes('may') && !sClean.includes('june')) return false;
+        } else if (vClean.includes('oct') || vClean.includes('nov') || vClean === '44' || vClean === '30') {
+          if (!sClean.includes('oct') && !sClean.includes('nov')) return false;
         } else {
-          if (!s.includes(v)) return false;
+          if (!sClean.includes(vClean) && !s.includes(v)) return false;
         }
       } else if (key === 'zone') {
         const z = (p.zone || '').toLowerCase();
+        const zClean = cleanStr(z);
         const tit = p.title.toLowerCase();
-        if (v.includes('variant-1') || v.includes('variant 1') || v === '63') {
-          if (!z.includes('variant 1') && !tit.includes('variant 1') && !tit.includes('21') && !tit.includes('41') && !tit.includes('61')) return false;
-        } else if (v.includes('variant-2') || v.includes('variant 2') || v === '61') {
-          if (!z.includes('variant 2') && !tit.includes('variant 2') && !tit.includes('22') && !tit.includes('42') && !tit.includes('62')) return false;
-        } else if (v.includes('variant-3') || v.includes('variant 3') || v === '62') {
-          if (!z.includes('variant 3') && !tit.includes('variant 3') && !tit.includes('23') && !tit.includes('43') && !tit.includes('63')) return false;
+        const titClean = cleanStr(tit);
+        if (vClean.includes('variant1') || vClean === '63' || vClean.includes('zone1')) {
+          if (!zClean.includes('variant1') && !titClean.includes('variant1') && !titClean.includes('21') && !titClean.includes('41') && !titClean.includes('61')) return false;
+        } else if (vClean.includes('variant2') || vClean === '61' || vClean.includes('zone2')) {
+          if (!zClean.includes('variant2') && !titClean.includes('variant2') && !titClean.includes('22') && !titClean.includes('42') && !titClean.includes('62')) return false;
+        } else if (vClean.includes('variant3') || vClean === '62' || vClean.includes('zone3')) {
+          if (!zClean.includes('variant3') && !titClean.includes('variant3') && !titClean.includes('23') && !titClean.includes('43') && !titClean.includes('63')) return false;
+        } else if (vClean.includes('extended')) {
+          if (!zClean.includes('extended') && !titClean.includes('extended') && !titClean.includes('4') && !titClean.includes('2')) return false;
         }
       } else if (key === 'subject') {
-        // All loaded official papers belong to Mathematics
-        if (!v.includes('math') && v !== '9' && v !== '40') {
+        if (!vClean.includes('math') && vClean !== '9' && vClean !== '40') {
           return false;
         }
       }
@@ -255,6 +279,22 @@ const PastPapers: React.FC = () => {
     };
   };
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Redirect handling for topical question bank, MCQ, and worksheet builder categories
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    if (categoryParam === 'topical-past-papers' || categoryParam === 'mathib-question-bank') {
+      navigate('/topical', { replace: true });
+    } else if (categoryParam === 'mcq-past-papers') {
+      navigate('/daily-5', { replace: true });
+    } else if (categoryParam === 'build-exam-or-worksheet') {
+      navigate('/worksheet-builder', { replace: true });
+    }
+  }, [location.search, navigate]);
+
   // Load filter configurations from backend
   useEffect(() => {
     const loadFilters = async () => {
@@ -281,7 +321,7 @@ const PastPapers: React.FC = () => {
 
   useEffect(() => {
     loadPapers();
-  }, [filters]);
+  }, [filters, location.search]);
 
   const loadPapers = async (): Promise<void> => {
     setLoading(true);
@@ -294,7 +334,11 @@ const PastPapers: React.FC = () => {
       });
       
       const urlParams = new URLSearchParams(window.location.search);
-      const categorySlug = urlParams.get('category') || undefined;
+      const rawCategory = urlParams.get('category');
+      const validBackendCategories = ['past-year-papers', 'specimen-papers'];
+      const categorySlug = (rawCategory && validBackendCategories.includes(rawCategory))
+        ? rawCategory
+        : undefined;
       
       const fetchPromise = getAllPapers({
         category: categorySlug,
@@ -325,7 +369,10 @@ const PastPapers: React.FC = () => {
           console.error('Error loading favorite status:', error);
           loadedPapers = mappedPapers;
         }
-      } else {
+      }
+
+      // If backend returned no papers or is incomplete, use bulletproof official library
+      if (loadedPapers.length === 0) {
         loadedPapers = filterOfficialPapers(OFFICIAL_PAPERS, filters, searchQuery);
       }
 
@@ -334,6 +381,8 @@ const PastPapers: React.FC = () => {
       // On desktop, auto-select first paper if none selected
       if (window.innerWidth >= 1024 && loadedPapers.length > 0) {
         setSelectedPaper(prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]);
+      } else if (loadedPapers.length === 0) {
+        setSelectedPaper(null);
       }
     } catch (error) {
       console.error('Error loading papers from API, using official GCS library:', error);
@@ -341,6 +390,8 @@ const PastPapers: React.FC = () => {
       setPapers(loadedPapers);
       if (window.innerWidth >= 1024 && loadedPapers.length > 0) {
         setSelectedPaper(prev => prev && loadedPapers.some(p => p.id === prev.id) ? prev : loadedPapers[0]);
+      } else {
+        setSelectedPaper(null);
       }
     }
     setLoading(false);

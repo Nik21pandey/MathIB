@@ -43,6 +43,7 @@ const QuizPage = lazy(() =>
 );
 const Crash = lazy(() => import('./pages/learn/Crash'));
 const PDFBifurcator = lazy(() => import('./pages/PDFBifurcator'));
+const TopicalPastPapers = lazy(() => import('./pages/TopicalPastPapers'));
 
 const PageLoader: React.FC = () => (
   <div className="flex items-center justify-center min-h-[50vh]">
@@ -115,12 +116,14 @@ function AppContent() {
 
               {/* Learning platform: public, no login needed */}
               <Route path="/contents" element={<Contents />} />
-              <Route path="/questions" element={<Contents />} />
+              <Route path="/topical" element={<TopicalPastPapers />} />
+              <Route path="/topical-past-papers" element={<TopicalPastPapers />} />
+              <Route path="/questions" element={<TopicalPastPapers />} />
               <Route path="/learn" element={<Learn />} />
               <Route path="/daily-5" element={<DailyFive />} />
               <Route path="/practice" element={<DailyFive />} />
-              <Route path="/practice/mcq" element={<Contents />} />
-              <Route path="/practice/question-bank" element={<Contents />} />
+              <Route path="/practice/mcq" element={<DailyFive />} />
+              <Route path="/practice/question-bank" element={<TopicalPastPapers />} />
               <Route path="/quiz/:spec" element={<QuizPage />} />
               <Route path="/question/:slug" element={<QuestionPage />} />
               <Route path="/worksheet-builder" element={<WorksheetBuilder />} />
