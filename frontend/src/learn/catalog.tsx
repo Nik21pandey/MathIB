@@ -21,7 +21,15 @@ async function fetchCatalog(): Promise<Catalog> {
     if (res.ok) {
       const body = await res.json();
       const data = (body && body.data ? body.data : body) as Catalog;
-      if (data && Array.isArray(data.topics) && data.topics.length > 0) return data;
+      if (data && Array.isArray(data.topics) && data.topics.length > 0) {
+        // Fall back to bundled questions if backend has fewer or 0 questions seeded
+        const bundled = await import('../data/catalog.json');
+        const bundledCatalog = (bundled.default ?? bundled) as unknown as Catalog;
+        if (!data.questions || data.questions.length < (bundledCatalog.questions?.length || 0)) {
+          data.questions = bundledCatalog.questions || [];
+        }
+        return data;
+      }
     }
   } catch {
     // fall through to the bundled copy
