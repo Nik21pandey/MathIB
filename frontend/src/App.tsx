@@ -42,6 +42,7 @@ const QuizPage = lazy(() =>
   import('./pages/learn/Practice').then((m) => ({ default: m.QuizPage }))
 );
 const Crash = lazy(() => import('./pages/learn/Crash'));
+const PDFBifurcator = lazy(() => import('./pages/PDFBifurcator'));
 
 const PageLoader: React.FC = () => (
   <div className="flex items-center justify-center min-h-[50vh]">
@@ -128,6 +129,10 @@ function AppContent() {
               <Route path="/w/:code" element={<WorksheetSolutions />} />
               <Route path="/crash" element={<Crash />} />
               <Route path="/crash/:slug" element={<Crash />} />
+
+              {/* PDF Content Bifurcator & Structure Analyzer */}
+              <Route path="/bifurcator" element={<PDFBifurcator />} />
+              <Route path="/pdf-bifurcator" element={<PDFBifurcator />} />
 
               {/* Catalog & Past Papers: public browsing */}
               <Route path="/papers" element={<PastPapers />} />

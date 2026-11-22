@@ -19,6 +19,8 @@ from .views import (
     BundlePapersView,
     BundleFileView,
     AdminBulkIngestView,
+    PDFBifurcateView,
+    PDFBifurcateExportView,
 )
 
 app_name = 'papers'
@@ -38,6 +40,10 @@ urlpatterns = [
     path('papers/<int:paper_id>/markscheme/', PaperFileView.as_view(serve_markscheme=True), name='paper-markscheme'),
 
     path('admin/bulk-ingest/', AdminBulkIngestView.as_view(), name='admin-bulk-ingest'),
+
+    # PDF Content Bifurcation & Clean Report Generator
+    path('bifurcate/', PDFBifurcateView.as_view(), name='pdf-bifurcate'),
+    path('bifurcate/export-pdf/', PDFBifurcateExportView.as_view(), name='pdf-bifurcate-export'),
 
     path('bundles/', BundleListView.as_view(), name='bundle-list'),
     path('bundles/<int:bundle_id>/', BundleDetailView.as_view(), name='bundle-detail'),

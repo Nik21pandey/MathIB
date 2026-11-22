@@ -88,6 +88,9 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
               <Link to="/papers" className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
                 Past Papers
               </Link>
+              <Link to="/bifurcator" className="text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+                PDF Bifurcator
+              </Link>
               <Link to="/bundles" className="bg-amber-50 text-amber-800 hover:bg-amber-100 px-3 py-1.5 rounded-lg text-sm font-semibold border border-amber-200 transition-colors">
                 Mock & Note Bundles
               </Link>

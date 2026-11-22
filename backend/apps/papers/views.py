@@ -3,9 +3,12 @@ API Views for Papers and Categories
 """
 
 import io
+import logging
 from django.conf import settings
 from django.db.models import Q
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, HttpResponse
+
+logger = logging.getLogger(__name__)
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.clickjacking import xframe_options_exempt
@@ -677,3 +680,99 @@ class AdminBulkIngestView(APIView):
             })
         finally:
             shutil.rmtree(temp_dir, ignore_errors=True)
+
+
+class PDFBifurcateView(APIView):
+    """
+    API endpoint to upload a PDF file, extract its text and structure,
+    and bifurcate it into Subject, Topic, Subtopic, Difficulty Level,
+    source page references, and key notes.
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        uploaded_file = request.FILES.get('file')
+        if not uploaded_file:
+            return Response(
+                {"success": False, "error": "No PDF file provided. Please upload a .pdf document."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Validate file name / extension
+        filename = uploaded_file.name
+        if not filename.lower().endswith('.pdf'):
+            return Response(
+                {"success": False, "error": "Invalid file format. Only PDF (.pdf) documents are supported."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Limit file size: 25 MB
+        max_size = 25 * 1024 * 1024
+        if uploaded_file.size > max_size:
+            return Response(
+                {"success": False, "error": f"File size exceeds 25 MB limit ({uploaded_file.size / (1024*1024):.1f} MB uploaded)."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        subject_hint = request.data.get('subject_hint') or request.data.get('subject')
+        try:
+            max_pages = int(request.data.get('max_pages', 40))
+        except (ValueError, TypeError):
+            max_pages = 40
+
+        try:
+            from .bifurcation_service import bifurcate_pdf_content
+            file_bytes = uploaded_file.read()
+            result = bifurcate_pdf_content(
+                file_bytes=file_bytes,
+                filename=filename,
+                subject_hint=subject_hint,
+                max_pages=max_pages
+            )
+            if not result.get("success", False):
+                return Response(result, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            return Response(result, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error(f"Error during PDF bifurcation: {e}", exc_info=True)
+            return Response(
+                {
+                    "success": False,
+                    "error": f"Failed to extract and bifurcate PDF: {str(e)}"
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+
+class PDFBifurcateExportView(APIView):
+    """
+    API endpoint that accepts structured bifurcation data and generates
+    a polished, publication-ready A4 PDF report with custom typography,
+    running headers/footers with 'Page X of Y', and difficulty metric cards.
+    """
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        if not data or not isinstance(data, dict):
+            return Response(
+                {"success": False, "error": "Invalid report data payload."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            from .pdf_report_generator import build_bifurcated_pdf_report
+            pdf_bytes = build_bifurcated_pdf_report(data)
+            filename = data.get("filename", "document.pdf")
+            safe_base = filename.rsplit('.', 1)[0].replace(' ', '_')
+            export_filename = f"MathIB_Bifurcation_Report_{safe_base}.pdf"
+
+            response = HttpResponse(pdf_bytes, content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{export_filename}"'
+            response['Content-Length'] = len(pdf_bytes)
+            return response
+        except Exception as e:
+            logger.error(f"Error generating PDF report: {e}", exc_info=True)
+            return Response(
+                {"success": False, "error": f"Failed to generate PDF report: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { Calculator, CalendarCheck, FileText, GraduationCap, ListChecks, Search, Shapes } from 'lucide-react';
+import { Calculator, CalendarCheck, FileText, GraduationCap, ListChecks, Search, Shapes, Sparkles } from 'lucide-react';
 import { getAllCategories, type Category } from '../utils/categoriesApi';
 import DynamicIcon from './DynamicIcon';
 
@@ -67,6 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
     { name: 'Learn by syllabus', href: '/learn', icon: GraduationCap },
     { name: 'Daily 5', href: '/daily-5', icon: CalendarCheck },
     { name: 'Worksheet builder', href: '/worksheet-builder', icon: FileText },
+    { name: 'PDF Bifurcator', href: '/bifurcator', icon: Sparkles },
     { name: '0580 non-calculator hub', href: '/igcse-0580/non-calculator-paper-2', icon: Calculator },
     { name: 'MYP criteria B and D', href: '/ib-myp-math', icon: Shapes },
     { name: 'Night-before checklists', href: '/crash', icon: ListChecks },

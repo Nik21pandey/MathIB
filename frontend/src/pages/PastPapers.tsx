@@ -369,6 +369,19 @@ const PastPapers: React.FC = () => {
     return list;
   }, [papers, sortBy]);
 
+  // Keep selected paper synchronized with filtered/sorted results
+  useEffect(() => {
+    if (sortedPapers.length === 0) {
+      setSelectedPaper(null);
+    } else if (selectedPaper && !sortedPapers.some(p => p.id === selectedPaper.id)) {
+      if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+        setSelectedPaper(sortedPapers[0]);
+      } else {
+        setSelectedPaper(null);
+      }
+    }
+  }, [sortedPapers]);
+
   return (
     <div className="h-[calc(100vh-64px)] flex flex-col bg-gray-50 overflow-hidden">
       {/* Filter Bar */}
