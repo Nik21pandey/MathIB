@@ -50,6 +50,12 @@ const PDFViewer: React.FC<PDFViewerProps> = ({
   const [zoom, setZoom] = useState(100);
   const [docTotalPages, setDocTotalPages] = useState<number>(totalPages || 16);
 
+  // Reset tab to question paper and page to 1 when switching papers
+  useEffect(() => {
+    setActiveTab('question');
+    onPageChange?.(1);
+  }, [pdfUrl]);
+
   // Determine active document URL
   const currentUrl = activeTab === 'markscheme' && markschemeUrl ? markschemeUrl : pdfUrl;
 
