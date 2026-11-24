@@ -40,6 +40,7 @@ export const TopicalPastPapers: React.FC = () => {
   const [calcFilter, setCalcFilter] = useState<'all' | 'calc' | 'non-calc'>(
     (searchParams.get('calc') as any) || 'all'
   );
+  const [highYieldOnly, setHighYieldOnly] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('q') || '');
   const [viewMode, setViewMode] = useState<'cards' | 'booklet'>('cards');
   const [addedAllBanner, setAddedAllBanner] = useState<boolean>(false);
@@ -87,6 +88,9 @@ export const TopicalPastPapers: React.FC = () => {
       if (calcFilter === 'calc' && !q.calc) return false;
       if (calcFilter === 'non-calc' && q.calc) return false;
 
+      // 4b. High Yield Filter (Revision Village style)
+      if (highYieldOnly && !topic.high_yield) return false;
+
       // 5. Keyword search query
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase().trim();
@@ -97,7 +101,15 @@ export const TopicalPastPapers: React.FC = () => {
 
       return true;
     });
-  }, [index, selectedSyllabus, selectedTopic, selectedDifficulty, calcFilter, searchQuery]);
+  }, [index, selectedSyllabus, selectedTopic, selectedDifficulty, calcFilter, highYieldOnly, searchQuery]);
+
+  const highYieldQuestionsCount = useMemo(() => {
+    if (!index) return 0;
+    return index.catalog.questions.filter((q) => {
+      const topic = index.topic(q.topic);
+      return Boolean(topic?.high_yield);
+    }).length;
+  }, [index]);
 
   // Summary Metrics
   const totalMarks = useMemo(() => {
@@ -328,9 +340,10 @@ export const TopicalPastPapers: React.FC = () => {
                 </option>
                 {availableTopics.map((t) => {
                   const count = questionCountByTopic.get(t.id) || 0;
+                  const hyText = t.high_yield ? ` 🔥 High-Yield (~${t.high_yield.avg_marks}m)` : '';
                   return (
                     <option key={t.id} value={t.id}>
-                      {t.name} {count > 0 ? `(${count} questions)` : ''}
+                      {t.name} {count > 0 ? `(${count} questions)` : ''}{hyText}
                     </option>
                   );
                 })}
@@ -405,6 +418,18 @@ export const TopicalPastPapers: React.FC = () => {
                 title="Calculator-allowed questions only"
               >
                 <span>Calc</span>
+              </button>
+              <button
+                onClick={() => setHighYieldOnly(!highYieldOnly)}
+                className={`px-2.5 py-1 rounded text-xs font-semibold flex items-center gap-1 transition ${
+                  highYieldOnly
+                    ? 'bg-amber-500 text-white shadow-2xs font-bold'
+                    : 'bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100'
+                }`}
+                title="Filter for high-yield questions frequently appearing in exam sessions"
+              >
+                <Sparkles className="w-3 h-3 text-amber-500" />
+                <span>High-Yield ({highYieldQuestionsCount})</span>
               </button>
             </div>
           </div>

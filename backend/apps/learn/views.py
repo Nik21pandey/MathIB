@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .services import get_catalog, sitemap_paths
+from .adaptive_engine import HighYieldAdaptiveEngine
 
 
 class CatalogView(APIView):
@@ -41,3 +42,56 @@ def robots_txt(request):
     """GET /robots.txt - points crawlers at the sitemap."""
     sitemap = request.build_absolute_uri('/sitemap.xml')
     return HttpResponse(f'User-agent: *\nAllow: /\nSitemap: {sitemap}\n', content_type='text/plain')
+
+
+class HighYieldStudyPlanView(APIView):
+    """
+    GET /api/v1/learn/adaptive/high-yield/?curriculum=Cambridge+IGCSE+0580
+    Returns ranked high-yield topic predictions with yield scores and exam probabilities.
+    """
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def get(self, request):
+        curriculum = request.query_params.get('curriculum', 'Cambridge IGCSE 0580')
+        engine = HighYieldAdaptiveEngine(curriculum=curriculum)
+        plan = engine.generate_high_yield_study_plan()
+        return Response({
+            'success': True,
+            'curriculum': curriculum,
+            'high_yield_topics': plan,
+            'count': len(plan)
+        })
+
+
+class AdaptiveRecommendationsView(APIView):
+    """
+    GET /api/v1/learn/adaptive/recommendations/?curriculum=...&mastery=0.5&limit=5
+    Returns personalized next best questions in student's Zone of Proximal Development.
+    """
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def get(self, request):
+        curriculum = request.query_params.get('curriculum', 'Cambridge IGCSE 0580')
+        try:
+            mastery = float(request.query_params.get('mastery', 0.5))
+        except (ValueError, TypeError):
+            mastery = 0.5
+        try:
+            limit = int(request.query_params.get('limit', 5))
+        except (ValueError, TypeError):
+            limit = 5
+
+        engine = HighYieldAdaptiveEngine(curriculum=curriculum)
+        catalog = get_catalog()
+        questions = catalog.get('questions', [])
+
+        recommendations = engine.recommend_next_questions(questions, student_mastery=mastery, limit=limit)
+        return Response({
+            'success': True,
+            'mastery_level': mastery,
+            'recommendations': recommendations,
+            'count': len(recommendations)
+        })
+

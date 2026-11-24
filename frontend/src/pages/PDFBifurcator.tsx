@@ -868,15 +868,49 @@ export const PDFBifurcator: React.FC = () => {
 
                         return (
                           <tr key={item.id} className="hover:bg-slate-50/80 transition">
-                            <td className="py-3.5 px-4 text-center font-mono font-bold text-slate-400">{idx + 1}</td>
+                            <td className="py-3.5 px-4 text-center font-mono font-bold text-slate-500">
+                              <div>{item.unit_ref || idx + 1}</div>
+                              {item.marks && (
+                                <span className="inline-block mt-0.5 px-1.5 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-700">
+                                  {item.marks}m
+                                </span>
+                              )}
+                            </td>
                             <td className="py-3.5 px-4">
-                              <div className="font-bold text-slate-900">{item.topic}</div>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-bold text-slate-900">{item.topic}</span>
+                                {item.has_diagram && (
+                                  <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                                    📷 Diagram
+                                  </span>
+                                )}
+                              </div>
                               <div className="text-slate-600 font-medium mt-0.5">{item.subtopic}</div>
+                              {item.subparts && item.subparts.length > 0 && (
+                                <div className="flex gap-1 mt-1 text-[10px] text-slate-500 font-mono">
+                                  Parts: {item.subparts.map((p) => `(${p})`).join(' ')}
+                                </div>
+                              )}
                             </td>
                             <td className="py-3.5 px-4">{renderDifficultyBadge(item.difficulty)}</td>
                             <td className="py-3.5 px-4 font-mono text-slate-600">{item.page_ref}</td>
                             <td className="py-3.5 px-4">
                               <div className="italic text-slate-700">{item.justification}</div>
+                              {item.command_terms && item.command_terms.length > 0 && (
+                                <div className="flex items-center gap-1 mt-1.5 flex-wrap">
+                                  <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
+                                    Command Terms:
+                                  </span>
+                                  {item.command_terms.map((ct) => (
+                                    <span
+                                      key={ct}
+                                      className="px-1.5 py-0.5 rounded text-[10px] bg-amber-50 text-amber-800 border border-amber-200 font-mono font-medium"
+                                    >
+                                      {ct}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
                               {item.key_notes && (
                                 <div className="text-slate-500 text-[11px] mt-1 font-mono">{item.key_notes}</div>
                               )}

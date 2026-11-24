@@ -277,7 +277,7 @@ def build_bifurcated_pdf_report(report_data: Dict[str, Any]) -> bytes:
 
     table_data = [
         [
-            Paragraph("<b>#</b>", table_header_style),
+            Paragraph("<b>Unit / Marks</b>", table_header_style),
             Paragraph("<b>Topic & Subtopic</b>", table_header_style),
             Paragraph("<b>Difficulty</b>", table_header_style),
             Paragraph("<b>Source</b>", table_header_style),
@@ -288,6 +288,10 @@ def build_bifurcated_pdf_report(report_data: Dict[str, Any]) -> bytes:
     items = report_data.get("items", [])
     for idx, item in enumerate(items):
         item_num = idx + 1
+        unit_ref = item.get("unit_ref", f"Q{item_num}")
+        marks = item.get("marks")
+        marks_str = f"<br/><font size=7 color='#475569'><b>[{marks} marks]</b></font>" if marks else ""
+        diagram_flag = "<br/><font size=6 color='#2563eb'>● Diagram</font>" if item.get("has_diagram") else ""
         topic = item.get("topic", "General")
         subtopic = item.get("subtopic", "Concept")
         diff = item.get("difficulty", "Intermediate")
@@ -316,7 +320,7 @@ def build_bifurcated_pdf_report(report_data: Dict[str, Any]) -> bytes:
         ]
 
         table_data.append([
-            Paragraph(str(item_num), table_cell_style),
+            Paragraph(f"<b>{unit_ref}</b>{marks_str}{diagram_flag}", table_cell_style),
             topic_cell,
             Paragraph(diff_html, table_cell_style),
             Paragraph(page_ref, table_cell_style),
@@ -324,10 +328,10 @@ def build_bifurcated_pdf_report(report_data: Dict[str, Any]) -> bytes:
         ])
 
     # Table column widths sum to 515pt (printable A4 width)
-    # 25 + 130 + 75 + 45 + 240 = 515 pt
+    # 35 + 125 + 75 + 45 + 235 = 515 pt
     main_table = Table(
         table_data,
-        colWidths=[25, 130, 75, 45, 240],
+        colWidths=[35, 125, 75, 45, 235],
         repeatRows=1
     )
 

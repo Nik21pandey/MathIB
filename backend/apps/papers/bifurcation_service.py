@@ -543,27 +543,75 @@ def bifurcate_pdf_content(
             "items": validated_items
         }
 
-    # 3. Deterministic NLP / Pattern Engine
-    units = detect_question_units(pages_data)
+    # 3. Layout-Aware Exam Parser Engine
     items = []
+    engine_name = "Deterministic-Academic-Engine"
 
-    for idx, u in enumerate(units):
-        analysis = classify_unit_content(u["text"], default_subject=subject)
+    try:
+        from apps.papers.exam_parser import LayoutAwareExamParser
+        parser = LayoutAwareExamParser(file_bytes)
+        parsed_questions = parser.parse_all_questions(max_pages=max_pages)
+        parser.close()
+    except Exception as parse_err:
+        logger.warning(f"LayoutAwareExamParser execution error: {parse_err}. Using fallback.")
+        parsed_questions = []
 
-        page_str = f"Page {u['start_page']}" if u['start_page'] == u['end_page'] else f"Pages {u['start_page']}-{u['end_page']}"
-        notes = extract_key_notes(u["text"])
+    if parsed_questions and len(parsed_questions) >= 2:
+        engine_name = "LayoutAware-ExamCompositor-Engine"
+        for idx, q in enumerate(parsed_questions):
+            analysis = classify_unit_content(q["raw_text"], default_subject=subject)
+            page_str = f"Page {q['start_page']}" if q['start_page'] == q['end_page'] else f"Pages {q['start_page']}-{q['end_page']}"
+            notes = extract_key_notes(q["raw_text"])
 
-        items.append({
-            "id": f"item-{idx + 1}",
-            "unit_ref": u["unit_id"],
-            "subject": analysis["subject"],
-            "topic": analysis["topic"],
-            "subtopic": analysis["subtopic"],
-            "difficulty": analysis["difficulty"],
-            "justification": analysis["justification"],
-            "page_ref": page_str,
-            "key_notes": notes
-        })
+            # Use cognitive score difficulty if available, otherwise taxonomy analysis
+            diff = q.get("difficulty") or analysis["difficulty"]
+            justification = analysis["justification"]
+            if q.get("command_terms"):
+                cmds = ", ".join(f"'{c}'" for c in q["command_terms"][:3])
+                justification = f"Driven by command terms ({cmds}) with cognitive load score {q.get('cognitive_score', 2.5)}. {justification}"
+
+            items.append({
+                "id": f"item-{idx + 1}",
+                "unit_ref": f"Q{q['question_number']}",
+                "subject": analysis["subject"],
+                "topic": analysis["topic"],
+                "subtopic": analysis["subtopic"],
+                "difficulty": diff,
+                "justification": justification,
+                "page_ref": page_str,
+                "key_notes": notes,
+                "marks": q.get("marks"),
+                "subparts": q.get("subparts", []),
+                "command_terms": q.get("command_terms", []),
+                "has_diagram": len(q.get("diagram_rects", [])) > 0,
+                "diagram_count": len(q.get("diagram_rects", [])),
+                "cognitive_score": q.get("cognitive_score")
+            })
+    else:
+        # Fallback to standard unit detector
+        units = detect_question_units(pages_data)
+        for idx, u in enumerate(units):
+            analysis = classify_unit_content(u["text"], default_subject=subject)
+            page_str = f"Page {u['start_page']}" if u['start_page'] == u['end_page'] else f"Pages {u['start_page']}-{u['end_page']}"
+            notes = extract_key_notes(u["text"])
+
+            items.append({
+                "id": f"item-{idx + 1}",
+                "unit_ref": u["unit_id"],
+                "subject": analysis["subject"],
+                "topic": analysis["topic"],
+                "subtopic": analysis["subtopic"],
+                "difficulty": analysis["difficulty"],
+                "justification": analysis["justification"],
+                "page_ref": page_str,
+                "key_notes": notes,
+                "marks": None,
+                "subparts": [],
+                "command_terms": [],
+                "has_diagram": False,
+                "diagram_count": 0,
+                "cognitive_score": None
+            })
 
     # Summary distribution
     beginner_cnt = sum(1 for i in items if i["difficulty"] == DIFFICULTY_BEGINNER)
@@ -579,7 +627,7 @@ def bifurcate_pdf_content(
         "pages_processed": metadata["pages_processed"],
         "total_words": metadata["total_words"],
         "is_scanned": metadata["is_scanned_document"],
-        "engine": "Deterministic-Academic-Engine",
+        "engine": engine_name,
         "summary": {
             "total_items": len(items),
             "beginner_count": beginner_cnt,

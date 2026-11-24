@@ -19,6 +19,12 @@ export interface BifurcatedItem {
   justification: string;
   page_ref: string;
   key_notes: string;
+  marks?: number | null;
+  subparts?: string[];
+  command_terms?: string[];
+  has_diagram?: boolean;
+  diagram_count?: number;
+  cognitive_score?: number | null;
 }
 
 export interface BifurcatedSummary {

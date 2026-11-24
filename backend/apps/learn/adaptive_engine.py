@@ -8,6 +8,7 @@ Implements:
 5. Upcoming Examination Topic Probability Distribution.
 """
 
+import re
 import math
 from typing import List, Dict, Any, Optional
 
@@ -144,3 +145,38 @@ class HighYieldAdaptiveEngine:
 
         scored_questions.sort(key=lambda x: x[0], reverse=True)
         return [item[1] for item in scored_questions[:limit]]
+
+
+def get_topic_high_yield_meta(syllabus_slug: str, topic_name: str) -> Optional[Dict[str, Any]]:
+    """Matches a topic against curriculum frequency priors and returns high-yield statistics."""
+    slug_lower = (syllabus_slug or "").lower()
+    curriculum_key = "Cambridge IGCSE 0580"
+    if "aa" in slug_lower:
+        curriculum_key = "IBDP Mathematics AA HL"
+    elif "ai" in slug_lower:
+        curriculum_key = "IBDP Mathematics AI HL"
+
+    priors = CURRICULUM_FREQUENCY_PRIORS.get(curriculum_key, CURRICULUM_FREQUENCY_PRIORS["Cambridge IGCSE 0580"])
+    topic_words = set(re.findall(r'\w+', (topic_name or "").lower()))
+
+    best_match = None
+    best_overlap = 0
+
+    for prior_topic, meta in priors.items():
+        prior_words = set(re.findall(r'\w+', prior_topic.lower()))
+        overlap = len(topic_words & prior_words)
+        if overlap > best_overlap:
+            best_overlap = overlap
+            best_match = meta
+
+    if best_match and best_overlap >= 1:
+        freq = best_match["frequency"]
+        priority = "Critical High-Yield" if freq >= 0.88 else "High-Yield"
+        return {
+            "frequency": round(freq, 2),
+            "avg_marks": best_match["avg_marks"],
+            "difficulty_tier": best_match["difficulty_tier"],
+            "priority": priority,
+            "predicted_probability": round(min(0.99, freq * 1.05), 2),
+        }
+    return None

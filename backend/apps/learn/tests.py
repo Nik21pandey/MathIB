@@ -131,4 +131,21 @@ class AdaptiveEngineTests(TestCase):
         recs = engine.recommend_next_questions(candidates, student_mastery=0.6, limit=2)
         self.assertEqual(len(recs), 2)
 
+    def test_adaptive_api_endpoints(self):
+        # 1. High yield study plan endpoint
+        url_hy = reverse('learn:adaptive-high-yield')
+        res_hy = self.client.get(url_hy, {'curriculum': 'Cambridge IGCSE 0580'})
+        self.assertEqual(res_hy.status_code, 200)
+        data_hy = res_hy.json()
+        self.assertTrue(data_hy['success'])
+        self.assertGreaterEqual(len(data_hy['high_yield_topics']), 5)
+
+        # 2. Adaptive recommendations endpoint
+        url_rec = reverse('learn:adaptive-recommendations')
+        res_rec = self.client.get(url_rec, {'mastery': '0.7', 'limit': '3'})
+        self.assertEqual(res_rec.status_code, 200)
+        data_rec = res_rec.json()
+        self.assertTrue(data_rec['success'])
+
+
 

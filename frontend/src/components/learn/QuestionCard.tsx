@@ -60,6 +60,11 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ question: q, number, defaul
             {q.calc ? 'Calculator' : 'Non-calculator'}
           </Tag>
           {q.criterion && <Tag tone="purple">Criterion {q.criterion}</Tag>}
+          {topic?.high_yield && (
+            <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">
+              🔥 High-Yield (~{topic.high_yield.avg_marks}m)
+            </span>
+          )}
           {showTopic && topic && index && (
             <Link to={index.topicPath(topic)} className="text-xs text-blue-600 hover:underline">{topic.name}</Link>
           )}

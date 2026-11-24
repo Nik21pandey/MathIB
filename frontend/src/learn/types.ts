@@ -39,6 +39,14 @@ export interface Investigation {
   bands: Band[];
 }
 
+export interface HighYieldMeta {
+  frequency: number;
+  avg_marks: number;
+  difficulty_tier: number;
+  priority: string;
+  predicted_probability?: number;
+}
+
 export interface Topic {
   id: string;
   syllabus: string;
@@ -53,6 +61,7 @@ export interface Topic {
   investigation?: Investigation;
   bands?: Band[];
   video?: string | null;
+  high_yield?: HighYieldMeta;
 }
 
 export interface QuestionPart { label: string; text: string; marks: number }

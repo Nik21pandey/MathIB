@@ -6,6 +6,7 @@ The shape matches frontend/src/learn/types.ts.
 from django.core.cache import cache
 
 from .models import Checklist, ExamSession, Question, Syllabus, Topic
+from .adaptive_engine import get_topic_high_yield_meta
 
 CATALOG_CACHE_KEY = 'learn:catalog:v1'
 CATALOG_CACHE_SECONDS = 300
@@ -72,6 +73,9 @@ def build_catalog():
             item['investigation'] = t.investigation
         if t.bands:
             item['bands'] = t.bands
+        hy = get_topic_high_yield_meta(t.section.syllabus.slug, t.name)
+        if hy:
+            item['high_yield'] = hy
         topic_data.append(item)
 
     question_data = []
