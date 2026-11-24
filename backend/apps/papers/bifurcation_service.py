@@ -289,9 +289,21 @@ def detect_question_units(pages_data: List[Dict[str, Any]]) -> List[Dict[str, An
     """
     units = []
 
-    # Regex patterns for question numbers and sections
-    q_pattern = re.compile(r'^(?:Question\s*|Problem\s*|Exercise\s*)?(\d{1,2})\s*[\.\)\]\:]', re.IGNORECASE)
+    # Regex patterns for question numbers and sections across Cambridge, IBDP, and Edexcel
+    q_pattern = re.compile(
+        r'^(?:Question\s*|Problem\s*|Exercise\s*)?'
+        r'(\d{1,2})'
+        r'(?:'
+        r'\s*[\.\)\]\:]\s*'  # Standard "1.", "1)", "1]"
+        r'|\s+(?=\[\s*Maximum\s+mark|\(\s*[a-zA-Zivx]+\s*\)|[A-Z][a-z])'  # IBDP "[Maximum mark: 6]" or Cambridge "1 (a)", "1 The diagram..."
+        r'|\s{2,}(?=[A-Z0-9])'  # Cambridge tabbed "1   Calculate..."
+        r')',
+        re.IGNORECASE
+    )
     section_pattern = re.compile(r'^(?:Section\s*|Part\s*)([A-Z0-9]+)', re.IGNORECASE)
+
+    # Patterns to identify front cover instructions
+    cover_keywords = ["instructions to candidates", "write your name", "do not open this examination paper", "candidate number", "centre number"]
 
     current_unit = None
 
@@ -341,6 +353,12 @@ def detect_question_units(pages_data: List[Dict[str, Any]]) -> List[Dict[str, An
 
     if current_unit and len(current_unit["text"]) > 20:
         units.append(current_unit)
+
+    # Filter out pure front-cover instructions from question units
+    units = [
+        u for u in units
+        if not (u["unit_id"].startswith("P1-") and any(ck in u["text"].lower() for ck in cover_keywords))
+    ]
 
     # Fallback if no questions were explicitly split: split by page
     if len(units) <= 1 and len(pages_data) > 1:

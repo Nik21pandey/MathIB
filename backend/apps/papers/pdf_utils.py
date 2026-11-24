@@ -63,6 +63,34 @@ def merge_pdf_bytes_list(pdf_bytes_list) -> bytes:
                 merged.insert_pdf(src)
             finally:
                 src.close()
-        return merged.tobytes(deflate=True)
+        return merged.tobytes(deflate=True, garbage=3)
+    finally:
+        merged.close()
+
+
+def merge_pdf_fields_incremental(file_fields) -> bytes:
+    """
+    Memory-efficient incremental PDF merger.
+    Streams and inserts one PDF document at a time to keep RAM consumption
+    strictly below Render container limits (512 MB).
+    """
+    merged = fitz.open()
+    count = 0
+    try:
+        for field in file_fields:
+            if not field:
+                continue
+            with field.open('rb') as f:
+                raw = f.read()
+            src = fitz.open(stream=raw, filetype="pdf")
+            try:
+                merged.insert_pdf(src)
+                count += 1
+            finally:
+                src.close()
+                del raw
+        if count == 0:
+            return b""
+        return merged.tobytes(deflate=True, garbage=3)
     finally:
         merged.close()

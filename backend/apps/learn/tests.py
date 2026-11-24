@@ -104,3 +104,31 @@ class LearnCatalogTests(TestCase):
         response = self.client.get(url, HTTP_AUTHORIZATION='Bearer stale_or_invalid_jwt_token_12345')
         self.assertEqual(response.status_code, 200)
 
+
+class AdaptiveEngineTests(TestCase):
+    def test_high_yield_adaptive_engine_scoring(self):
+        from .adaptive_engine import HighYieldAdaptiveEngine
+        engine = HighYieldAdaptiveEngine(curriculum="Cambridge IGCSE 0580")
+        
+        # Test low mastery student yields higher priority score
+        low_mastery = engine.calculate_yield_score("Algebra & Quadratic Equations", student_mastery=0.2)
+        high_mastery = engine.calculate_yield_score("Algebra & Quadratic Equations", student_mastery=0.95)
+        
+        self.assertGreater(low_mastery["yield_score"], high_mastery["yield_score"])
+        self.assertGreaterEqual(low_mastery["predicted_probability"], 0.8)
+
+        # Test study plan generation
+        plan = engine.generate_high_yield_study_plan({"Algebra & Quadratic Equations": 0.2})
+        self.assertGreaterEqual(len(plan), 5)
+        self.assertEqual(plan[0]["priority"], "Critical High-Yield")
+
+        # Test ZPD question recommendation
+        candidates = [
+            {"id": "q1", "difficulty": "Beginner", "marks": 2},
+            {"id": "q2", "difficulty": "Intermediate", "marks": 4},
+            {"id": "q3", "difficulty": "Advanced", "marks": 6},
+        ]
+        recs = engine.recommend_next_questions(candidates, student_mastery=0.6, limit=2)
+        self.assertEqual(len(recs), 2)
+
+

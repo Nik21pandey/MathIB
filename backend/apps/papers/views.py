@@ -18,7 +18,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Category, Paper, Bundle
-from .pdf_utils import read_file_field_bytes, apply_watermark, merge_pdf_bytes_list
+from .pdf_utils import read_file_field_bytes, apply_watermark, merge_pdf_bytes_list, merge_pdf_fields_incremental
 from .serializers import (
     CategorySerializer,
     CategoryListSerializer,
@@ -335,7 +335,8 @@ class PaperFileView(APIView):
 
         # For free papers stored in Google Cloud Storage, redirect directly to GCS CDN
         file_name = str(target_field.name)
-        if file_name.startswith('papers/') or file_name.startswith('markschemes/') or file_name.startswith('media/'):
+        is_paid = paper.is_premium or not paper.is_free
+        if not is_paid and (file_name.startswith('papers/') or file_name.startswith('markschemes/') or file_name.startswith('media/')):
             clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
             from django.http import HttpResponseRedirect
             return HttpResponseRedirect(f"https://storage.googleapis.com/mathib-vault-us/{clean_path}")
@@ -343,10 +344,9 @@ class PaperFileView(APIView):
         try:
             pdf_bytes = read_file_field_bytes(target_field)
             filename = getattr(target_field, 'name', 'paper.pdf').split('/')[-1]
-            is_paid = paper.is_premium or not paper.is_free
             return _build_pdf_response(pdf_bytes, filename, request, is_paid, user)
         except Exception:
-            if file_name:
+            if not is_paid and file_name:
                 from django.http import HttpResponseRedirect
                 return HttpResponseRedirect(f"https://storage.googleapis.com/mathib-vault-us/{file_name}")
             raise Http404('File not found')
@@ -438,13 +438,10 @@ class BundleFileView(APIView):
                 pdf_bytes = read_file_field_bytes(bundle.bundle_pdf)
                 filename = getattr(bundle.bundle_pdf, 'name', f'{bundle.slug}.pdf').split('/')[-1]
             else:
-                paper_payloads = []
-                for p in bundle.papers.filter(is_active=True):
-                    if p.pdf_file:
-                        paper_payloads.append(read_file_field_bytes(p.pdf_file))
-                if not paper_payloads:
+                fields = [p.pdf_file for p in bundle.papers.filter(is_active=True) if p.pdf_file]
+                if not fields:
                     return Response({'success': False, 'message': 'This bundle has no PDF files attached'}, status=status.HTTP_404_NOT_FOUND)
-                pdf_bytes = merge_pdf_bytes_list(paper_payloads)
+                pdf_bytes = merge_pdf_fields_incremental(fields)
                 filename = f"{bundle.slug or 'bundle'}.pdf"
 
             bundle.downloads_count += 1

@@ -110,39 +110,56 @@ class PaperListSerializer(serializers.ModelSerializer):
             'views_count', 'downloads_count', 'filters', 'created_at',
         ]
 
-    def get_pdf_url(self, obj):
-        if not obj.pdf_file:
+    def _get_authorized_file_url(self, obj, is_markscheme=False):
+        target_field = obj.markscheme_file if is_markscheme else obj.pdf_file
+        if not target_field:
             return None
-        file_name = str(obj.pdf_file.name)
-        if file_name.startswith('papers/') or file_name.startswith('media/papers/'):
+
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+
+        is_paid = obj.is_premium or not obj.is_free
+        if is_paid:
+            has_access = False
+            if user and user.is_authenticated:
+                if getattr(user, 'is_staff', False) or getattr(user, 'is_premium_active', False):
+                    has_access = True
+                else:
+                    try:
+                        from apps.payments.models import UserPurchase
+                        if UserPurchase.objects.filter(user=user, paper=obj, is_active=True).exists():
+                            has_access = True
+                        elif UserPurchase.objects.filter(user=user, bundle__papers=obj, is_active=True).exists():
+                            has_access = True
+                    except Exception:
+                        pass
+            if not has_access:
+                return None
+
+            endpoint_name = 'papers:paper-markscheme' if is_markscheme else 'papers:paper-file'
+            file_path = reverse(endpoint_name, kwargs={'paper_id': obj.id})
+            return request.build_absolute_uri(file_path) if request else file_path
+
+        file_name = str(target_field.name)
+        prefix = 'markschemes/' if is_markscheme else 'papers/'
+        if file_name.startswith(prefix) or file_name.startswith(f'media/{prefix}'):
             clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
             return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
         try:
-            url = obj.pdf_file.url
+            url = target_field.url
             if url.startswith('http'):
                 return url
         except Exception:
             pass
-        file_path = reverse('papers:paper-file', kwargs={'paper_id': obj.id})
-        request = self.context.get('request')
+        endpoint_name = 'papers:paper-markscheme' if is_markscheme else 'papers:paper-file'
+        file_path = reverse(endpoint_name, kwargs={'paper_id': obj.id})
         return request.build_absolute_uri(file_path) if request else file_path
 
+    def get_pdf_url(self, obj):
+        return self._get_authorized_file_url(obj, is_markscheme=False)
+
     def get_markscheme_url(self, obj):
-        if not obj.markscheme_file:
-            return None
-        file_name = str(obj.markscheme_file.name)
-        if file_name.startswith('markschemes/') or file_name.startswith('media/markschemes/'):
-            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
-            return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
-        try:
-            url = obj.markscheme_file.url
-            if url.startswith('http'):
-                return url
-        except Exception:
-            pass
-        file_path = reverse('papers:paper-markscheme', kwargs={'paper_id': obj.id})
-        request = self.context.get('request')
-        return request.build_absolute_uri(file_path) if request else file_path
+        return self._get_authorized_file_url(obj, is_markscheme=True)
 
     def get_thumbnail_url(self, obj):
         if not obj.thumbnail:
@@ -178,39 +195,56 @@ class PaperDetailSerializer(serializers.ModelSerializer):
             'views_count', 'downloads_count', 'filters', 'created_at', 'updated_at',
         ]
 
-    def get_pdf_url(self, obj):
-        if not obj.pdf_file:
+    def _get_authorized_file_url(self, obj, is_markscheme=False):
+        target_field = obj.markscheme_file if is_markscheme else obj.pdf_file
+        if not target_field:
             return None
-        file_name = str(obj.pdf_file.name)
-        if file_name.startswith('papers/') or file_name.startswith('media/papers/'):
+
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+
+        is_paid = obj.is_premium or not obj.is_free
+        if is_paid:
+            has_access = False
+            if user and user.is_authenticated:
+                if getattr(user, 'is_staff', False) or getattr(user, 'is_premium_active', False):
+                    has_access = True
+                else:
+                    try:
+                        from apps.payments.models import UserPurchase
+                        if UserPurchase.objects.filter(user=user, paper=obj, is_active=True).exists():
+                            has_access = True
+                        elif UserPurchase.objects.filter(user=user, bundle__papers=obj, is_active=True).exists():
+                            has_access = True
+                    except Exception:
+                        pass
+            if not has_access:
+                return None
+
+            endpoint_name = 'papers:paper-markscheme' if is_markscheme else 'papers:paper-file'
+            file_path = reverse(endpoint_name, kwargs={'paper_id': obj.id})
+            return request.build_absolute_uri(file_path) if request else file_path
+
+        file_name = str(target_field.name)
+        prefix = 'markschemes/' if is_markscheme else 'papers/'
+        if file_name.startswith(prefix) or file_name.startswith(f'media/{prefix}'):
             clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
             return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
         try:
-            url = obj.pdf_file.url
+            url = target_field.url
             if url.startswith('http'):
                 return url
         except Exception:
             pass
-        file_path = reverse('papers:paper-file', kwargs={'paper_id': obj.id})
-        request = self.context.get('request')
+        endpoint_name = 'papers:paper-markscheme' if is_markscheme else 'papers:paper-file'
+        file_path = reverse(endpoint_name, kwargs={'paper_id': obj.id})
         return request.build_absolute_uri(file_path) if request else file_path
 
+    def get_pdf_url(self, obj):
+        return self._get_authorized_file_url(obj, is_markscheme=False)
+
     def get_markscheme_url(self, obj):
-        if not obj.markscheme_file:
-            return None
-        file_name = str(obj.markscheme_file.name)
-        if file_name.startswith('markschemes/') or file_name.startswith('media/markschemes/'):
-            clean_path = file_name if not file_name.startswith('media/') else file_name[6:]
-            return f"https://storage.googleapis.com/mathib-vault-us/{clean_path}"
-        try:
-            url = obj.markscheme_file.url
-            if url.startswith('http'):
-                return url
-        except Exception:
-            pass
-        file_path = reverse('papers:paper-markscheme', kwargs={'paper_id': obj.id})
-        request = self.context.get('request')
-        return request.build_absolute_uri(file_path) if request else file_path
+        return self._get_authorized_file_url(obj, is_markscheme=True)
 
     def get_thumbnail_url(self, obj):
         if not obj.thumbnail:
@@ -283,8 +317,22 @@ class BundleDetailSerializer(serializers.ModelSerializer):
         ]
 
     def get_bundle_pdf_url(self, obj):
-        if obj.bundle_pdf or obj.papers.filter(is_active=True).exists():
-            file_path = reverse('papers:bundle-file', kwargs={'bundle_id': obj.id})
-            request = self.context.get('request')
-            return request.build_absolute_uri(file_path) if request else file_path
-        return None
+        if not (obj.bundle_pdf or obj.papers.filter(is_active=True).exists()):
+            return None
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+        if obj.is_paid:
+            has_access = False
+            if user and user.is_authenticated:
+                if getattr(user, 'is_staff', False) or getattr(user, 'is_premium_active', False):
+                    has_access = True
+                else:
+                    try:
+                        from apps.payments.models import UserPurchase
+                        has_access = UserPurchase.objects.filter(user=user, bundle=obj, is_active=True).exists()
+                    except Exception:
+                        pass
+            if not has_access:
+                return None
+        file_path = reverse('papers:bundle-file', kwargs={'bundle_id': obj.id})
+        return request.build_absolute_uri(file_path) if request else file_path

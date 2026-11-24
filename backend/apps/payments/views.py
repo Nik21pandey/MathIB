@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from decimal import Decimal
 
 from .models import Cart, CartItem, Order, OrderItem, Payment, UserPurchase
@@ -401,6 +402,19 @@ class ConfirmPaymentView(APIView):
             
             payment = get_object_or_404(Payment, order=order)
 
+            # Idempotency check: if already completed, return existing confirmation
+            if order.status == 'completed':
+                return Response({
+                    'success': True,
+                    'message': 'Payment already confirmed',
+                    'data': {
+                        'order_id': order.id,
+                        'order_number': order.order_number,
+                        'amount': float(payment.amount),
+                        'status': payment.status
+                    }
+                }, status=status.HTTP_200_OK)
+
             # Verify with payment gateway
             if payment_method == 'stripe':
                 stripe_payment_intent_id = request.data.get('stripe_payment_intent_id')
@@ -423,21 +437,45 @@ class ConfirmPaymentView(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
 
             if verification.get('success'):
-                payment.transaction_id = verification.get('transaction_id')
-                payment.status = 'completed'
-                # Convert Decimal values to strings for JSON serialization
-                gateway_response_clean = {}
-                for key, value in verification.items():
-                    if isinstance(value, Decimal):
-                        gateway_response_clean[key] = str(value)
-                    else:
-                        gateway_response_clean[key] = value
-                payment.gateway_response = gateway_response_clean
-                payment.save()
+                with transaction.atomic():
+                    payment.transaction_id = verification.get('transaction_id')
+                    payment.status = 'completed'
+                    payment.completed_at = timezone.now()
+                    # Convert Decimal values to strings for JSON serialization
+                    gateway_response_clean = {}
+                    for key, value in verification.items():
+                        if isinstance(value, Decimal):
+                            gateway_response_clean[key] = str(value)
+                        else:
+                            gateway_response_clean[key] = value
+                    payment.gateway_response = gateway_response_clean
+                    payment.save()
 
-                # Update order status
-                order.status = 'completed'
-                order.save()
+                    # Update order status
+                    order.status = 'completed'
+                    order.completed_at = timezone.now()
+                    order.save()
+
+                    # Provision UserPurchase access entitlements for all ordered items
+                    for order_item in order.items.all():
+                        UserPurchase.objects.update_or_create(
+                            user=request.user,
+                            bundle=order_item.bundle,
+                            paper=order_item.paper,
+                            defaults={
+                                'order': order,
+                                'purchase_price': order_item.price,
+                                'is_active': True,
+                            }
+                        )
+
+                    # Clear user's shopping cart after successful purchase
+                    try:
+                        cart = Cart.objects.filter(user=request.user).first()
+                        if cart:
+                            cart.clear()
+                    except Exception as cart_err:
+                        logger.warning(f"Failed to clear cart for user {request.user.id}: {cart_err}")
 
                 return Response({
                     'success': True,
