@@ -118,3 +118,30 @@ class PaymentConfirmationTestCase(TestCase):
         self.assertEqual(second_response.status_code, status.HTTP_200_OK)
         self.assertEqual(second_response.data['message'], 'Payment already confirmed')
         self.assertEqual(UserPurchase.objects.filter(user=self.user, paper=self.paper).count(), 1)
+
+    @patch('apps.payments.services.PaymentService.create_payment_intent_stripe')
+    def test_gst_calculation_and_rounding(self, mock_stripe):
+        mock_stripe.return_value = {'client_secret': 'sec_123', 'payment_intent_id': 'pi_123'}
+        url = reverse('payments:order-list')
+        response = self.client.post(url, {'payment_method': 'stripe', 'notes': 'test'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        data = response.data['data']
+        self.assertEqual(data['total_amount'], '5.89')
+
+        created_order = Order.objects.get(id=data['id'])
+        self.assertEqual(created_order.subtotal, Decimal('4.99'))
+        self.assertEqual(created_order.tax, Decimal('0.90'))
+        self.assertEqual(created_order.total_amount, Decimal('5.89'))
+
+    @patch('apps.payments.services.PaymentService.create_payment_intent_stripe')
+    def test_price_tampering_prevention(self, mock_stripe):
+        mock_stripe.return_value = {'client_secret': 'sec_123', 'payment_intent_id': 'pi_123'}
+        self.cart_item.price_at_addition = Decimal('0.50')  # Attempt to tamper price
+        self.cart_item.save(update_fields=['price_at_addition'])
+
+        url = reverse('payments:order-list')
+        response = self.client.post(url, {'payment_method': 'stripe'}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        data = response.data['data']
+        self.assertEqual(data['total_amount'], '5.89')

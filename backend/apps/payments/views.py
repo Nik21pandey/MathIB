@@ -226,11 +226,19 @@ class OrderListView(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
 
             with transaction.atomic():
-                # Calculate totals
-                subtotal = cart.total_amount
-                tax = subtotal * Decimal('0.18')  # 18% GST
-                discount = Decimal('0.00')  # Add discount logic if needed
-                total = subtotal + tax - discount
+                # Re-verify and sync cart item prices against active catalog prices to prevent price tampering
+                for item in cart.items.select_related('bundle', 'paper'):
+                    active_price = item.bundle.price if item.bundle else (item.paper.price if item.paper else None)
+                    if active_price is not None and item.price_at_addition != active_price:
+                        item.price_at_addition = active_price
+                        item.save(update_fields=['price_at_addition'])
+
+                # Calculate totals with strict 2-decimal half-up rounding (18% GST)
+                from decimal import ROUND_HALF_UP
+                subtotal = cart.total_amount.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+                tax = (subtotal * Decimal('0.18')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+                discount = Decimal('0.00')
+                total = (subtotal + tax - discount).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
                 # Create order
                 order = Order.objects.create(
@@ -240,7 +248,7 @@ class OrderListView(APIView):
                     tax=tax,
                     discount=discount,
                     total_amount=total,
-                    currency='USD',  # Make this configurable
+                    currency='USD',
                     notes=serializer.validated_data.get('notes', '')
                 )
 
@@ -283,9 +291,10 @@ class OrderListView(APIView):
                     }
                 
                 elif payment_method == 'razorpay':
-                    # Convert USD to INR for Razorpay (approximate rate: 1 USD = 83 INR)
-                    USD_TO_INR_RATE = Decimal('83.00')
-                    total_inr = total * USD_TO_INR_RATE
+                    # Convert USD to INR for Razorpay with configurable rate and strict rounding
+                    from decimal import ROUND_HALF_UP
+                    USD_TO_INR_RATE = getattr(settings, 'USD_TO_INR_RATE', Decimal('83.50'))
+                    total_inr = (total * USD_TO_INR_RATE).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
                     
                     # Create a temporary order copy with INR for Razorpay
                     order.currency = 'INR'

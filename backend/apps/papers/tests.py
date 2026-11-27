@@ -113,6 +113,38 @@ class PaperPaywallSecurityTestCase(TestCase):
         response = self.client.get(url)
         self.assertIn(response.status_code, [status.HTTP_200_OK, status.HTTP_302_FOUND])
 
+    def test_bundle_purchase_unlocks_individual_papers(self):
+        """Purchasing a bundle must cleanly grant access to all individual papers inside it."""
+        from apps.payments.models import Order
+        bundle = Bundle.objects.create(
+            name='Complete 2024 Exam Bundle',
+            category=self.category,
+            is_paid=True,
+            price=Decimal('12.99'),
+            is_active=True
+        )
+        bundle.papers.add(self.paid_paper)
+
+        order = Order.objects.create(
+            user=self.user,
+            subtotal=bundle.price,
+            total_amount=bundle.price,
+            status='completed'
+        )
+        UserPurchase.objects.create(
+            user=self.user,
+            order=order,
+            bundle=bundle,
+            purchase_price=bundle.price,
+            is_active=True
+        )
+
+        self.client.force_authenticate(user=self.user)
+        url = reverse('papers:paper-file', kwargs={'paper_id': self.paid_paper.id})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response['Content-Type'], 'application/pdf')
+
 
 class ExamParserTestCase(TestCase):
     def test_question_slicing_and_cognitive_scoring(self):
